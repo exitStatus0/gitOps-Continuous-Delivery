@@ -20,7 +20,7 @@ B) Declarative
 C) Continuously Reconciled  
 D) Versioned and Immutable
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Declarative
 
@@ -37,7 +37,7 @@ B) Automatic scaling of applications
 C) Complete version history with immutable records of all changes  
 D) Reduced infrastructure costs
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Complete version history with immutable records of all changes
 
@@ -54,7 +54,7 @@ B) They automatically pull from the source repository
 C) System administrators manually configure them  
 D) They generate the desired state dynamically
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - They automatically pull from the source repository
 
@@ -71,7 +71,7 @@ B) Periodic manual checks of system configuration
 C) Software agents observe actual state and continuously apply desired state  
 D) Automated billing reconciliation for cloud resources
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Software agents observe actual state and continuously apply desired state
 
@@ -87,7 +87,7 @@ True or False: In GitOps, Git serves as the single source of truth for both infr
 
 ## Section 2: Push vs. Pull Models (20 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: True**
 
@@ -108,7 +108,7 @@ B) CI/CD pipeline directly applies manifests to the Kubernetes API
 C) No credentials are required for deployments  
 D) The system self-heals automatically
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - CI/CD pipeline directly applies manifests to the Kubernetes API
 
@@ -125,7 +125,7 @@ B) Developers manually deploy changes
 C) A GitOps operator monitors Git and pulls changes to apply them  
 D) Changes are deployed through kubectl commands
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - A GitOps operator monitors Git and pulls changes to apply them
 
@@ -142,7 +142,7 @@ B) No write credentials or direct cluster access needed in CI/CD pipeline
 C) Automatic security scanning of containers  
 D) Built-in encryption of all data
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - No write credentials or direct cluster access needed in CI/CD pipeline
 
@@ -158,7 +158,7 @@ True or False: The push model is considered "declarative" because it defines the
 
 ## Section 3: GitOps and Continuous Delivery (20 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -179,7 +179,7 @@ B) GitOps manages environment state while CD automates the flow of changes
 C) GitOps has replaced the need for Continuous Delivery  
 D) They are identical practices with different names
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - GitOps manages environment state while CD automates the flow of changes
 
@@ -191,7 +191,7 @@ D) They are identical practices with different names
 ### Question 11 (5 points)
 True or False: GitOps and Continuous Delivery are unrelated methodologies that serve different purposes.
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -208,7 +208,7 @@ B) Changes detected in the GitOps configuration repository
 C) Direct commands from CI/CD pipeline  
 D) Scheduled cron jobs
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Changes detected in the GitOps configuration repository
 
@@ -229,7 +229,7 @@ D) Configuring network policies
 
 ## Section 4: Benefits and Implementation (20 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Automating the software release pipeline
 
@@ -250,7 +250,7 @@ B) Environments can be easily recreated from Git repository
 C) Reduced hardware costs  
 D) Faster network speeds
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Environments can be easily recreated from Git repository
 
@@ -267,7 +267,7 @@ B) Through automated meeting scheduling
 C) Via Pull Requests that enable review similar to code changes  
 D) By assigning tasks automatically
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Via Pull Requests that enable review similar to code changes
 
@@ -279,7 +279,7 @@ D) By assigning tasks automatically
 ### Question 16 (5 points)
 True or False: GitOps is only suitable for large enterprises with complex infrastructure needs.
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -300,7 +300,7 @@ D) Automatic scaling decisions
 
 ## Section 5: Advanced Concepts (15 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Deployments become repeatable and environments easily recreated
 
@@ -321,7 +321,7 @@ B) Monitors Git repo and applies Kubernetes manifests to the cluster
 C) Writes application code  
 D) Manages developer access permissions
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Monitors Git repo and applies Kubernetes manifests to the cluster
 
@@ -338,7 +338,7 @@ B) The system shuts down for safety
 C) The operator automatically reconciles to match the desired state in Git  
 D) Manual intervention is always required
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - The operator automatically reconciles to match the desired state in Git
 
@@ -384,7 +384,7 @@ Evaluate your GitOps expertise based on your score:
 - Experiment with different repository structures
 - Explore real-world GitOps implementations
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: True**
 

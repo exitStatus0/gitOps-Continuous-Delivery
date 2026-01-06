@@ -5,7 +5,7 @@ Test your understanding of ArgoCD concepts, architecture, and best practices!
 **Instructions:**
 - Answer all questions to the best of your ability
 - Record your answers (A, B, C, D, or True/False)
-- Click on "Натисніть, щоб побачити відповідь" to reveal the correct answer and explanation
+- Click "Click to see answer" below each question to reveal the correct answer and explanation
 - Calculate your score using the grading scale at the end
 
 ---
@@ -20,7 +20,7 @@ B) A declarative, GitOps continuous delivery tool for Kubernetes
 C) A container registry for storing Docker images  
 D) A monitoring tool for Kubernetes clusters
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - A declarative, GitOps continuous delivery tool for Kubernetes
 
@@ -37,7 +37,7 @@ B) Hub-and-spoke model
 C) Peer-to-peer architecture  
 D) Serverless architecture
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Hub-and-spoke model
 
@@ -54,7 +54,7 @@ B) It acts as the software agent that pulls desired state and reconciles it with
 C) It builds container images from source code  
 D) It provides the Kubernetes cluster infrastructure
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - It acts as the software agent that pulls desired state and reconciles it with live state
 
@@ -66,7 +66,7 @@ D) It provides the Kubernetes cluster infrastructure
 ### Question 4 (5 points)
 True or False: ArgoCD uses a push-based deployment model where CI/CD pipelines push changes directly to clusters.
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -87,7 +87,7 @@ D) It requires manual intervention every time
 
 ## Section 2: ArgoCD and GitOps (20 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - It automatically reconciles the live state to match the desired state in Git
 
@@ -108,7 +108,7 @@ B) ArgoCD periodically syncs on a fixed schedule only
 C) ArgoCD continuously monitors and corrects differences between desired and live state  
 D) ArgoCD only reconciles when manually triggered
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - ArgoCD continuously monitors and corrects differences between desired and live state
 
@@ -125,7 +125,7 @@ B) Declarative configuration with versioning and immutability
 C) Manual deployment processes  
 D) Direct cluster modifications
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Declarative configuration with versioning and immutability
 
@@ -137,7 +137,7 @@ D) Direct cluster modifications
 ### Question 8 (5 points)
 True or False: ArgoCD requires write access credentials to the Kubernetes cluster to be stored in the CI/CD pipeline.
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -158,7 +158,7 @@ D) It creates a new cluster
 
 ## Section 3: ArgoCD and Continuous Delivery (20 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - It automatically or manually (based on policy) synchronizes to restore the desired state
 
@@ -179,7 +179,7 @@ B) Running automated tests
 C) Deploying applications and configurations to Kubernetes  
 D) Managing source code repositories
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Deploying applications and configurations to Kubernetes
 
@@ -196,7 +196,7 @@ B) CI updates manifests in a GitOps repository, which ArgoCD monitors
 C) CI manually triggers ArgoCD via API calls  
 D) CI doesn't interact with ArgoCD at all
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - CI updates manifests in a GitOps repository, which ArgoCD monitors
 
@@ -208,7 +208,7 @@ D) CI doesn't interact with ArgoCD at all
 ### Question 12 (5 points)
 True or False: ArgoCD handles both the CI (Continuous Integration) and CD (Continuous Delivery) phases of the software delivery pipeline.
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -229,7 +229,7 @@ D) Improved developer laptop performance
 
 ## Section 4: ArgoCD and Kubernetes (20 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Declarative deployments with Git-based auditability and rollback
 
@@ -250,7 +250,7 @@ B) As Custom Resource Definitions (CRDs)
 C) As environment variables  
 D) As ConfigMaps only
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - As Custom Resource Definitions (CRDs)
 
@@ -267,7 +267,7 @@ B) Only Helm charts
 C) Kubernetes manifests, Helm, Kustomize, Jsonnet, and custom plugins  
 D) Only Terraform files
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Kubernetes manifests, Helm, Kustomize, Jsonnet, and custom plugins
 
@@ -279,7 +279,7 @@ D) Only Terraform files
 ### Question 16 (5 points)
 True or False: ArgoCD configurations are portable between Kubernetes clusters regardless of the underlying infrastructure.
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: True**
 
@@ -300,7 +300,7 @@ D) Automatic backup of cluster data
 
 ## Section 5: ArgoCD Features and Best Practices (15 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Automatic synchronization of changes from Git to the cluster
 
@@ -321,7 +321,7 @@ B) Visualize and interact with Kubernetes resources, manage applications, and mo
 C) Create Git repositories  
 D) Design infrastructure architecture
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Visualize and interact with Kubernetes resources, manage applications, and monitor sync/health status
 
@@ -333,7 +333,7 @@ D) Design infrastructure architecture
 ### Question 19 (5 points)
 True or False: In a GitOps workflow with ArgoCD, it is recommended to keep application source code and Kubernetes configuration manifests in the same repository.
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -384,7 +384,7 @@ Calculate your percentage and find your level:
 - Experiment with sync policies and drift detection
 - Explore the ArgoCD web UI and its features
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Managing multiple applications as a single unit where one ArgoCD Application manages other Applications
 

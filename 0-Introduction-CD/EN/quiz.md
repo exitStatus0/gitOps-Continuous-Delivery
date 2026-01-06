@@ -4,7 +4,7 @@ Test your knowledge of Continuous Delivery concepts and practices!
 
 **Instructions:**
 - Answer all questions to the best of your ability
-- Click on "Click to see answer" to reveal the correct answer and explanation
+- Click "Click to see answer" below each question to reveal the correct answer and explanation
 - Calculate your score using the rating scale at the end
 
 ---
@@ -20,7 +20,7 @@ C) A practice focused only on deploying to production environments
 D) A replacement for manual testing
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - The ability to get changes of all types into production safely and quickly in a sustainable way
 
@@ -38,7 +38,7 @@ C) Both a technological and cultural transformation
 D) A set of deployment tools
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Both a technological and cultural transformation
 
@@ -56,7 +56,7 @@ C) New features, configuration changes, bug fixes, and experiments
 D) Only configuration changes
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - New features, configuration changes, bug fixes, and experiments
 
@@ -69,7 +69,7 @@ D) Only configuration changes
 True or False: Continuous Delivery is similar to DevOps in that both require organizational transformation, not just technical changes.
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: True**
 
@@ -81,7 +81,7 @@ True or False: Continuous Delivery is similar to DevOps in that both require org
 
 ## Section 2: Problems CD Solves (25 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: True**
 
@@ -103,7 +103,7 @@ C) To reduce the cost of software licenses
 D) To make the code more complex
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - To free developers and operators from the toil of releases so they can focus on delivering value
 
@@ -116,7 +116,7 @@ D) To make the code more complex
 True or False: Continuous Delivery saves costs by eliminating the staff required to manage releases.
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -134,7 +134,7 @@ C) By creating more documentation
 D) By hiring more project managers
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - By making the steps from build to production clear and accessible
 
@@ -152,7 +152,7 @@ C) From hours to months
 D) No significant time improvement
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: A** - From weeks/months to days/hours
 
@@ -170,7 +170,7 @@ C) By making the process more complex
 D) By reducing the number of deployments
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Through improvements to the automated process that persist into the future
 
@@ -182,7 +182,7 @@ D) By reducing the number of deployments
 
 ## Section 3: CI vs CD (20 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Through improvements to the automated process that persist into the future
 
@@ -204,7 +204,7 @@ C) CD must be implemented before CI
 D) They are the same thing
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - CI is an essential prerequisite for CD
 
@@ -222,7 +222,7 @@ C) Managing infrastructure
 D) Writing documentation
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Regularly merging code into a centralized branch and detecting issues early
 
@@ -240,7 +240,7 @@ C) Automates its deployment into an environment
 D) Deletes it
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: C** - Automates its deployment into an environment
 
@@ -258,7 +258,7 @@ C) It never creates artifacts
 D) It only runs manually
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Automated tests run against the build
 
@@ -270,7 +270,7 @@ D) It only runs manually
 
 ## Section 4: Continuous Deployment vs Continuous Delivery (20 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Automated tests run against the build
 
@@ -292,7 +292,7 @@ C) They are exactly the same
 D) Continuous Delivery is newer than Continuous Deployment
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Continuous Deployment automates the entire deployment lifecycle without human intervention
 
@@ -305,7 +305,7 @@ D) Continuous Delivery is newer than Continuous Deployment
 True or False: Continuous Deployment is an essential part of Continuous Delivery.
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -323,7 +323,7 @@ C) Never happen
 D) Only occur on weekends
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Require human approval manually
 
@@ -341,7 +341,7 @@ C) It's the end of the day
 D) The code is too complex
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Tests fail or problems are detected from telemetry
 
@@ -353,7 +353,7 @@ D) The code is too complex
 
 ## Section 5: Key Concepts and Best Practices (15 points)
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Tests fail or problems are detected from telemetry
 
@@ -370,7 +370,7 @@ D) The code is too complex
 True or False: Continuous Delivery depends heavily on qualified personnel following manual processes to deploy changes.
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: False**
 
@@ -388,7 +388,7 @@ C) Employee satisfaction
 D) Marketing strategies
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - How environments are composed and how to reproduce them
 
@@ -406,7 +406,7 @@ C) Make development slower
 D) Confuse developers
 
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Reduce the risk of problems on release due to inconsistencies between environments
 
@@ -441,7 +441,7 @@ Calculate your percentage and find your level:
 2. Review any topics where you had incorrect answers
 3. Retake the quiz after studying to improve your score!
 <details>
-<summary>Натисніть, щоб побачити відповідь</summary>
+<summary>Click to see answer</summary>
 
 **Correct Answer: B** - Reduce the risk of problems on release due to inconsistencies between environments
 
