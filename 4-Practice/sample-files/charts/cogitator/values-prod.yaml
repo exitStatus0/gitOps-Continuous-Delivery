@@ -1,0 +1,25 @@
+# Production environment values
+# Overrides for charts/notification/values.yaml
+
+replicaCount: 3
+
+image:
+  repository: nginx
+  tag: "1.24-alpine"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+environment: production
+
+

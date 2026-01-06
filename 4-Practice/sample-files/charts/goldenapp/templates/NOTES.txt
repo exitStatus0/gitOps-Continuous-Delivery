@@ -1,0 +1,17 @@
+⚙️ Forge World Sigma-VII Cogitator Service has been deployed!
+
+Environment: {{ .Values.environment }}
+Replicas: {{ .Values.replicaCount }}
+Image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+
+To access the service within the cluster:
+  Service Name: {{ include "notification.fullname" . }}
+  Port: {{ .Values.service.port }}
+
+To verify the deployment:
+  kubectl get pods -l app=cogitator -n {{ .Release.Namespace }}
+  kubectl get svc {{ include "notification.fullname" . }} -n {{ .Release.Namespace }}
+
+The Omnissiah Protects! Ave Deus Mechanicus! ⚙️
+
+

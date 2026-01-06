@@ -1,0 +1,25 @@
+# QA environment values
+# Overrides for charts/notification/values.yaml
+
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "1.24"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: 150m
+    memory: 192Mi
+  requests:
+    cpu: 75m
+    memory: 96Mi
+
+environment: qa
+
+
