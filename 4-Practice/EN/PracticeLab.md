@@ -90,6 +90,8 @@ Before starting the lab, ensure you have:
 4. **Git Repository** - Access to the GitOps configuration repository
 5. **ArgoCD CLI** (optional) - For command-line operations
 
+> **Need help installing these tools?** See the detailed [Prerequisites Installation Guide](../PrerequisitesInstallation.md) with step-by-step instructions for macOS, Linux, and Windows.
+
 ### ArgoCD Access Credentials
 
 For this lab, use the following credentials to access ArgoCD UI:
