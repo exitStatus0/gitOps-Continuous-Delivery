@@ -1,5 +1,13 @@
 # Introduction to Continuous Delivery
 
+Imagine this: your team just fixed a critical bug. The patch is ready, tested, and approved. But it won't reach users for another two weeks — because that's when the next release window opens. Meanwhile, customers are frustrated, support tickets pile up, and your competitors ship faster. Sound familiar?
+
+This is the problem Continuous Delivery was built to solve.
+
+<p align="center">
+  <img src="../ContinuousDelivery.png" alt="Continuous Delivery Overview" width="700"/>
+</p>
+
 ## What is Continuous Delivery?
 
 Continuous Delivery (CD) represents a fundamental shift in how modern software organizations deliver value to their users. As articulated by Jez Humble on [continuousdelivery.com](https://continuousdelivery.com):
@@ -95,6 +103,17 @@ To solidify your understanding of Continuous Delivery, consider these important 
 
 6. **Continuous Deployment is optional**: While Continuous Deployment represents an advanced evolution of CD practices, it is not an essential part of Continuous Delivery. Many successful organizations practice CD with manual approval gates for production releases.
 
+## Benefits of Implementing Continuous Delivery
+
+Organizations that successfully adopt CD gain significant advantages:
+
+- **Faster time-to-market** — changes reach users in hours instead of weeks
+- **Reduced risk** — smaller, more frequent releases mean a smaller blast radius for potential issues
+- **Improved quality** — automated testing and standardized processes raise the quality bar
+- **Better collaboration** — teams work more cohesively through shared goals and transparency
+- **Higher productivity** — engineers are freed from repetitive tasks to focus on meaningful work
+- **Cost savings** — automation reduces manual effort and the cost of fixing errors caught late
+
 ---
 
 ## Further Learning
@@ -107,4 +126,8 @@ To deepen your knowledge of Continuous Delivery:
 - Investigate tools that support CD pipelines in your technology stack
 
 Remember: The journey to Continuous Delivery is iterative. Start small, automate incrementally, and continuously improve your processes based on feedback and metrics.
+
+---
+
+[Back to Course Overview](../../README.md) | [Next: Introduction to GitOps](../../1-Intrduction-GitOps/EN/IntroductionToGitOps.md)
 

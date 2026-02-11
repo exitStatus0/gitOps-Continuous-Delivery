@@ -77,9 +77,6 @@ True or False: Continuous Delivery is similar to DevOps in that both require org
 
 </details>
 
----
-
-## Section 2: Problems CD Solves (25 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -87,11 +84,11 @@ True or False: Continuous Delivery is similar to DevOps in that both require org
 
 **Explanation:** Both CD and DevOps require fundamental shifts in how organizations think about and approach software delivery, involving people, processes, and technology.
 
+</details>
+
 ---
 
 ## Section 2: Problems CD Solves (25 points)
-
-</details>
 
 ---
 ### Question 5 (5 points)
@@ -178,9 +175,6 @@ D) By reducing the number of deployments
 
 </details>
 
----
-
-## Section 3: CI vs CD (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -188,11 +182,11 @@ D) By reducing the number of deployments
 
 **Explanation:** Unlike manual processes that require hiring and training more people, automated CD processes can be scaled through process improvements that remain valuable over time.
 
+</details>
+
 ---
 
 ## Section 3: CI vs CD (20 points)
-
-</details>
 
 ---
 ### Question 10 (5 points)
@@ -266,9 +260,6 @@ D) It only runs manually
 
 </details>
 
----
-
-## Section 4: Continuous Deployment vs Continuous Delivery (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -276,11 +267,11 @@ D) It only runs manually
 
 **Explanation:** When automated tests run against a build, it's performing the integration testing function of CI. If the build happens as part of deployment, it's CD.
 
+</details>
+
 ---
 
 ## Section 4: Continuous Deployment vs Continuous Delivery (20 points)
-
-</details>
 
 ---
 ### Question 14 (5 points)
@@ -349,9 +340,6 @@ D) The code is too complex
 
 </details>
 
----
-
-## Section 5: Key Concepts and Best Practices (15 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -359,11 +347,11 @@ D) The code is too complex
 
 **Explanation:** Continuous Deployment relies on automated checks (tests, monitoring, telemetry) to determine if deployment should continue or trigger a rollback.
 
+</details>
+
 ---
 
 ## Section 5: Key Concepts and Best Practices (15 points)
-
-</details>
 
 ---
 ### Question 18 (5 points)
@@ -440,58 +428,6 @@ Calculate your percentage and find your level:
 1. Calculate your score (each correct answer is worth the points shown)
 2. Review any topics where you had incorrect answers
 3. Retake the quiz after studying to improve your score!
-<details>
-<summary>Click to see answer</summary>
-
-**Correct Answer: B** - Reduce the risk of problems on release due to inconsistencies between environments
-
-**Explanation:** Environment parity reduces the "works on my machine" problem and catches environment-specific issues earlier in the pipeline.
-
----
-
-## Scoring Section
-
-**Calculate Your Score:**
-
-Count the number of correct answers and multiply by the points for each question:
-- Section 1: _____ / 20 points
-- Section 2: _____ / 25 points
-- Section 3: _____ / 20 points
-- Section 4: _____ / 20 points
-- Section 5: _____ / 15 points
-
-**Total Score: _____ / 100 points**
-
----
-
-## Rating Scale
-
-**Your Level:**
-
-- **90-100 points (90-100%)**: **Expert** ⭐⭐⭐⭐⭐
-  - Outstanding! You have excellent understanding of Continuous Delivery
-  - You're ready to implement and champion CD practices in your organization
-  - Consider mentoring others or leading CD initiatives
-
-- **80-89 points (80-89%)**: **Advanced** ⭐⭐⭐⭐
-  - Strong grasp of CD concepts
-  - Review the areas where you missed questions to solidify your expertise
-  - You can confidently participate in CD implementation discussions
-
-- **70-79 points (70-79%)**: **Intermediate** ⭐⭐⭐
-  - Good foundation in CD principles
-  - Consider deeper study of the topics you found challenging
-  - Practice applying these concepts to real-world scenarios
-
-- **60-69 points (60-69%)**: **Basic** ⭐⭐
-  - You understand the fundamentals but need more practice
-  - Review the README materials thoroughly
-  - Focus on understanding the "why" behind CD practices
-
-- **Below 60 points (<60%)**: **Beginner** ⭐
-  - Take time to thoroughly read through the Continuous Delivery introduction materials
-  - Don't be discouraged - CD is a complex topic!
-  - Try the quiz again after studying
 
 ---
 
@@ -499,30 +435,10 @@ Count the number of correct answers and multiply by the points for each question
 
 Based on which sections you struggled with:
 
-- **Section 1 (Understanding CD)**: Review `README_EN.md` - "What is Continuous Delivery?" section
-- **Section 2 (Problems CD Solves)**: Review `README_EN.md` - "What Problems Does Continuous Delivery Solve?" section
-- **Section 3 (CI vs CD)**: Review `README_EN.md` - "How Does Continuous Delivery Differ From Continuous Integration?" section
-- **Section 4 (Deployment vs Delivery)**: Review `README_EN.md` - "What about the other CD?" section
-- **Section 5 (Key Concepts)**: Review `README_EN.md` - "Key Takeaways" section
-
----
-
-## Next Steps
-
-1. **If you scored 80+**: Congratulations! Consider reading more advanced materials on CD implementation strategies and GitOps practices.
-
-2. **If you scored 60-79**: Good progress! Review the sections where you missed questions, then retake the quiz in a few days.
-
-3. **If you scored below 60**: Don't worry! Read through the README materials carefully, take notes, and try the quiz again when you're ready.
-
-**Additional Resources:**
-- Visit [continuousdelivery.com](https://continuousdelivery.com)
-- Read "Continuous Delivery" by Jez Humble and David Farley
-- Explore practical CD implementation guides
-- Join DevOps and CD communities online
-
-Keep learning! Continuous Delivery is a journey, not a destination. 🚀
-
-</details>
+- **Section 1 (Understanding CD)**: Review `IntroductionToCD.md` - "What is Continuous Delivery?" section
+- **Section 2 (Problems CD Solves)**: Review `IntroductionToCD.md` - "What Problems Does Continuous Delivery Solve?" section
+- **Section 3 (CI vs CD)**: Review `IntroductionToCD.md` - "How Does Continuous Delivery Differ From Continuous Integration?" section
+- **Section 4 (Deployment vs Delivery)**: Review `IntroductionToCD.md` - "What about the other CD?" section
+- **Section 5 (Key Concepts)**: Review `IntroductionToCD.md` - "Key Takeaways" section
 
 ---
