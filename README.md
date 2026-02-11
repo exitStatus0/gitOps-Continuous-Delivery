@@ -1,34 +1,10 @@
-# GitOps: Continuous Delivery & Infrastructure as Code
+# GitOps: Continuous Delivery & ArgoCD
+
+> **Language / Мова:** [English](#english-version) | [Українська](#українська-версія) | [Other](#other-version)
+
+---
 
 ## English Version
-
-### The History of GitOps
-
-GitOps, as a revolutionary approach to managing infrastructure and applications, was coined in 2017 by **Alexis Richardson**, CEO of Weaveworks. The concept emerged from the need to apply software development best practices—version control, collaboration, and automation—to infrastructure operations.
-
-Richardson observed that while developers had sophisticated tools for managing code, infrastructure teams often relied on manual processes and imperative commands. GitOps was born from the insight that Git could serve as the single source of truth for infrastructure, just as it does for application code.
-
-Weaveworks demonstrated GitOps in practice through their Weave Cloud product and the Flux tool, showing how declarative configurations stored in Git could be automatically reconciled with the actual state of infrastructure. This approach proved particularly powerful in Kubernetes environments, where declarative manifests naturally aligned with GitOps principles.
-
-The Cloud Native Computing Foundation (CNCF) recognized the significance of GitOps and formed a working group to establish guiding principles and a vendor-neutral definition. Today, GitOps is widely adopted in cloud-native environments, especially where:
-
-- Multiple environments need consistent configuration
-- Audit trails and compliance are critical
-- Infrastructure requires self-healing capabilities
-- Teams deploy microservices frequently
-- Immutable infrastructure patterns are used
-
-### About This Course
-
-This comprehensive course introduces you to GitOps principles, Continuous Delivery practices, and hands-on experience with ArgoCD. Through structured modules, you'll learn:
-
-- **Continuous Delivery Fundamentals**: Core principles and best practices
-- **GitOps Concepts**: Using Git as the source of truth for infrastructure
-- **ArgoCD Deep Dive**: Application management, Custom Resource Definitions (CRDs)
-- **Practical Implementation**: Real-world scenarios and deployment strategies
-- **Best Practices**: Security, monitoring, and operational excellence
-
-Each module includes quizzes and practical exercises to reinforce learning.
 
 ### The Parable of the Sacred Repository
 
@@ -48,37 +24,53 @@ The lesson was clear: **GitOps is not about doing, but about declaring what shou
 
 And so Ops became enlightened, and the garden flourished eternally in perfect harmony.
 
+### What You'll Learn
+
+<p align="center">
+  <img src="GitOps.png" alt="GitOps Overview" width="700"/>
+</p>
+
+GitOps was coined in 2017 by Alexis Richardson (CEO of Weaveworks) as a way to apply software development best practices—version control, automation, and collaboration—to infrastructure operations. Today it is the industry standard for managing Kubernetes deployments at scale.
+
+This course takes you from zero to confident practitioner. By the end, you will be able to:
+
+- **Understand Continuous Delivery** — principles, pipelines, and why they matter
+- **Think in GitOps** — Git as the single source of truth for infrastructure
+- **Deploy with ArgoCD** — install, configure, and manage applications using ArgoCD CRDs
+- **Build real-world setups** — App-of-Apps pattern, multi-environment Helm charts, automated sync & self-healing
+- **Avoid common pitfalls** — security, monitoring, and operational best practices
+
+### Course Roadmap
+
+| # | Module | Topic | Go to |
+|---|--------|-------|-------|
+| 0 | Introduction to CD | Continuous Delivery fundamentals | [EN](0-Introduction-CD/EN/IntroductionToCD.md) \| [UA](0-Introduction-CD/UA/ВступДоCD.md) \| [Other](0-Introduction-CD/other/IntroductionToCD.md) |
+| 1 | Introduction to GitOps | GitOps principles & history | [EN](1-Intrduction-GitOps/EN/IntroductionToGitOps.md) \| [UA](1-Intrduction-GitOps/UA/ВступДоGitOps.md) \| [Other](1-Intrduction-GitOps/other/IntroductionToGitOps.md) |
+| 2 | Introduction to ArgoCD | Architecture & core concepts | [EN](2-Introduction-to-ArgoCD/EN/IntroductionToArgoCD.md) \| [UA](2-Introduction-to-ArgoCD/UA/ВступДоArgoCD.md) \| [Other](2-Introduction-to-ArgoCD/other/IntroductionToArgoCD.md) |
+| 3 | ArgoCD Applications | Custom Resource Definitions | [EN](3-CRD-ArgoCD/EN/IntroductionToArgoApplications.md) \| [UA](3-CRD-ArgoCD/UA/АплікаціяArgoCD.md) \| [Other](3-CRD-ArgoCD/other/IntroductionToArgoApplications.md) |
+| 4 | Practice Lab | Hands-on deployment with ArgoCD | [EN](4-Practice/EN/PracticeLab.md) \| [UA](4-Practice/UA/ПрактичнаРобота.md) \| [Other](4-Practice/other/PracticeLab.md) |
+| 5 | Conclusion | Summary & next steps | [EN](5-Conclusion/EN/Conclusion.md) \| [UA](5-Conclusion/UA/Висновок.md) \| [Other](5-Conclusion/other/Conclusion.md) |
+
+Each module includes a **quiz** to test your understanding.
+
+### Who Is This For
+
+- **DevOps Engineers** looking to adopt GitOps workflows
+- **SREs & Platform Engineers** building self-healing infrastructure
+- **Developers** moving into infrastructure and deployment automation
+- **Team Leads** evaluating GitOps for their organizations
+
+No prior ArgoCD experience required. Basic familiarity with Kubernetes and Git is helpful.
+
+### Prerequisites & Getting Started
+
+Before the practice lab, you'll need kubectl, a local Kubernetes cluster, and ArgoCD installed. See the full setup guide:
+
+**[Prerequisites Installation Guide](4-Practice/PrerequisitesInstallation.md)**
+
 ---
 
 ## Українська версія
-
-### Історія GitOps
-
-GitOps, як революційний підхід до управління інфраструктурою та додатками, був придуманий у 2017 році **Алексісом Річардсоном**, CEO компанії Weaveworks. Концепція виникла з потреби застосовувати найкращі практики розробки програмного забезпечення—контроль версій, співпрацю та автоматизацію—до операцій інфраструктури.
-
-Річардсон помітив, що хоча розробники мали витончені інструменти для управління кодом, команди інфраструктури часто покладалися на ручні процеси та імперативні команди. GitOps народився з розуміння, що Git може служити єдиним джерелом істини для інфраструктури, так само як і для коду додатків.
-
-Weaveworks продемонструвала GitOps на практиці через їхній продукт Weave Cloud та інструмент Flux, показавши, як декларативні конфігурації, збережені в Git, можуть автоматично узгоджуватися з фактичним станом інфраструктури. Цей підхід виявився особливо потужним у середовищах Kubernetes, де декларативні маніфести природно узгоджувалися з принципами GitOps.
-
-Cloud Native Computing Foundation (CNCF) визнав значущість GitOps і створив робочу групу для встановлення керівних принципів та незалежного від постачальників визначення. Сьогодні GitOps широко прийнятий у хмарних середовищах, особливо там, де:
-
-- Кілька середовищ потребують узгодженої конфігурації
-- Критичними є аудит та відповідність вимогам
-- Інфраструктура потребує можливостей самовідновлення
-- Команди часто розгортають мікросервіси
-- Використовуються патерни незмінної інфраструктури
-
-### Про цей курс
-
-Цей всебічний курс знайомить вас із принципами GitOps, практиками Continuous Delivery та практичним досвідом роботи з ArgoCD. Через структуровані модулі ви навчитеся:
-
-- **Основи Continuous Delivery**: Ключові принципи та найкращі практики
-- **Концепції GitOps**: Використання Git як джерела істини для інфраструктури
-- **ArgoCD глибоко**: Управління додатками, Custom Resource Definitions (CRD)
-- **Практична реалізація**: Реальні сценарії та стратегії розгортання
-- **Найкращі практики**: Безпека, моніторинг та операційна досконалість
-
-Кожен модуль включає тести та практичні вправи для закріплення навчання.
 
 ### Притча про священне сховище
 
@@ -98,6 +90,120 @@ Ops навчився писати маніфести: "Нехай будуть �
 
 І так Ops досяг просвітлення, і сад вічно процвітав у досконалій гармонії.
 
+### Що ви вивчите
+
+<p align="center">
+  <img src="GitOps.png" alt="GitOps Огляд" width="700"/>
+</p>
+
+GitOps був запропонований у 2017 році Алексісом Річардсоном (CEO Weaveworks) як спосіб застосувати найкращі практики розробки—контроль версій, автоматизацію та співпрацю—до операцій інфраструктури. Сьогодні це індустріальний стандарт управління Kubernetes-розгортаннями у масштабі.
+
+Цей курс проведе вас від нуля до впевненого практика. Після завершення ви зможете:
+
+- **Розуміти Continuous Delivery** — принципи, пайплайни та чому це важливо
+- **Мислити в GitOps** — Git як єдине джерело істини для інфраструктури
+- **Розгортати з ArgoCD** — встановлювати, налаштовувати та керувати додатками через ArgoCD CRD
+- **Будувати реальні конфігурації** — патерн App-of-Apps, мультисередовищні Helm-чарти, автоматична синхронізація та самовідновлення
+- **Уникати типових помилок** — безпека, моніторинг та операційні найкращі практики
+
+### Дорожня карта курсу
+
+| # | Модуль | Тема | Перейти |
+|---|--------|------|---------|
+| 0 | Вступ до CD | Основи Continuous Delivery | [EN](0-Introduction-CD/EN/IntroductionToCD.md) \| [UA](0-Introduction-CD/UA/ВступДоCD.md) \| [Other](0-Introduction-CD/other/IntroductionToCD.md) |
+| 1 | Вступ до GitOps | Принципи та історія GitOps | [EN](1-Intrduction-GitOps/EN/IntroductionToGitOps.md) \| [UA](1-Intrduction-GitOps/UA/ВступДоGitOps.md) \| [Other](1-Intrduction-GitOps/other/IntroductionToGitOps.md) |
+| 2 | Вступ до ArgoCD | Архітектура та основні концепції | [EN](2-Introduction-to-ArgoCD/EN/IntroductionToArgoCD.md) \| [UA](2-Introduction-to-ArgoCD/UA/ВступДоArgoCD.md) \| [Other](2-Introduction-to-ArgoCD/other/IntroductionToArgoCD.md) |
+| 3 | Додатки ArgoCD | Custom Resource Definitions | [EN](3-CRD-ArgoCD/EN/IntroductionToArgoApplications.md) \| [UA](3-CRD-ArgoCD/UA/АплікаціяArgoCD.md) \| [Other](3-CRD-ArgoCD/other/IntroductionToArgoApplications.md) |
+| 4 | Практична робота | Практичне розгортання з ArgoCD | [EN](4-Practice/EN/PracticeLab.md) \| [UA](4-Practice/UA/ПрактичнаРобота.md) \| [Other](4-Practice/other/PracticeLab.md) |
+| 5 | Висновок | Підсумки та наступні кроки | [EN](5-Conclusion/EN/Conclusion.md) \| [UA](5-Conclusion/UA/Висновок.md) \| [Other](5-Conclusion/other/Conclusion.md) |
+
+Кожен модуль включає **тест** для перевірки знань.
+
+### Для кого цей курс
+
+- **DevOps-інженери**, які хочуть впровадити GitOps-підхід
+- **SRE та Platform-інженери**, що будують інфраструктуру з самовідновленням
+- **Розробники**, які переходять до автоматизації інфраструктури та розгортання
+- **Тімліди**, що оцінюють GitOps для своїх організацій
+
+Попередній досвід з ArgoCD не потрібен. Базове знайомство з Kubernetes та Git буде корисним.
+
+### Передумови та початок роботи
+
+Перед практичною лабораторною вам знадобляться kubectl, локальний Kubernetes-кластер та встановлений ArgoCD. Повний гайд з налаштування:
+
+**[Гайд з встановлення передумов](4-Practice/PrerequisitesInstallation.md)**
+
+---
+
+## Other Version
+
+### Притча о священном хранилище
+
+В древних горах DevOps жил мудрый монах по имени Git, который хранил священное хранилище—сад цифровой мудрости. Монах понимал, что всё в саду должно существовать в гармонии: желаемое состояние и фактическое состояние должны быть едины.
+
+Однажды в монастырь пришёл молодой ученик по имени Ops. Ops был прилежным, но боролся с хаосом. Он вручную сажал семена здесь, поливал там и подстригал повсюду, но приходили бури перемен—серверы выходили из строя, конфигурации дрейфовали, и сад приходил в беспорядок.
+
+«Учитель,—умолял Ops,—как мне поддерживать этот сад, когда царит хаос?»
+
+Мудрый монах Git ответил: «Чадо, ты должен видеть сад не как отдельные растения, а как единое, живое объявление совершенства. Запиши, каким должен быть сад—не что делать, а что должно существовать. Храни это объявление в моём священном хранилище, и пусть сад согласует себя с этой истиной.»
+
+Ops научился писать манифесты: «Да будут три вишнёвых дерева на востоке, поливаемые каждое утро. Да будет каменная тропа, ведущая к залу медитации.» Он фиксировал эти объявления в хранилище, и силой автоматизации (которую монах называл «непрерывным согласованием») сад поддерживал себя сам.
+
+Когда приходили бури, сад исцелялся. Когда посетители вытаптывали тропы, они восстанавливались. Когда сменялись времена года, сад адаптировался согласно объявлениям в священном хранилище.
+
+Урок был ясен: **GitOps — это не про действия, а про объявление того, что должно быть**. Система непрерывно согласует реальность с этим объявлением. Через контроль версий совместная работа становится священной. Через автоматизацию человеческая ошибка становится просветлением. Через аудиторские следы мудрость сохраняется.
+
+И так Ops достиг просветления, и сад вечно процветал в совершенной гармонии.
+
+### Что вы изучите
+
+<p align="center">
+  <img src="GitOps.png" alt="GitOps Обзор" width="700"/>
+</p>
+
+GitOps был предложен в 2017 году Алексисом Ричардсоном (CEO Weaveworks) как способ применить лучшие практики разработки—контроль версий, автоматизацию и совместную работу—к операциям инфраструктуры. Сегодня это индустриальный стандарт управления Kubernetes-развёртываниями в масштабе.
+
+Этот курс проведёт вас от нуля до уверенного практика. После завершения вы сможете:
+
+- **Понимать Continuous Delivery** — принципы, пайплайны и почему это важно
+- **Мыслить в GitOps** — Git как единственный источник истины для инфраструктуры
+- **Развёртывать с ArgoCD** — устанавливать, настраивать и управлять приложениями через ArgoCD CRD
+- **Строить реальные конфигурации** — паттерн App-of-Apps, мультисредовые Helm-чарты, автоматическая синхронизация и самовосстановление
+- **Избегать типичных ошибок** — безопасность, мониторинг и операционные лучшие практики
+
+### Дорожная карта курса
+
+| # | Модуль | Тема | Перейти |
+|---|--------|------|---------|
+| 0 | Введение в CD | Основы Continuous Delivery | [EN](0-Introduction-CD/EN/IntroductionToCD.md) \| [UA](0-Introduction-CD/UA/ВступДоCD.md) \| [Other](0-Introduction-CD/other/IntroductionToCD.md) |
+| 1 | Введение в GitOps | Принципы и история GitOps | [EN](1-Intrduction-GitOps/EN/IntroductionToGitOps.md) \| [UA](1-Intrduction-GitOps/UA/ВступДоGitOps.md) \| [Other](1-Intrduction-GitOps/other/IntroductionToGitOps.md) |
+| 2 | Введение в ArgoCD | Архитектура и основные концепции | [EN](2-Introduction-to-ArgoCD/EN/IntroductionToArgoCD.md) \| [UA](2-Introduction-to-ArgoCD/UA/ВступДоArgoCD.md) \| [Other](2-Introduction-to-ArgoCD/other/IntroductionToArgoCD.md) |
+| 3 | Приложения ArgoCD | Custom Resource Definitions | [EN](3-CRD-ArgoCD/EN/IntroductionToArgoApplications.md) \| [UA](3-CRD-ArgoCD/UA/АплікаціяArgoCD.md) \| [Other](3-CRD-ArgoCD/other/IntroductionToArgoApplications.md) |
+| 4 | Практическая работа | Практическое развёртывание с ArgoCD | [EN](4-Practice/EN/PracticeLab.md) \| [UA](4-Practice/UA/ПрактичнаРобота.md) \| [Other](4-Practice/other/PracticeLab.md) |
+| 5 | Заключение | Итоги и следующие шаги | [EN](5-Conclusion/EN/Conclusion.md) \| [UA](5-Conclusion/UA/Висновок.md) \| [Other](5-Conclusion/other/Conclusion.md) |
+
+Каждый модуль включает **тест** для проверки знаний.
+
+### Для кого этот курс
+
+- **DevOps-инженеры**, желающие внедрить GitOps-подход
+- **SRE и Platform-инженеры**, строящие инфраструктуру с самовосстановлением
+- **Разработчики**, переходящие к автоматизации инфраструктуры и развёртывания
+- **Тимлиды**, оценивающие GitOps для своих организаций
+
+Предыдущий опыт с ArgoCD не требуется. Базовое знакомство с Kubernetes и Git будет полезным.
+
+### Предварительные требования
+
+Перед практической лабораторной вам понадобятся kubectl, локальный Kubernetes-кластер и установленный ArgoCD. Полное руководство по настройке:
+
+**[Руководство по установке](4-Practice/PrerequisitesInstallation.md)**
+
 ---
 
 *This course is designed to guide you from GitOps fundamentals to advanced implementation. May your infrastructure always be in harmony with your declarations.*
+
+*Цей курс створений, щоб провести вас від основ GitOps до просунутої реалізації. Нехай ваша інфраструктура завжди буде в гармонії з вашими деклараціями.*
+
+*Этот курс создан, чтобы провести вас от основ GitOps до продвинутой реализации. Пусть ваша инфраструктура всегда будет в гармонии с вашими декларациями.*
