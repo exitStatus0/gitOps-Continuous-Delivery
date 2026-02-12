@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест по Continuous Delivery</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .question.correct { border-color: var(--green); }
+  .question.incorrect { border-color: var(--red); }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .question-number { font-weight: 600; font-size: 1.05rem; }
+  .points { color: var(--muted); font-size: 0.85rem; }
+  .question-text { margin-bottom: 1rem; font-size: 1rem; }
+  .options { list-style: none; }
+  .options li {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .options li:hover { background: #1c2333; }
+  .options li.selected {
+    background: #1c2333;
+    border-color: var(--accent);
+  }
+  .options input[type="radio"] { display: none; }
+  .options label {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation.correct-exp { background: rgba(63, 185, 80, 0.1); border: 1px solid rgba(63, 185, 80, 0.3); }
+  .explanation.incorrect-exp { background: rgba(248, 81, 73, 0.1); border: 1px solid rgba(248, 81, 73, 0.3); }
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 2rem;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-secondary { background: var(--border); color: var(--text); margin-left: 1rem; }
+  .results {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+    display: none;
+  }
+  .results.show { display: block; }
+  .score-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem auto;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  .score-circle .label { font-size: 0.8rem; font-weight: 400; color: var(--muted); }
+  .score-expert { border: 4px solid var(--green); color: var(--green); }
+  .score-advanced { border: 4px solid #58a6ff; color: #58a6ff; }
+  .score-intermediate { border: 4px solid var(--yellow); color: var(--yellow); }
+  .score-basic { border: 4px solid #f0883e; color: #f0883e; }
+  .score-beginner { border: 4px solid var(--red); color: var(--red); }
+  .level-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .level-desc { color: var(--muted); margin-bottom: 1.5rem; }
+  .breakdown { text-align: left; margin-top: 1.5rem; }
+  .breakdown h3 { margin-bottom: 0.75rem; font-size: 1.1rem; }
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+  .breakdown-row .section-name { color: var(--muted); }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-top: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+  .unanswered-warning {
+    color: var(--yellow);
+    margin-top: 1rem;
+    display: none;
+  }
+  .unanswered-warning.show { display: block; }
+  .nav-links {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+  }
+  .nav-links a { color: var(--accent); text-decoration: none; }
+  .nav-links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Тест по Continuous Delivery</h1>
+  <p class="subtitle">Проверьте свои знания концепций и практик Continuous Delivery. 20 вопросов, 100 баллов.</p>
+
+  <div id="quiz"></div>
+
+  <div id="unanswered" class="unanswered-warning"></div>
+
+  <button class="btn btn-primary" onclick="submitQuiz()">Показать результаты</button>
+  <button class="btn btn-secondary" onclick="resetQuiz()">Сбросить</button>
+
+  <div id="results" class="results"></div>
+
+  <div class="nav-links">
+    <a href="../../README.md">&larr; К обзору курса</a>
+    <a href="../../1-Intrduction-GitOps/other/IntroductionToGitOps.md">Далее: Введение в GitOps &rarr;</a>
+  </div>
+</div>
+
+<script>
+const sections = [
+  {
+    title: "Раздел 1: Понимание Continuous Delivery",
+    points: 20,
+    questions: [
+      {
+        q: "Что такое Continuous Delivery?",
+        options: [
+          "Инструмент для автоматизации развертывания",
+          "Способность безопасно, быстро и устойчиво доставлять изменения всех типов в продакшн",
+          "Практика, ориентированная только на развертывание в продакшн-средах",
+          "Замена ручного тестирования"
+        ],
+        answer: 1,
+        explanation: "Это определение, данное Джезом Хамблом на continuousdelivery.com. CD — это не просто инструмент или практика, а комплексный подход к доставке программного обеспечения."
+      },
+      {
+        q: "Continuous Delivery лучше всего описать как:",
+        options: [
+          "Только технологическую трансформацию",
+          "Только культурную трансформацию",
+          "Как технологическую, так и культурную трансформацию",
+          "Набор инструментов развертывания"
+        ],
+        answer: 2,
+        explanation: "Как и DevOps, CD требует изменений как в технологиях (инструменты, автоматизация, процессы), так и в культуре (мышление, сотрудничество, методы работы)."
+      },
+      {
+        q: "Согласно Джезу Хамблу, какие типы изменений включает Continuous Delivery?",
+        options: [
+          "Только новые функции",
+          "Только исправления ошибок",
+          "Новые функции, изменения конфигурации, исправления ошибок и эксперименты",
+          "Только изменения конфигурации"
+        ],
+        answer: 2,
+        explanation: "CD охватывает ВСЕ типы изменений, а не только одну категорию. Этот комплексный подход обеспечивает последовательную и надежную доставку независимо от типа изменений."
+      },
+      {
+        q: "Верно или неверно: Continuous Delivery похожа на DevOps тем, что обе требуют организационной трансформации, а не только технических изменений.",
+        options: ["Верно", "Неверно"],
+        answer: 0,
+        explanation: "И CD, и DevOps требуют фундаментальных сдвигов в том, как организации думают о доставке программного обеспечения и подходят к ней, вовлекая людей, процессы и технологии."
+      }
+    ]
+  },
+  {
+    title: "Раздел 2: Проблемы, которые решает CD",
+    points: 25,
+    questions: [
+      {
+        q: "Какова основная цель кодификации процесса выпуска?",
+        options: [
+          "Исключить всех разработчиков из процесса выпуска",
+          "Освободить разработчиков и операционных специалистов от рутины релизов, чтобы они могли сосредоточиться на создании ценности",
+          "Снизить стоимость лицензий на программное обеспечение",
+          "Сделать код более сложным"
+        ],
+        answer: 1,
+        explanation: "Цель состоит не в том, чтобы исключить людей, а в том, чтобы освободить их от повторяющейся низкоэффективной работы, чтобы они могли сосредоточиться на решении бизнес-задач и создании ценности."
+      },
+      {
+        q: "Верно или неверно: Continuous Delivery экономит затраты за счет сокращения персонала, необходимого для управления релизами.",
+        options: ["Верно", "Неверно"],
+        answer: 1,
+        explanation: "Это распространенное заблуждение. Цель НЕ в сокращении штата, а в том, чтобы освободить инженеров от рутины релизов для концентрации на создании ценности и решении бизнес-задач."
+      },
+      {
+        q: "Как Continuous Delivery улучшает видимость?",
+        options: [
+          "Путем добавления большего количества инструментов мониторинга",
+          "Делая шаги от сборки до продакшена четкими и доступными",
+          "Путем создания большего количества документации",
+          "Путем найма большего количества менеджеров проектов"
+        ],
+        answer: 1,
+        explanation: "Кодификация процесса выпуска делает все шаги явными и видимыми, помогая выявить узкие места и ограничения производительности разработчиков."
+      },
+      {
+        q: "Какое улучшение временных рамок может обеспечить Continuous Delivery для доставки изменений пользователям?",
+        options: [
+          "От недель/месяцев до дней/часов",
+          "От дней до недель",
+          "От часов до месяцев",
+          "Никакого существенного улучшения времени"
+        ],
+        answer: 0,
+        explanation: "CD значительно ускоряет доставку за счет автоматизации ручных процессов, позволяя организациям перейти от длительных циклов выпуска к быстрым и частым развертываниям."
+      },
+      {
+        q: "Как Continuous Delivery помогает в масштабировании?",
+        options: [
+          "За счет требования большего количества квалифицированного персонала",
+          "За счет улучшений автоматизированного процесса, которые сохраняются в будущем",
+          "Делая процесс более сложным",
+          "За счет сокращения количества развертываний"
+        ],
+        answer: 1,
+        explanation: "В отличие от ручных процессов, требующих найма и обучения новых людей, автоматизированные процессы CD можно масштабировать за счет улучшения самих процессов, которые остаются ценными с течением времени."
+      }
+    ]
+  },
+  {
+    title: "Раздел 3: CI против CD",
+    points: 20,
+    questions: [
+      {
+        q: "Какова взаимосвязь между Continuous Integration (CI) и Continuous Delivery (CD)?",
+        options: [
+          "Они совершенно не связаны",
+          "CI является важным предварительным условием для CD",
+          "CD должен быть внедрен до CI",
+          "Это одно и то же"
+        ],
+        answer: 1,
+        explanation: "Хотя CI и CD — это разные практики, CI должна быть внедрена до того, как CD сможет быть эффективно реализована. Они взаимосвязаны, но CI идет первой."
+      },
+      {
+        q: "Continuous Integration (CI) в первую очередь фокусируется на:",
+        options: [
+          "Развертывании в продакшн",
+          "Регулярном слиянии кода в центральную ветку и раннем обнаружении проблем",
+          "Управлении инфраструктурой",
+          "Написании документации"
+        ],
+        answer: 1,
+        explanation: "CI — это частая интеграция и раннее обнаружение проблем с помощью автоматизированного тестирования и линтинга, что обеспечивает быструю обратную связь с разработчиками."
+      },
+      {
+        q: "Что делает Continuous Delivery (CD) с протестированным и интегрированным кодом?",
+        options: [
+          "Архивирует его для будущего использования",
+          "Отправляет его обратно разработчикам",
+          "Автоматизирует его развертывание в среде",
+          "Удаляет его"
+        ],
+        answer: 2,
+        explanation: "CD берет протестированный и интегрированный код из CI и автоматизирует процесс развертывания в различных средах."
+      },
+      {
+        q: "Процесс сборки может считаться CI, если:",
+        options: [
+          "Он запускается после развертывания",
+          "Автоматические тесты запускаются на этапе сборки",
+          "Он никогда не создает артефакты",
+          "Он запускается только вручную"
+        ],
+        answer: 1,
+        explanation: "Когда автоматические тесты запускаются на этапе сборки, они выполняют функцию интеграционного тестирования CI. Если сборка происходит как часть развертывания, это CD."
+      }
+    ]
+  },
+  {
+    title: "Раздел 4: Continuous Deployment против Continuous Delivery",
+    points: 20,
+    questions: [
+      {
+        q: "В чем основное различие между Continuous Delivery и Continuous Deployment?",
+        options: [
+          "Continuous Deployment требует одобрения человека для выпусков в продакшн",
+          "Continuous Deployment автоматизирует весь жизненный цикл развертывания без вмешательства человека",
+          "Они абсолютно одинаковы",
+          "Continuous Delivery новее, чем Continuous Deployment"
+        ],
+        answer: 1,
+        explanation: "Continuous Delivery обычно требует одобрения человека для продакшена, тогда как Continuous Deployment полностью автоматизировано от начала до конца без ручных этапов."
+      },
+      {
+        q: "Верно или неверно: Continuous Deployment является обязательной частью Continuous Delivery.",
+        options: ["Верно", "Неверно"],
+        answer: 1,
+        explanation: "Continuous Deployment — это продвинутая эволюция практик CD, но оно НЕ является обязательным. Многие успешные организации практикуют CD с ручными этапами одобрения для выпусков в продакшн."
+      },
+      {
+        q: "В Continuous Delivery выпуски в продакшн обычно:",
+        options: [
+          "Полностью автоматизированы без каких-либо ограничений",
+          "Требуют ручного подтверждения человеком",
+          "Никогда не происходят",
+          "Происходят только по выходным"
+        ],
+        answer: 1,
+        explanation: "CD автоматизирует процесс развертывания, но обычно ограничивает выпуски в продакшн этапом ручного одобрения, в отличие от Continuous Deployment, которое полностью автоматизировано."
+      },
+      {
+        q: "Continuous Deployment останавливается, когда:",
+        options: [
+          "Разработчик запрашивает это",
+          "Тесты не пройдены или обнаружены проблемы по данным телеметрии",
+          "Наступает конец рабочего дня",
+          "Код слишком сложный"
+        ],
+        answer: 1,
+        explanation: "Continuous Deployment полагается на автоматизированные проверки (тесты, мониторинг, телеметрия), чтобы определить, следует ли продолжать развертывание или инициировать откат."
+      }
+    ]
+  },
+  {
+    title: "Раздел 5: Ключевые концепции и лучшие практики",
+    points: 15,
+    questions: [
+      {
+        q: "Верно или неверно: Continuous Delivery сильно зависит от квалифицированного персонала, следующего ручным процессам для развертывания изменений.",
+        options: ["Верно", "Неверно"],
+        answer: 1,
+        explanation: "Это полная противоположность CD! CD фокусируется на АВТОМАТИЗАЦИИ выпуска изменений кода, а не на зависимости от квалифицированного персонала, следующего ручным процессам."
+      },
+      {
+        q: "Что Continuous Delivery помогает организациям понимать лучше?",
+        options: [
+          "Языки программирования",
+          "Как устроены среды и как их воспроизводить",
+          "Удовлетворенность сотрудников",
+          "Маркетинговые стратегии"
+        ],
+        answer: 1,
+        explanation: "Охватывая инфраструктуру и конфигурацию, CD ведет к лучшему пониманию сред и возможности легко их воспроизводить (Infrastructure as Code)."
+      },
+      {
+        q: "Поддержание тестовых сред максимально похожими на продакшн помогает:",
+        options: [
+          "Увеличить затраты",
+          "Снизить риск проблем при релизе из-за несоответствий между средами",
+          "Замедлить разработку",
+          "Запутать разработчиков"
+        ],
+        answer: 1,
+        explanation: "Паритет сред решает проблему «на моей машине работает» и позволяет выявлять специфические для среды проблемы на ранних этапах конвейера."
+      }
+    ]
+  }
+];
+
+let globalQIndex = 0;
+
+function renderQuiz() {
+  const container = document.getElementById('quiz');
+  let html = '';
+  globalQIndex = 0;
+
+  sections.forEach((section, si) => {
+    html += `<h2 class="section-title">${section.title} (${section.points} баллов)</h2>`;
+    const pointsPerQ = section.points / section.questions.length;
+
+    section.questions.forEach((q, qi) => {
+      globalQIndex++;
+      const qId = `q${si}_${qi}`;
+      html += `<div class="question" id="${qId}_card">
+        <div class="question-header">
+          <span class="question-number">Вопрос ${globalQIndex}</span>
+          <span class="points">${pointsPerQ} баллов</span>
+        </div>
+        <p class="question-text">${q.q}</p>
+        <ul class="options">`;
+
+      q.options.forEach((opt, oi) => {
+        html += `<li id="${qId}_opt${oi}" onclick="selectOption('${qId}', ${oi}, ${q.options.length})">
+          <label><input type="radio" name="${qId}" value="${oi}"> ${opt}</label>
+        </li>`;
+      });
+
+      html += `</ul>
+        <div class="explanation" id="${qId}_exp">
+          <strong>${q.options[q.answer]}</strong><br>${q.explanation}
+        </div>
+      </div>`;
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+function selectOption(qId, selected, total) {
+  for (let i = 0; i < total; i++) {
+    document.getElementById(`${qId}_opt${i}`).classList.remove('selected');
+  }
+  document.getElementById(`${qId}_opt${selected}`).classList.add('selected');
+  document.querySelector(`input[name="${qId}"][value="${selected}"]`).checked = true;
+}
+
+function submitQuiz() {
+  let totalScore = 0;
+  let maxScore = 0;
+  let sectionScores = [];
+  let unanswered = 0;
+
+  sections.forEach((section, si) => {
+    const pointsPerQ = section.points / section.questions.length;
+    let sectionScore = 0;
+    maxScore += section.points;
+
+    section.questions.forEach((q, qi) => {
+      const qId = `q${si}_${qi}`;
+      const card = document.getElementById(`${qId}_card`);
+      const exp = document.getElementById(`${qId}_exp`);
+      const selected = document.querySelector(`input[name="${qId}"]:checked`);
+
+      card.classList.remove('correct', 'incorrect');
+      exp.classList.remove('show', 'correct-exp', 'incorrect-exp');
+
+      if (!selected) {
+        unanswered++;
+        card.classList.add('incorrect');
+        exp.classList.add('show', 'incorrect-exp');
+        return;
+      }
+
+      const val = parseInt(selected.value);
+      if (val === q.answer) {
+        sectionScore += pointsPerQ;
+        card.classList.add('correct');
+        exp.classList.add('show', 'correct-exp');
+      } else {
+        card.classList.add('incorrect');
+        exp.classList.add('show', 'incorrect-exp');
+      }
+    });
+
+    totalScore += sectionScore;
+    sectionScores.push({ title: section.title, score: sectionScore, max: section.points });
+  });
+
+  if (unanswered > 0) {
+    const warn = document.getElementById('unanswered');
+    warn.textContent = `${unanswered} вопрос(ов) без ответа (засчитаны как неправильные).`;
+    warn.classList.add('show');
+  }
+
+  showResults(totalScore, maxScore, sectionScores);
+}
+
+function showResults(score, max, sectionScores) {
+  const pct = Math.round((score / max) * 100);
+  let level, levelClass, desc;
+
+  if (pct >= 90) {
+    level = 'Эксперт'; levelClass = 'score-expert';
+    desc = 'Отлично! У вас превосходное понимание Continuous Delivery. Вы готовы внедрять и продвигать практики CD в своей организации.';
+  } else if (pct >= 80) {
+    level = 'Продвинутый'; levelClass = 'score-advanced';
+    desc = 'Хорошее понимание концепций CD. Просмотрите области, в которых вы ошиблись, чтобы закрепить свои знания.';
+  } else if (pct >= 70) {
+    level = 'Средний'; levelClass = 'score-intermediate';
+    desc = 'Хорошая основа принципов CD. Рассмотрите возможность более глубокого изучения тем, которые показались вам сложными.';
+  } else if (pct >= 60) {
+    level = 'Базовый'; levelClass = 'score-basic';
+    desc = 'Вы понимаете основы, но вам нужно больше практики. Внимательно изучите вводные материалы.';
+  } else {
+    level = 'Новичок'; levelClass = 'score-beginner';
+    desc = 'Найдите время, чтобы внимательно прочитать вводные материалы по Continuous Delivery. Не унывайте — CD это сложная тема!';
+  }
+
+  let breakdownHTML = '';
+  sectionScores.forEach(s => {
+    const sPct = Math.round((s.score / s.max) * 100);
+    breakdownHTML += `<div class="breakdown-row">
+      <span class="section-name">${s.title.replace(/Раздел \d+: /, '')}</span>
+      <span>${s.score}/${s.max} (${sPct}%)</span>
+    </div>`;
+  });
+
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = `
+    <div class="score-circle ${levelClass}">
+      ${pct}%
+      <span class="label">${score}/${max}</span>
+    </div>
+    <div class="level-title">${level}</div>
+    <p class="level-desc">${desc}</p>
+    <div class="progress-bar">
+      <div class="progress-fill ${levelClass}" style="width: ${pct}%; background: currentColor;"></div>
+    </div>
+    <div class="breakdown">
+      <h3>Результаты по разделам</h3>
+      ${breakdownHTML}
+    </div>
+  `;
+  resultsDiv.classList.add('show');
+  resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetQuiz() {
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('unanswered').classList.remove('show');
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
