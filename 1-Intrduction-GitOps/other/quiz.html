@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест по GitOps</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .question.correct { border-color: var(--green); }
+  .question.incorrect { border-color: var(--red); }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .question-number { font-weight: 600; font-size: 1.05rem; }
+  .points { color: var(--muted); font-size: 0.85rem; }
+  .question-text { margin-bottom: 1rem; font-size: 1rem; }
+  .options { list-style: none; }
+  .options li {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .options li:hover { background: #1c2333; }
+  .options li.selected {
+    background: #1c2333;
+    border-color: var(--accent);
+  }
+  .options input[type="radio"] { display: none; }
+  .options label { cursor: pointer; display: block; width: 100%; }
+  .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation.correct-exp { background: rgba(63, 185, 80, 0.1); border: 1px solid rgba(63, 185, 80, 0.3); }
+  .explanation.incorrect-exp { background: rgba(248, 81, 73, 0.1); border: 1px solid rgba(248, 81, 73, 0.3); }
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 2rem;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-secondary { background: var(--border); color: var(--text); margin-left: 1rem; }
+  .results {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+    display: none;
+  }
+  .results.show { display: block; }
+  .score-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem auto;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  .score-circle .label { font-size: 0.8rem; font-weight: 400; color: var(--muted); }
+  .score-expert { border: 4px solid var(--green); color: var(--green); }
+  .score-advanced { border: 4px solid #58a6ff; color: #58a6ff; }
+  .score-intermediate { border: 4px solid var(--yellow); color: var(--yellow); }
+  .score-basic { border: 4px solid #f0883e; color: #f0883e; }
+  .score-beginner { border: 4px solid var(--red); color: var(--red); }
+  .level-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .level-desc { color: var(--muted); margin-bottom: 1.5rem; }
+  .breakdown { text-align: left; margin-top: 1.5rem; }
+  .breakdown h3 { margin-bottom: 0.75rem; font-size: 1.1rem; }
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+  .breakdown-row .section-name { color: var(--muted); }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-top: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+  .unanswered-warning { color: var(--yellow); margin-top: 1rem; display: none; }
+  .unanswered-warning.show { display: block; }
+  .nav-links {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+  }
+  .nav-links a { color: var(--accent); text-decoration: none; }
+  .nav-links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Тест по GitOps</h1>
+  <p class="subtitle">Проверьте свое понимание принципов, практик и стратегий реализации GitOps. 20 вопросов, 100 баллов.</p>
+
+  <div id="quiz"></div>
+
+  <div id="unanswered" class="unanswered-warning"></div>
+
+  <button class="btn btn-primary" onclick="submitQuiz()">Показать результаты</button>
+  <button class="btn btn-secondary" onclick="resetQuiz()">Сбросить</button>
+
+  <div id="results" class="results"></div>
+
+  <div class="nav-links">
+    <a href="../../README.md">&larr; К обзору курса</a>
+    <a href="../../2-Introduction-to-ArgoCD/other/IntroductionToArgoCD.md">Далее: Введение в ArgoCD &rarr;</a>
+  </div>
+</div>
+
+<script>
+const sections = [
+  {
+    title: "Раздел 1: Основные принципы GitOps",
+    points: 25,
+    questions: [
+      {
+        q: "Какой принцип утверждает, что желаемое состояние системы должно быть выражено декларативно?",
+        options: [
+          "Pulled Automatically",
+          "Declarative",
+          "Continuously Reconciled",
+          "Versioned and Immutable"
+        ],
+        answer: 1,
+        explanation: "Принцип Declarative (Декларативность) является одним из четырех основных принципов GitOps. Он требует, чтобы система, управляемая с помощью GitOps, имела свое желаемое состояние, выраженное декларативно — определяя что должно существовать, а не как этого достичь."
+      },
+      {
+        q: "Что обеспечивает принцип «Versioned and Immutable» в GitOps?",
+        options: [
+          "Более быстрое развертывание в продакшн",
+          "Автоматическое масштабирование приложений",
+          "Полную историю версий с неизменяемыми записями обо всех изменениях",
+          "Снижение затрат на инфраструктуру"
+        ],
+        answer: 2,
+        explanation: "Принцип Versioned and Immutable гарантирует, что желаемое состояние хранится таким образом, который поддерживает версионность, неизменяемость версий и сохраняет полную историю версий. Это обеспечивает журналы аудита, возможности отката и исторический контекст."
+      },
+      {
+        q: "В GitOps, как программные агенты получают декларации желаемого состояния?",
+        options: [
+          "Они проталкивают изменения из CI/CD конвейеров",
+          "Они автоматически затягивают их из исходного репозитория",
+          "Системные администраторы настраивают их вручную",
+          "Они генерируют желаемое состояние динамически"
+        ],
+        answer: 1,
+        explanation: "Принцип «Pulled Automatically» гласит, что программные агенты автоматически получают декларации желаемого состояния из источника. Это фундаментальное отличие от моделей развертывания на основе push."
+      },
+      {
+        q: "Что означает «Continuously Reconciled» в контексте GitOps?",
+        options: [
+          "Регулярные командные встречи для обсуждения инфраструктуры",
+          "Периодические ручные проверки конфигурации системы",
+          "Программные агенты наблюдают за фактическим состоянием и непрерывно применяют желаемое состояние",
+          "Автоматизированная сверка счетов за облачные ресурсы"
+        ],
+        answer: 2,
+        explanation: "Continuously Reconciled означает, что программные агенты непрерывно наблюдают за фактическим состоянием системы и пытаются применить желаемое состояние. Это обеспечивает самовосстановление и автоматическое исправление расхождений."
+      },
+      {
+        q: "Верно или Неверно: В GitOps Git служит единственным источником истины как для определений инфраструктуры, так и для определений приложений.",
+        options: ["Верно", "Неверно"],
+        answer: 0,
+        explanation: "Одним из основных постулатов GitOps является то, что Git является единственным источником истины. Вся конфигурация инфраструктуры и приложений хранится в репозиториях Git, что делает их авторитетным источником желаемого состояния."
+      }
+    ]
+  },
+  {
+    title: "Раздел 2: Модели Push vs. Pull",
+    points: 20,
+    questions: [
+      {
+        q: "Какова ключевая характеристика традиционной модели развертывания Push?",
+        options: [
+          "Оператор GitOps автоматически затягивает изменения",
+          "Конвейер CI/CD напрямую применяет манифесты к Kubernetes API",
+          "Для развертывания не требуются учетные данные",
+          "Система самовосстанавливается автоматически"
+        ],
+        answer: 1,
+        explanation: "В модели push конвейер CI/CD имеет права записи в кластер и напрямую проталкивает изменения, применяя манифесты к Kubernetes API. Это традиционный подход до появления GitOps."
+      },
+      {
+        q: "Какое утверждение лучше всего описывает модель Pull, используемую в GitOps?",
+        options: [
+          "CI/CD проталкивает изменения напрямую в кластер",
+          "Разработчики вручную развертывают изменения",
+          "Оператор GitOps отслеживает Git и затягивает изменения для их применения",
+          "Изменения развертываются с помощью команд kubectl"
+        ],
+        answer: 2,
+        explanation: "Модель pull является фундаментальной для GitOps. Оператор GitOps, работающий в кластере, непрерывно отслеживает репозиторий Git и автоматически затягивает изменения, применяя их для поддержания желаемого состояния."
+      },
+      {
+        q: "Какое преимущество в безопасности дает модель Pull по сравнению с моделью Push?",
+        options: [
+          "Более высокая скорость развертывания",
+          "В конвейере CI/CD не требуются учетные данные для записи или прямой доступ к кластеру",
+          "Автоматическое сканирование безопасности контейнеров",
+          "Встроенное шифрование всех данных"
+        ],
+        answer: 1,
+        explanation: "Основным преимуществом безопасности модели pull является то, что конвейеру CI/CD не нужны учетные данные с правами записи в кластер. Источник истины исходит из Git, а сервис внутри кластера применяет изменения, следуя принципу наименьших привилегий."
+      },
+      {
+        q: "Верно или Неверно: Модель Push считается «декларативной», потому что она определяет точные шаги для выполнения развертывания.",
+        options: ["Верно", "Неверно"],
+        answer: 1,
+        explanation: "Модель push фактически считается «императивной», потому что она определяет последовательность шагов для достижения конечной цели. Модель pull (GitOps) является декларативной, потому что вы определяете то, что должно существовать, а не то, как этого достичь."
+      }
+    ]
+  },
+  {
+    title: "Раздел 3: GitOps и Continuous Delivery",
+    points: 20,
+    questions: [
+      {
+        q: "Как GitOps соотносится с Continuous Delivery?",
+        options: [
+          "Это конкурирующие практики, которые нельзя использовать вместе",
+          "GitOps управляет состоянием среды, в то время как CD автоматизирует поток изменений",
+          "GitOps заменил необходимость в Continuous Delivery",
+          "Это идентичные практики с разными названиями"
+        ],
+        answer: 1,
+        explanation: "GitOps и CD дополняют друг друга. CD фокусируется на автоматизации конвейера выпуска ПО (сборка, тестирование, доставка), в то время как GitOps обеспечивает механизм развертывания и управления."
+      },
+      {
+        q: "Верно или Неверно: GitOps и Continuous Delivery — это не связанные между собой методологии, служащие разным целям.",
+        options: ["Верно", "Неверно"],
+        answer: 1,
+        explanation: "GitOps и CD — это связанные и взаимодополняющие практики. Они работают вместе для достижения одной и той же цели — доставки программного обеспечения быстрее и с лучшим качеством за счет автоматизации и непрерывной обратной связи."
+      },
+      {
+        q: "В комбинированном рабочем процессе CD и GitOps, что заставляет оператора GitOps действовать?",
+        options: [
+          "Ручное утверждение со стороны команды эксплуатации",
+          "Изменения, обнаруженные в репозитории конфигурации GitOps",
+          "Прямые команды из конвейера CI/CD",
+          "Запланированные задания cron"
+        ],
+        answer: 1,
+        explanation: "Оператор GitOps непрерывно отслеживает репозиторий конфигурации Git. Когда он обнаруживает изменения (новые коммиты), он автоматически затягивает эти изменения и применяет их к кластеру, согласовывая фактическое состояние с желаемым."
+      },
+      {
+        q: "Что является основным фокусом Continuous Delivery в связке CD/GitOps?",
+        options: [
+          "Управление состоянием инфраструктуры",
+          "Мониторинг производительности приложений",
+          "Автоматизация конвейера выпуска программного обеспечения",
+          "Настройка сетевых политик"
+        ],
+        answer: 2,
+        explanation: "В связке CD/GitOps Continuous Delivery фокусируется на автоматизации конвейера выпуска программного обеспечения — сборке, тестировании и подготовке ПО к развертыванию. Затем GitOps берет на себя фактическое развертывание и управление состоянием."
+      }
+    ]
+  },
+  {
+    title: "Раздел 4: Преимущества и реализация",
+    points: 20,
+    questions: [
+      {
+        q: "Какое преимущество дает GitOps для аварийного восстановления?",
+        options: [
+          "Автоматическое резервное копирование в несколько облаков",
+          "Среды можно легко воссоздать из репозитория Git",
+          "Снижение затрат на оборудование",
+          "Повышение скорости сети"
+        ],
+        answer: 1,
+        explanation: "Поскольку все желаемое состояние хранится в Git с полной историей, среды можно легко и быстро воссоздать из репозитория в любое время. Это делает аварийное восстановление простым и надежным."
+      },
+      {
+        q: "Как GitOps улучшает сотрудничество между членами команды?",
+        options: [
+          "Устраняя необходимость в общении",
+          "С помощью автоматического планирования встреч",
+          "Через Pull Requests, которые позволяют проводить проверку аналогично изменениям кода",
+          "Путем автоматического назначения задач"
+        ],
+        answer: 2,
+        explanation: "GitOps улучшает сотрудничество, используя Pull/Merge Requests для изменений инфраструктуры, точно так же, как и для изменений кода. Это позволяет использовать привычные процессы проверки, обсуждения и контроля качества перед применением изменений."
+      },
+      {
+        q: "Верно или Неверно: GitOps подходит только для крупных предприятий со сложными потребностями в инфраструктуре.",
+        options: ["Верно", "Неверно"],
+        answer: 1,
+        explanation: "GitOps ценен для организаций любого размера, от небольших стартапов до крупных предприятий. Принципы контроля версий, автоматизации и декларативной конфигурации приносят пользу любому уровню сложности инфраструктуры."
+      },
+      {
+        q: "Какое преимущество дает декларативная конфигурация в GitOps?",
+        options: [
+          "Ускорение времени выполнения",
+          "Снижение затрат на лицензирование",
+          "Развертывания становятся повторяемыми, а среды — легко воссоздаваемыми",
+          "Автоматические решения о масштабировании"
+        ],
+        answer: 2,
+        explanation: "Декларативная конфигурация означает, что вы определяете то, что должно существовать, что делает развертывания по своей сути повторяемыми. Поскольку вы объявляете желаемое состояние, а не шаги для его достижения, среды можно легко воссоздать в любое время из репозитория Git."
+      }
+    ]
+  },
+  {
+    title: "Раздел 5: Продвинутые концепции",
+    points: 15,
+    questions: [
+      {
+        q: "В контексте Kubernetes, что делает оператор GitOps?",
+        options: [
+          "Создает новые образы контейнеров",
+          "Отслеживает репозиторий Git и применяет манифесты Kubernetes к кластеру",
+          "Пишет код приложения",
+          "Управляет правами доступа разработчиков"
+        ],
+        answer: 1,
+        explanation: "В контексте Kubernetes оператор GitOps непрерывно отслеживает репозиторий Git, содержащий манифесты Kubernetes, и автоматически применяет эти манифесты к кластеру, гарантируя, что состояние кластера соответствует тому, что определено в Git."
+      },
+      {
+        q: "Что происходит при обнаружении расхождения (drift) в системе, управляемой GitOps?",
+        options: [
+          "Отправляется оповещение, но никаких действий не предпринимается",
+          "Система отключается в целях безопасности",
+          "Оператор автоматически выполняет согласование для приведения в соответствие с желаемым состоянием в Git",
+          "Всегда требуется ручное вмешательство"
+        ],
+        answer: 2,
+        explanation: "При обнаружении расхождения (фактическое состояние отличается от желаемого в Git) оператор GitOps автоматически пытается согласовать систему, возвращая ее в соответствие с желаемым состоянием. Это обеспечивает возможности самовосстановления."
+      },
+      {
+        q: "Верно или Неверно: Желаемое состояние системы с неизменяемыми версиями должно храниться декларативно, а программный агент согласовывает фактическое состояние с этим желаемым состоянием.",
+        options: ["Верно", "Неверно"],
+        answer: 0,
+        explanation: "Это утверждение точно резюмирует GitOps в одном предложении, объединяя ключевые принципы: декларативное хранение, неизменяемые версии и непрерывное согласование программным агентом."
+      }
+    ]
+  }
+];
+
+let globalQIndex = 0;
+
+function renderQuiz() {
+  const container = document.getElementById('quiz');
+  let html = '';
+  globalQIndex = 0;
+
+  sections.forEach((section, si) => {
+    html += `<h2 class="section-title">${section.title} (${section.points} баллов)</h2>`;
+    const pointsPerQ = section.points / section.questions.length;
+
+    section.questions.forEach((q, qi) => {
+      globalQIndex++;
+      const qId = `q${si}_${qi}`;
+      html += `<div class="question" id="${qId}_card">
+        <div class="question-header">
+          <span class="question-number">Вопрос ${globalQIndex}</span>
+          <span class="points">${pointsPerQ} баллов</span>
+        </div>
+        <p class="question-text">${q.q}</p>
+        <ul class="options">`;
+
+      q.options.forEach((opt, oi) => {
+        html += `<li id="${qId}_opt${oi}" onclick="selectOption('${qId}', ${oi}, ${q.options.length})">
+          <label><input type="radio" name="${qId}" value="${oi}"> ${opt}</label>
+        </li>`;
+      });
+
+      html += `</ul>
+        <div class="explanation" id="${qId}_exp">
+          <strong>${q.options[q.answer]}</strong><br>${q.explanation}
+        </div>
+      </div>`;
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+function selectOption(qId, selected, total) {
+  for (let i = 0; i < total; i++) {
+    document.getElementById(`${qId}_opt${i}`).classList.remove('selected');
+  }
+  document.getElementById(`${qId}_opt${selected}`).classList.add('selected');
+  document.querySelector(`input[name="${qId}"][value="${selected}"]`).checked = true;
+}
+
+function submitQuiz() {
+  let totalScore = 0;
+  let maxScore = 0;
+  let sectionScores = [];
+  let unanswered = 0;
+
+  sections.forEach((section, si) => {
+    const pointsPerQ = section.points / section.questions.length;
+    let sectionScore = 0;
+    maxScore += section.points;
+
+    section.questions.forEach((q, qi) => {
+      const qId = `q${si}_${qi}`;
+      const card = document.getElementById(`${qId}_card`);
+      const exp = document.getElementById(`${qId}_exp`);
+      const selected = document.querySelector(`input[name="${qId}"]:checked`);
+
+      card.classList.remove('correct', 'incorrect');
+      exp.classList.remove('show', 'correct-exp', 'incorrect-exp');
+
+      if (!selected) {
+        unanswered++;
+        card.classList.add('incorrect');
+        exp.classList.add('show', 'incorrect-exp');
+        return;
+      }
+
+      const val = parseInt(selected.value);
+      if (val === q.answer) {
+        sectionScore += pointsPerQ;
+        card.classList.add('correct');
+        exp.classList.add('show', 'correct-exp');
+      } else {
+        card.classList.add('incorrect');
+        exp.classList.add('show', 'incorrect-exp');
+      }
+    });
+
+    totalScore += sectionScore;
+    sectionScores.push({ title: section.title, score: sectionScore, max: section.points });
+  });
+
+  if (unanswered > 0) {
+    const warn = document.getElementById('unanswered');
+    warn.textContent = `${unanswered} вопрос(ов) без ответа (засчитаны как неправильные).`;
+    warn.classList.add('show');
+  }
+
+  showResults(totalScore, maxScore, sectionScores);
+}
+
+function showResults(score, max, sectionScores) {
+  const pct = Math.round((score / max) * 100);
+  let level, levelClass, desc;
+
+  if (pct >= 90) {
+    level = 'Эксперт GitOps'; levelClass = 'score-expert';
+    desc = 'Исключительное понимание! Вы готовы руководить инициативами GitOps и консультировать других по стратегиям реализации.';
+  } else if (pct >= 80) {
+    level = 'Продвинутый практик'; levelClass = 'score-advanced';
+    desc = 'Хорошее понимание концепций GitOps. Просмотрите области, в которых вы ошиблись, чтобы закрепить свои знания.';
+  } else if (pct >= 70) {
+    level = 'Средний уровень'; levelClass = 'score-intermediate';
+    desc = 'Прочная основа принципов GitOps. Углубите свои знания в тех областях, где у вас возникли трудности.';
+  } else if (pct >= 60) {
+    level = 'Новичок'; levelClass = 'score-basic';
+    desc = 'Вы понимаете основы, но вам нужно больше практики. Изучите материалы курса и пройдите тест еще раз.';
+  } else {
+    level = 'Начинающий'; levelClass = 'score-beginner';
+    desc = 'Найдите время, чтобы внимательно изучить вводные материалы по GitOps. Не волнуйтесь — концепции GitOps требуют практики!';
+  }
+
+  let breakdownHTML = '';
+  sectionScores.forEach(s => {
+    const sPct = Math.round((s.score / s.max) * 100);
+    breakdownHTML += `<div class="breakdown-row">
+      <span class="section-name">${s.title.replace(/Раздел \d+: /, '')}</span>
+      <span>${s.score}/${s.max} (${sPct}%)</span>
+    </div>`;
+  });
+
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = `
+    <div class="score-circle ${levelClass}">
+      ${pct}%
+      <span class="label">${score}/${max}</span>
+    </div>
+    <div class="level-title">${level}</div>
+    <p class="level-desc">${desc}</p>
+    <div class="progress-bar">
+      <div class="progress-fill ${levelClass}" style="width: ${pct}%; background: currentColor;"></div>
+    </div>
+    <div class="breakdown">
+      <h3>Результаты по разделам</h3>
+      ${breakdownHTML}
+    </div>
+  `;
+  resultsDiv.classList.add('show');
+  resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetQuiz() {
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('unanswered').classList.remove('show');
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuiz();
+</script>
+</body>
+</html>

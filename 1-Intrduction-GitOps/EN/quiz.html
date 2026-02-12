@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitOps Quiz</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .question.correct { border-color: var(--green); }
+  .question.incorrect { border-color: var(--red); }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .question-number { font-weight: 600; font-size: 1.05rem; }
+  .points { color: var(--muted); font-size: 0.85rem; }
+  .question-text { margin-bottom: 1rem; font-size: 1rem; }
+  .options { list-style: none; }
+  .options li {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .options li:hover { background: #1c2333; }
+  .options li.selected {
+    background: #1c2333;
+    border-color: var(--accent);
+  }
+  .options input[type="radio"] { display: none; }
+  .options label {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation.correct-exp { background: rgba(63, 185, 80, 0.1); border: 1px solid rgba(63, 185, 80, 0.3); }
+  .explanation.incorrect-exp { background: rgba(248, 81, 73, 0.1); border: 1px solid rgba(248, 81, 73, 0.3); }
+  .btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 2rem;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-secondary { background: var(--border); color: var(--text); margin-left: 1rem; }
+  .results {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+    display: none;
+  }
+  .results.show { display: block; }
+  .score-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem auto;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+  .score-circle .label { font-size: 0.8rem; font-weight: 400; color: var(--muted); }
+  .score-expert { border: 4px solid var(--green); color: var(--green); }
+  .score-advanced { border: 4px solid #58a6ff; color: #58a6ff; }
+  .score-intermediate { border: 4px solid var(--yellow); color: var(--yellow); }
+  .score-basic { border: 4px solid #f0883e; color: #f0883e; }
+  .score-beginner { border: 4px solid var(--red); color: var(--red); }
+  .level-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .level-desc { color: var(--muted); margin-bottom: 1.5rem; }
+  .breakdown { text-align: left; margin-top: 1.5rem; }
+  .breakdown h3 { margin-bottom: 0.75rem; font-size: 1.1rem; }
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+  .breakdown-row .section-name { color: var(--muted); }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-top: 1.5rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+  .unanswered-warning {
+    color: var(--yellow);
+    margin-top: 1rem;
+    display: none;
+  }
+  .unanswered-warning.show { display: block; }
+  .nav-links {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+  }
+  .nav-links a { color: var(--accent); text-decoration: none; }
+  .nav-links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>GitOps Quiz</h1>
+  <p class="subtitle">Test your understanding of GitOps principles, practices, and implementation strategies. 20 questions, 100 points total.</p>
+
+  <div id="quiz"></div>
+
+  <div id="unanswered" class="unanswered-warning"></div>
+
+  <button class="btn btn-primary" onclick="submitQuiz()">Show Results</button>
+  <button class="btn btn-secondary" onclick="resetQuiz()">Reset</button>
+
+  <div id="results" class="results"></div>
+
+  <div class="nav-links">
+    <a href="../../README.md">&larr; Back to Course Overview</a>
+    <a href="../../2-Introduction-to-ArgoCD/EN/IntroductionToArgoCD.md">Next: Introduction to ArgoCD &rarr;</a>
+  </div>
+</div>
+
+<script>
+const sections = [
+  {
+    title: "Section 1: Core GitOps Principles",
+    points: 25,
+    questions: [
+      {
+        q: "Which principle states that the desired system state must be expressed declaratively?",
+        options: [
+          "Pulled Automatically",
+          "Declarative",
+          "Continuously Reconciled",
+          "Versioned and Immutable"
+        ],
+        answer: 1,
+        explanation: "The Declarative principle requires that a system managed by GitOps must have its desired state expressed declaratively — defining what should exist rather than how to achieve it."
+      },
+      {
+        q: "What does the \"Versioned and Immutable\" principle ensure in GitOps?",
+        options: [
+          "Faster deployments to production",
+          "Automatic scaling of applications",
+          "Complete version history with immutable records of all changes",
+          "Reduced infrastructure costs"
+        ],
+        answer: 2,
+        explanation: "The Versioned and Immutable principle ensures that desired state is stored in a way that supports versioning, immutability of versions, and retains a complete version history. This provides audit trails, rollback capabilities, and historical context."
+      },
+      {
+        q: "In GitOps, how do software agents obtain the desired state declarations?",
+        options: [
+          "They push changes from CI/CD pipelines",
+          "They automatically pull from the source repository",
+          "System administrators manually configure them",
+          "They generate the desired state dynamically"
+        ],
+        answer: 1,
+        explanation: "The \"Pulled Automatically\" principle states that software agents automatically pull the desired state declarations from the source. This is a fundamental difference from push-based deployment models."
+      },
+      {
+        q: "What does \"Continuously Reconciled\" mean in the context of GitOps?",
+        options: [
+          "Regular team meetings to discuss infrastructure",
+          "Periodic manual checks of system configuration",
+          "Software agents observe actual state and continuously apply desired state",
+          "Automated billing reconciliation for cloud resources"
+        ],
+        answer: 2,
+        explanation: "Continuously Reconciled means that software agents continuously observe the actual system state and attempt to apply the desired state. This enables self-healing and automatic drift correction."
+      },
+      {
+        q: "True or False: In GitOps, Git serves as the single source of truth for both infrastructure and application definitions.",
+        options: ["True", "False"],
+        answer: 0,
+        explanation: "One of the core tenets of GitOps is that Git is the single source of truth. All infrastructure and application configuration is stored in Git repositories, making them the authoritative source for desired state."
+      }
+    ]
+  },
+  {
+    title: "Section 2: Push vs. Pull Models",
+    points: 20,
+    questions: [
+      {
+        q: "What is a key characteristic of the traditional push deployment model?",
+        options: [
+          "GitOps operator pulls changes automatically",
+          "CI/CD pipeline directly applies manifests to the Kubernetes API",
+          "No credentials are required for deployments",
+          "The system self-heals automatically"
+        ],
+        answer: 1,
+        explanation: "In the push model, the CI/CD pipeline has write access to the cluster and directly pushes changes by applying manifests to the Kubernetes API. This is the traditional approach before GitOps."
+      },
+      {
+        q: "Which statement best describes the pull model used in GitOps?",
+        options: [
+          "CI/CD pushes changes directly to the cluster",
+          "Developers manually deploy changes",
+          "A GitOps operator monitors Git and pulls changes to apply them",
+          "Changes are deployed through kubectl commands"
+        ],
+        answer: 2,
+        explanation: "The pull model is fundamental to GitOps. A GitOps operator running in the cluster continuously monitors the Git repository and automatically pulls changes, applying them to maintain the desired state."
+      },
+      {
+        q: "What security advantage does the pull model provide over the push model?",
+        options: [
+          "Faster deployment speeds",
+          "No write credentials or direct cluster access needed in CI/CD pipeline",
+          "Automatic security scanning of containers",
+          "Built-in encryption of all data"
+        ],
+        answer: 1,
+        explanation: "A major security benefit of the pull model is that the CI/CD pipeline doesn't need credentials with write access to the cluster. The source of truth comes from Git, and a service within the cluster applies the changes, following the principle of least privilege."
+      },
+      {
+        q: "True or False: The push model is considered \"declarative\" because it defines the exact steps to achieve deployment.",
+        options: ["True", "False"],
+        answer: 1,
+        explanation: "The push model is actually considered \"imperative\" because it defines a sequence of steps to achieve the end goal. The pull model (GitOps) is declarative because you define what should exist, not how to achieve it."
+      }
+    ]
+  },
+  {
+    title: "Section 3: GitOps and Continuous Delivery",
+    points: 20,
+    questions: [
+      {
+        q: "How does GitOps relate to Continuous Delivery?",
+        options: [
+          "They are competing practices that cannot be used together",
+          "GitOps manages environment state while CD automates the flow of changes",
+          "GitOps has replaced the need for Continuous Delivery",
+          "They are identical practices with different names"
+        ],
+        answer: 1,
+        explanation: "GitOps and CD are complementary. CD focuses on automating the software release pipeline (build, test, deliver), while GitOps provides the deployment and management mechanism. They work together for faster, higher-quality software delivery."
+      },
+      {
+        q: "True or False: GitOps and Continuous Delivery are unrelated methodologies that serve different purposes.",
+        options: ["True", "False"],
+        answer: 1,
+        explanation: "GitOps and CD are related and complementary practices. They work together to accomplish the same objective of delivering software faster and with better quality through automation and continuous feedback."
+      },
+      {
+        q: "In a combined CD and GitOps workflow, what triggers the GitOps operator to act?",
+        options: [
+          "Manual approval from operations team",
+          "Changes detected in the GitOps configuration repository",
+          "Direct commands from CI/CD pipeline",
+          "Scheduled cron jobs"
+        ],
+        answer: 1,
+        explanation: "The GitOps operator continuously monitors the Git configuration repository. When it detects changes (new commits), it automatically pulls those changes and applies them to the cluster, reconciling the actual state with the desired state."
+      },
+      {
+        q: "What is the primary focus of Continuous Delivery in the CD/GitOps relationship?",
+        options: [
+          "Managing infrastructure state",
+          "Monitoring application performance",
+          "Automating the software release pipeline",
+          "Configuring network policies"
+        ],
+        answer: 2,
+        explanation: "In the CD/GitOps relationship, Continuous Delivery focuses on automating the software release pipeline — building, testing, and preparing software for deployment. GitOps then handles the actual deployment and state management."
+      }
+    ]
+  },
+  {
+    title: "Section 4: Benefits and Implementation",
+    points: 20,
+    questions: [
+      {
+        q: "Which benefit does GitOps provide for disaster recovery?",
+        options: [
+          "Automatic backups to multiple clouds",
+          "Environments can be easily recreated from Git repository",
+          "Reduced hardware costs",
+          "Faster network speeds"
+        ],
+        answer: 1,
+        explanation: "Because the entire desired state is stored in Git with complete history, environments can be easily and quickly recreated from the repository at any time. This makes disaster recovery straightforward and reliable."
+      },
+      {
+        q: "How does GitOps improve collaboration among team members?",
+        options: [
+          "By eliminating the need for communication",
+          "Through automated meeting scheduling",
+          "Via Pull Requests that enable review similar to code changes",
+          "By assigning tasks automatically"
+        ],
+        answer: 2,
+        explanation: "GitOps improves collaboration by using Pull/Merge Requests for infrastructure changes, just like code changes. This enables familiar review processes, discussion, and quality control before changes are applied."
+      },
+      {
+        q: "True or False: GitOps is only suitable for large enterprises with complex infrastructure needs.",
+        options: ["True", "False"],
+        answer: 1,
+        explanation: "GitOps is valuable for organizations of all sizes, from small startups to large enterprises. The principles of version control, automation, and declarative configuration benefit any infrastructure complexity level."
+      },
+      {
+        q: "What advantage does declarative configuration provide in GitOps?",
+        options: [
+          "Faster execution time",
+          "Lower licensing costs",
+          "Deployments become repeatable and environments easily recreated",
+          "Automatic scaling decisions"
+        ],
+        answer: 2,
+        explanation: "Declarative configuration means you define what should exist, making deployments inherently repeatable. Since you're declaring desired state rather than steps to achieve it, environments can be easily recreated at any time from the Git repository."
+      }
+    ]
+  },
+  {
+    title: "Section 5: Advanced Concepts",
+    points: 15,
+    questions: [
+      {
+        q: "In Kubernetes context, what does a GitOps operator do?",
+        options: [
+          "Creates new container images",
+          "Monitors Git repo and applies Kubernetes manifests to the cluster",
+          "Writes application code",
+          "Manages developer access permissions"
+        ],
+        answer: 1,
+        explanation: "In the Kubernetes context, a GitOps operator continuously monitors the Git repository containing Kubernetes manifests and automatically applies those manifests to the cluster, ensuring the cluster state matches what's defined in Git."
+      },
+      {
+        q: "What happens when drift is detected in a GitOps-managed system?",
+        options: [
+          "An alert is sent but no action is taken",
+          "The system shuts down for safety",
+          "The operator automatically reconciles to match the desired state in Git",
+          "Manual intervention is always required"
+        ],
+        answer: 2,
+        explanation: "When drift is detected (actual state differs from desired state in Git), the GitOps operator automatically attempts to reconcile the system, bringing it back in line with the desired state. This provides self-healing capabilities."
+      },
+      {
+        q: "True or False: The system's desired state with immutable versions must be stored declaratively, and a software agent reconciles the actual state with this desired state.",
+        options: ["True", "False"],
+        answer: 0,
+        explanation: "This statement accurately summarizes GitOps in one sentence, combining the key principles: declarative storage, immutable versions, and continuous reconciliation by a software agent."
+      }
+    ]
+  }
+];
+
+let globalQIndex = 0;
+
+function renderQuiz() {
+  const container = document.getElementById('quiz');
+  let html = '';
+  globalQIndex = 0;
+
+  sections.forEach((section, si) => {
+    html += `<h2 class="section-title">${section.title} (${section.points} points)</h2>`;
+    const pointsPerQ = section.points / section.questions.length;
+
+    section.questions.forEach((q, qi) => {
+      globalQIndex++;
+      const qId = `q${si}_${qi}`;
+      html += `<div class="question" id="${qId}_card">
+        <div class="question-header">
+          <span class="question-number">Question ${globalQIndex}</span>
+          <span class="points">${pointsPerQ} points</span>
+        </div>
+        <p class="question-text">${q.q}</p>
+        <ul class="options">`;
+
+      q.options.forEach((opt, oi) => {
+        html += `<li id="${qId}_opt${oi}" onclick="selectOption('${qId}', ${oi}, ${q.options.length})">
+          <label><input type="radio" name="${qId}" value="${oi}"> ${opt}</label>
+        </li>`;
+      });
+
+      html += `</ul>
+        <div class="explanation" id="${qId}_exp">
+          <strong>${q.options[q.answer]}</strong><br>${q.explanation}
+        </div>
+      </div>`;
+    });
+  });
+
+  container.innerHTML = html;
+}
+
+function selectOption(qId, selected, total) {
+  for (let i = 0; i < total; i++) {
+    document.getElementById(`${qId}_opt${i}`).classList.remove('selected');
+  }
+  document.getElementById(`${qId}_opt${selected}`).classList.add('selected');
+  document.querySelector(`input[name="${qId}"][value="${selected}"]`).checked = true;
+}
+
+function submitQuiz() {
+  let totalScore = 0;
+  let maxScore = 0;
+  let sectionScores = [];
+  let unanswered = 0;
+
+  sections.forEach((section, si) => {
+    const pointsPerQ = section.points / section.questions.length;
+    let sectionScore = 0;
+    maxScore += section.points;
+
+    section.questions.forEach((q, qi) => {
+      const qId = `q${si}_${qi}`;
+      const card = document.getElementById(`${qId}_card`);
+      const exp = document.getElementById(`${qId}_exp`);
+      const selected = document.querySelector(`input[name="${qId}"]:checked`);
+
+      card.classList.remove('correct', 'incorrect');
+      exp.classList.remove('show', 'correct-exp', 'incorrect-exp');
+
+      if (!selected) {
+        unanswered++;
+        card.classList.add('incorrect');
+        exp.classList.add('show', 'incorrect-exp');
+        return;
+      }
+
+      const val = parseInt(selected.value);
+      if (val === q.answer) {
+        sectionScore += pointsPerQ;
+        card.classList.add('correct');
+        exp.classList.add('show', 'correct-exp');
+      } else {
+        card.classList.add('incorrect');
+        exp.classList.add('show', 'incorrect-exp');
+      }
+    });
+
+    totalScore += sectionScore;
+    sectionScores.push({ title: section.title, score: sectionScore, max: section.points });
+  });
+
+  if (unanswered > 0) {
+    const warn = document.getElementById('unanswered');
+    warn.textContent = `${unanswered} question(s) left unanswered (counted as incorrect).`;
+    warn.classList.add('show');
+  }
+
+  showResults(totalScore, maxScore, sectionScores);
+}
+
+function showResults(score, max, sectionScores) {
+  const pct = Math.round((score / max) * 100);
+  let level, levelClass, desc;
+
+  if (pct >= 90) {
+    level = 'GitOps Expert'; levelClass = 'score-expert';
+    desc = "Exceptional understanding! You're ready to lead GitOps initiatives and mentor others in implementation strategies.";
+  } else if (pct >= 80) {
+    level = 'Advanced Practitioner'; levelClass = 'score-advanced';
+    desc = 'Strong grasp of GitOps concepts. Review the areas where you missed questions to solidify your expertise.';
+  } else if (pct >= 70) {
+    level = 'Intermediate'; levelClass = 'score-intermediate';
+    desc = 'Solid foundation in GitOps principles. Consider deeper study of the topics you found challenging.';
+  } else if (pct >= 60) {
+    level = 'Novice'; levelClass = 'score-basic';
+    desc = 'You understand the basics but need more practice. Review the course materials and retake the quiz.';
+  } else {
+    level = 'Beginner'; levelClass = 'score-beginner';
+    desc = "Take time to read through the GitOps introduction materials. Don't be discouraged — GitOps concepts take practice to fully grasp!";
+  }
+
+  let breakdownHTML = '';
+  sectionScores.forEach(s => {
+    const sPct = Math.round((s.score / s.max) * 100);
+    breakdownHTML += `<div class="breakdown-row">
+      <span class="section-name">${s.title.replace(/Section \d+: /, '')}</span>
+      <span>${s.score}/${s.max} (${sPct}%)</span>
+    </div>`;
+  });
+
+  const resultsDiv = document.getElementById('results');
+  resultsDiv.innerHTML = `
+    <div class="score-circle ${levelClass}">
+      ${pct}%
+      <span class="label">${score}/${max}</span>
+    </div>
+    <div class="level-title">${level}</div>
+    <p class="level-desc">${desc}</p>
+    <div class="progress-bar">
+      <div class="progress-fill ${levelClass}" style="width: ${pct}%; background: currentColor;"></div>
+    </div>
+    <div class="breakdown">
+      <h3>Score Breakdown</h3>
+      ${breakdownHTML}
+    </div>
+  `;
+  resultsDiv.classList.add('show');
+  resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetQuiz() {
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('unanswered').classList.remove('show');
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
