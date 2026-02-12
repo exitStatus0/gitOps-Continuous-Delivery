@@ -655,5 +655,5 @@ Write-Host "ArgoCD Admin Password:"
 ## Next Steps
 
 Once all prerequisites are installed and verified, proceed to the Practice Lab to start working with ArgoCD:
-- [English Version](EN/PracticeLab.md)
-- [Ukrainian Version (Українська)](UA/ПрактичнаРобота.md)
+- [English Version](PracticeLab.md)
+- [Ukrainian Version (Українська)](../UA/ПрактичнаРобота.md)
