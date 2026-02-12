@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArgoCD Application CRD Quiz</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .question.correct { border-color: var(--green); }
+  .question.incorrect { border-color: var(--red); }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .question-number { font-weight: 600; font-size: 1.05rem; }
+  .points { color: var(--muted); font-size: 0.85rem; }
+  .question-text { margin-bottom: 1rem; font-size: 1rem; }
+  .options { list-style: none; }
+  .options li {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .options li:hover { background: #1c2333; }
+  .options li.selected { background: #1c2333; border-color: var(--accent); }
+  .options input[type="radio"] { display: none; }
+  .options label { cursor: pointer; display: block; width: 100%; }
+  .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation.correct-answer { background: rgba(63,185,80,0.1); border-left: 3px solid var(--green); }
+  .explanation.incorrect-answer { background: rgba(248,81,73,0.1); border-left: 3px solid var(--red); }
+  .btn-row { display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+  button {
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  button:hover { background: #1c2333; border-color: var(--accent); }
+  button.primary { background: #238636; border-color: #2ea043; }
+  button.primary:hover { background: #2ea043; }
+  .results {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    display: none;
+  }
+  .results.show { display: block; }
+  .score-display { font-size: 3rem; font-weight: 700; text-align: center; margin: 1rem 0; }
+  .score-bar { width: 100%; height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; margin: 1rem 0; }
+  .score-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
+  .level { text-align: center; font-size: 1.2rem; font-weight: 600; margin: 1rem 0; }
+  .section-scores { margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .section-score-row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.95rem; }
+  .section-score-row .label { color: var(--muted); }
+  .nav-links {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .nav-links a { color: var(--accent); text-decoration: none; }
+  .nav-links a:hover { text-decoration: underline; }
+  code { background: var(--border); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>ArgoCD Application CRD Quiz</h1>
+  <p class="subtitle">20 questions &middot; 100 points &middot; Test your understanding of Application CRDs</p>
+
+  <!-- Section 1 -->
+  <h2 class="section-title">Section 1: Application CRD Fundamentals (25 pts)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 1</span><span class="points">5 pts</span></div>
+    <div class="question-text">What is an ArgoCD Application CRD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="a">A) A Docker image for deploying applications</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="b">B) A Kubernetes Custom Resource that represents a deployed application</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="c">C) A command-line tool for managing ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="d">D) A monitoring service for Kubernetes clusters</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; An ArgoCD Application is a Kubernetes Custom Resource (CR) that contains all the information ArgoCD needs to deploy and manage an application.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 2</span><span class="points">5 pts</span></div>
+    <div class="question-text">Which field in the Application CRD is mandatory and defines where the manifests are sourced from?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="a">A) <code>spec.destination</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="b">B) <code>spec.syncPolicy</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="c">C) <code>spec.source</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="d">D) <code>spec.project</code></label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; The <code>spec.source</code> field is mandatory and defines where ArgoCD should get the manifests from (Git repository, Helm repository, etc.).</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 3</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: The Application CRD can only deploy plain YAML manifests.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: False</strong> &mdash; ArgoCD Applications support Helm, Kustomize, Jsonnet, plain YAML/JSON, and custom plugins.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 4</span><span class="points">5 pts</span></div>
+    <div class="question-text">How does ArgoCD track resources deployed by an Application?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="a">A) By storing them in a database</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="b">B) By adding labels or annotations to the resources</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="c">C) By creating a ConfigMap with resource lists</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="d">D) By querying the Kubernetes API every time</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; ArgoCD adds labels or annotations to all deployed resources. This allows it to monitor health, detect drift, perform cleanup, and show relationships in the UI.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 5</span><span class="points">5 pts</span></div>
+    <div class="question-text">Which of the following is NOT a supported config management tool in ArgoCD Applications?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="a">A) Helm</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="b">B) Kustomize</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="c">C) Terraform</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="d">D) Jsonnet</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; ArgoCD natively supports Helm, Kustomize, Jsonnet, and plain YAML, but not Terraform. Terraform could be integrated via a custom Config Management Plugin.</div>
+  </div>
+
+  <!-- Section 2 -->
+  <h2 class="section-title">Section 2: Source Configuration (20 pts)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Question 6</span><span class="points">5 pts</span></div>
+    <div class="question-text">In the <code>source</code> field, what does the <code>targetRevision</code> specify?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="a">A) The Kubernetes API version</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="b">B) The Git branch, tag, or commit to track</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="c">C) The ArgoCD version requirement</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="d">D) The manifest file version</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; <code>targetRevision</code> specifies which version of the source to use: a branch name, tag, or specific commit SHA for Git repos, or chart version for Helm repos.</div>
+  </div>
+
+  <div class="question" data-correct="a" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Question 7</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: ArgoCD can automatically detect which config management tool to use based on the files in the repository.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: True</strong> &mdash; ArgoCD performs automatic tool detection: <code>Chart.yaml</code> &rarr; Helm, <code>kustomization.yaml</code> &rarr; Kustomize, <code>*.jsonnet</code> &rarr; Jsonnet, otherwise plain YAML.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Question 8</span><span class="points">5 pts</span></div>
+    <div class="question-text">If a repository contains a <code>Chart.yaml</code> file, which tool will ArgoCD automatically detect?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="a">A) Kustomize</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="b">B) Plain YAML</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="c">C) Helm</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="d">D) Jsonnet</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; <code>Chart.yaml</code> is the standard indicator of a Helm chart. ArgoCD will automatically detect this and use Helm to render manifests.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Question 9</span><span class="points">5 pts</span></div>
+    <div class="question-text">What is the purpose of specifying <code>valueFiles</code> in the Helm source configuration?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="a">A) To list all Helm charts in the repository</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="b">B) To specify which values files to use for rendering the Helm chart</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="c">C) To define the Helm version</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="d">D) To configure Helm repository credentials</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; <code>valueFiles</code> specifies which values files to use when rendering the chart, enabling different configurations per environment (e.g., <code>values-production.yaml</code>).</div>
+  </div>
+
+  <!-- Section 3 -->
+  <h2 class="section-title">Section 3: Destination Configuration (15 pts)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Question 10</span><span class="points">5 pts</span></div>
+    <div class="question-text">How can you specify the target cluster in the <code>destination</code> field?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="a">A) Only by cluster name</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="b">B) Only by server URL</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="c">C) Either by cluster name or server URL</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="d">D) By namespace only</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; ArgoCD lets you specify the target cluster by name (e.g., <code>name: 'production'</code>) or by server URL (e.g., <code>server: 'https://...'</code>).</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Question 11</span><span class="points">5 pts</span></div>
+    <div class="question-text">What server URL should be used to deploy to the same cluster where ArgoCD is running?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="a">A) <code>localhost:8080</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="b">B) <code>https://kubernetes.default.svc</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="c">C) <code>http://argocd-server</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="d">D) <code>https://127.0.0.1:6443</code></label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; <code>https://kubernetes.default.svc</code> is the standard in-cluster Kubernetes API server address for deploying to the same cluster where ArgoCD runs.</div>
+  </div>
+
+  <div class="question" data-correct="a" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Question 12</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: Cluster-scoped resources like ClusterRoles ignore the namespace specified in the destination field.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: True</strong> &mdash; Cluster-scoped resources exist at the cluster level and are not confined to a namespace. Only namespace-scoped resources (Deployments, Services, etc.) use the destination namespace.</div>
+  </div>
+
+  <!-- Section 4 -->
+  <h2 class="section-title">Section 4: Sync Policies and Behavior (25 pts)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 13</span><span class="points">5 pts</span></div>
+    <div class="question-text">What does it mean to &ldquo;sync&rdquo; an Application?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="a">A) Create a backup of the application</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="b">B) Reconcile the live cluster state with the desired state from Git</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="c">C) Update the ArgoCD version</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="d">D) Synchronize multiple clusters together</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; Syncing means reconciling the actual state in the cluster with the desired state defined in Git &mdash; fetching manifests, comparing, and applying changes.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 14</span><span class="points">5 pts</span></div>
+    <div class="question-text">Which sync policy configuration enables automatic synchronization when changes are detected in Git?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="a">A) <code>syncPolicy: manual: {}</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="b">B) <code>syncPolicy: automated: {}</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="c">C) <code>syncPolicy: scheduled: {}</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="d">D) <code>syncPolicy: continuous: {}</code></label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; Setting <code>syncPolicy.automated: {}</code> enables auto-sync. There is no <code>manual</code>, <code>scheduled</code>, or <code>continuous</code> sync policy type in ArgoCD.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 15</span><span class="points">5 pts</span></div>
+    <div class="question-text">What does the <code>selfHeal: true</code> option do?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="a">A) Automatically restarts failed pods</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="b">B) Automatically reverts manual changes made directly to the cluster</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="c">C) Heals network connectivity issues</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="d">D) Repairs corrupted manifests in Git</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; <code>selfHeal: true</code> enables automatic drift correction. If someone manually changes a resource via <code>kubectl</code>, ArgoCD will detect the drift and revert it to match Git.</div>
+  </div>
+
+  <div class="question" data-correct="a" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 16</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: The <code>prune: true</code> option will automatically delete resources from the cluster when they are removed from Git.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: True</strong> &mdash; When <code>prune: true</code> is set, ArgoCD automatically deletes resources from the cluster when they are removed from the Git repository.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 17</span><span class="points">5 pts</span></div>
+    <div class="question-text">What does the <code>CreateNamespace=true</code> sync option do?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="a">A) Creates a new Kubernetes cluster</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="b">B) Creates the destination namespace if it doesn&rsquo;t exist</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="c">C) Creates a namespace for ArgoCD itself</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="d">D) Creates backup namespaces for disaster recovery</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; <code>CreateNamespace=true</code> automatically creates the destination namespace in the target cluster if it doesn&rsquo;t already exist.</div>
+  </div>
+
+  <!-- Section 5 -->
+  <h2 class="section-title">Section 5: Application Lifecycle and States (15 pts)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Question 18</span><span class="points">5 pts</span></div>
+    <div class="question-text">What does the &ldquo;OutOfSync&rdquo; status mean?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="a">A) The Application is not running</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="b">B) The live state differs from the desired state in Git</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="c">C) The sync operation failed</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="d">D) The Application is waiting for manual approval</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; &ldquo;OutOfSync&rdquo; means the live state of resources in the cluster doesn&rsquo;t match the desired state defined in Git.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Question 19</span><span class="points">5 pts</span></div>
+    <div class="question-text">Which health status indicates that all resources are running properly?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="a">A) Synced</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="b">B) Progressing</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="c">C) Healthy</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="d">D) Active</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; &ldquo;Healthy&rdquo; indicates all resources are running properly. &ldquo;Synced&rdquo; is a sync status, &ldquo;Progressing&rdquo; means resources are being updated, and &ldquo;Active&rdquo; is not a valid ArgoCD health status.</div>
+  </div>
+
+  <div class="question" data-correct="a" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Question 20</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: An Application can be &ldquo;Synced&rdquo; but still be &ldquo;Degraded&rdquo; in health status.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: True</strong> &mdash; Sync status and health status are independent. A Deployment with a broken container image will be &ldquo;Synced&rdquo; (matches Git) but &ldquo;Degraded&rdquo; (pods in CrashLoopBackOff).</div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="primary" onclick="showResults()">Show Results</button>
+    <button onclick="resetQuiz()">Reset</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <h2 style="text-align:center;margin-bottom:0.5rem;">Your Results</h2>
+    <div class="score-display" id="score-display">0 / 100</div>
+    <div class="score-bar"><div class="score-fill" id="score-fill"></div></div>
+    <div class="level" id="level"></div>
+    <div class="section-scores" id="section-scores"></div>
+  </div>
+
+  <div class="nav-links">
+    <a href="IntroductionToArgoApplications.md">&larr; Back to Module</a> &nbsp;&middot;&nbsp;
+    <a href="../../README.md">Course Home</a> &nbsp;&middot;&nbsp;
+    <a href="../../4-Practice/PrerequisitesInstallation.md">Next Module &rarr;</a>
+  </div>
+</div>
+
+<script>
+function sel(li) {
+  const opts = li.closest('.options');
+  opts.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+  li.classList.add('selected');
+  li.querySelector('input').checked = true;
+}
+
+function showResults() {
+  const questions = document.querySelectorAll('.question');
+  let total = 0, earned = 0;
+  const sections = {};
+  const sectionNames = {
+    '1': 'CRD Fundamentals',
+    '2': 'Source Configuration',
+    '3': 'Destination Configuration',
+    '4': 'Sync Policies & Behavior',
+    '5': 'Lifecycle & States'
+  };
+  const sectionMax = {'1':25,'2':20,'3':15,'4':25,'5':15};
+
+  questions.forEach(q => {
+    const correct = q.dataset.correct;
+    const pts = parseInt(q.dataset.points);
+    const sec = q.dataset.section;
+    total += pts;
+    if (!sections[sec]) sections[sec] = {earned:0, max:sectionMax[sec]};
+
+    const selected = q.querySelector('input:checked');
+    const expl = q.querySelector('.explanation');
+
+    q.classList.remove('correct','incorrect');
+    expl.classList.remove('correct-answer','incorrect-answer');
+
+    if (selected) {
+      if (selected.value === correct) {
+        earned += pts;
+        sections[sec].earned += pts;
+        q.classList.add('correct');
+        expl.classList.add('show','correct-answer');
+      } else {
+        q.classList.add('incorrect');
+        expl.classList.add('show','incorrect-answer');
+      }
+    } else {
+      expl.classList.add('show','incorrect-answer');
+    }
+  });
+
+  const pct = Math.round(earned / total * 100);
+  document.getElementById('score-display').textContent = earned + ' / ' + total;
+  const fill = document.getElementById('score-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = pct >= 90 ? 'var(--green)' : pct >= 70 ? 'var(--accent)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+
+  let level = '', color = '';
+  if (pct >= 90) { level = 'Application CRD Expert'; color = 'var(--green)'; }
+  else if (pct >= 80) { level = 'Advanced Practitioner'; color = 'var(--accent)'; }
+  else if (pct >= 70) { level = 'Intermediate'; color = 'var(--accent)'; }
+  else if (pct >= 60) { level = 'Beginner'; color = 'var(--yellow)'; }
+  else { level = 'Novice'; color = 'var(--red)'; }
+
+  const lv = document.getElementById('level');
+  lv.textContent = level + ' (' + pct + '%)';
+  lv.style.color = color;
+
+  let html = '';
+  for (const s in sections) {
+    const sp = Math.round(sections[s].earned / sections[s].max * 100);
+    html += '<div class="section-score-row"><span class="label">' + sectionNames[s] + '</span><span>' + sections[s].earned + ' / ' + sections[s].max + ' (' + sp + '%)</span></div>';
+  }
+  document.getElementById('section-scores').innerHTML = html;
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.question').forEach(q => {
+    q.classList.remove('correct','incorrect');
+    q.querySelector('.explanation').classList.remove('show','correct-answer','incorrect-answer');
+    q.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+    q.querySelectorAll('input').forEach(i => i.checked = false);
+  });
+  document.getElementById('results').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

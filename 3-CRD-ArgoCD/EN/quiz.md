@@ -78,14 +78,10 @@ D) By querying the Kubernetes API every time
 ### Question 5 (5 points)
 Which of the following is NOT a supported config management tool in ArgoCD Applications?
 
-A) Helm  
-B) Kustomize  
-C) Terraform  
+A) Helm
+B) Kustomize
+C) Terraform
 D) Jsonnet
-
----
-
-## Section 2: Source Configuration (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -93,11 +89,11 @@ D) Jsonnet
 
 **Explanation:** While ArgoCD natively supports Helm (A), Kustomize (B), Jsonnet (D), and plain YAML, it does not natively support Terraform. However, you could potentially integrate Terraform using a custom Config Management Plugin (CMP), but it's not a built-in supported tool.
 
+</details>
+
 ---
 
 ## Section 2: Source Configuration (20 points)
-
-</details>
 
 ---
 ### Question 6 (5 points)
@@ -149,14 +145,10 @@ D) Jsonnet
 ### Question 9 (5 points)
 What is the purpose of specifying `valueFiles` in the Helm source configuration?
 
-A) To list all Helm charts in the repository  
-B) To specify which values files to use for rendering the Helm chart  
-C) To define the Helm version  
+A) To list all Helm charts in the repository
+B) To specify which values files to use for rendering the Helm chart
+C) To define the Helm version
 D) To configure Helm repository credentials
-
----
-
-## Section 3: Destination Configuration (15 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -164,11 +156,11 @@ D) To configure Helm repository credentials
 
 **Explanation:** The `valueFiles` field in the Helm source configuration specifies which values files from the repository should be used to override the default values when rendering the Helm chart. This allows you to have different configurations for different environments (e.g., `values-production.yaml`, `values-staging.yaml`).
 
+</details>
+
 ---
 
 ## Section 3: Destination Configuration (15 points)
-
-</details>
 
 ---
 ### Question 10 (5 points)
@@ -207,10 +199,6 @@ D) `https://127.0.0.1:6443`
 ---
 ### Question 12 (5 points)
 True or False: Cluster-scoped resources like ClusterRoles ignore the namespace specified in the destination field.
-
----
-
-## Section 4: Sync Policies and Behavior (25 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -218,11 +206,11 @@ True or False: Cluster-scoped resources like ClusterRoles ignore the namespace s
 
 **Explanation:** Cluster-scoped resources (such as ClusterRoles, ClusterRoleBindings, CustomResourceDefinitions, etc.) exist at the cluster level and are not confined to a namespace. Therefore, the `namespace` field in the destination configuration is ignored for these resources. Only namespace-scoped resources (like Deployments, Services, ConfigMaps) are created in the specified namespace.
 
+</details>
+
 ---
 
 ## Section 4: Sync Policies and Behavior (25 points)
-
-</details>
 
 ---
 ### Question 13 (5 points)
@@ -291,14 +279,10 @@ True or False: The `prune: true` option will automatically delete resources from
 ### Question 17 (5 points)
 What does the `CreateNamespace=true` sync option do?
 
-A) Creates a new Kubernetes cluster  
-B) Creates the destination namespace if it doesn't exist  
-C) Creates a namespace for ArgoCD itself  
+A) Creates a new Kubernetes cluster
+B) Creates the destination namespace if it doesn't exist
+C) Creates a namespace for ArgoCD itself
 D) Creates backup namespaces for disaster recovery
-
----
-
-## Section 5: Application Lifecycle and States (15 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -306,11 +290,11 @@ D) Creates backup namespaces for disaster recovery
 
 **Explanation:** The `CreateNamespace=true` sync option automatically creates the destination namespace in the target cluster if it doesn't already exist. This is useful for first-time deployments where the namespace hasn't been manually created yet. It doesn't create clusters (A), ArgoCD namespaces (C), or backup namespaces (D).
 
+</details>
+
 ---
 
 ## Section 5: Application Lifecycle and States (15 points)
-
-</details>
 
 ---
 ### Question 18 (5 points)
@@ -349,41 +333,6 @@ D) Active
 ---
 ### Question 20 (5 points)
 True or False: An Application can be "Synced" but still be "Degraded" in health status.
-
----
-
-## Total Score: _____ / 100
-
----
-
-## Grading Scale
-
-Calculate your percentage and find your level:
-
-- **90-100 points (90-100%)**: **ArgoCD Application Expert** - Outstanding! You have mastered ArgoCD Application CRDs and are ready to design complex deployment strategies.
-
-- **80-89 points (80-89%)**: **Advanced Practitioner** - Excellent knowledge of Applications. Review any missed concepts to perfect your expertise.
-
-- **70-79 points (70-79%)**: **Intermediate** - Good understanding of Application fundamentals. Study the areas where you had difficulties.
-
-- **60-69 points (60-69%)**: **Beginner** - You grasp the basics. Review the README materials more thoroughly, especially sync policies and lifecycle management.
-
-- **Below 60 points (<60%)**: **Novice** - Take time to carefully study the ArgoCD Application CRD materials and try the quiz again.
-
----
-
-**Next Steps:**
-1. Calculate your score (each correct answer is worth the points shown)
-2. Calculate your total score
-3. Review any sections where you had incorrect answers
-4. Create a test Application to practice what you've learned!
-
-**Hands-On Practice:**
-- Create a simple Application CRD for a demo app
-- Experiment with different sync policies
-- Test self-heal by manually modifying a deployed resource
-- Try deploying with Helm, Kustomize, and plain YAML
-- Observe Application states in the ArgoCD UI
 <details>
 <summary>Click to see answer</summary>
 
@@ -391,18 +340,17 @@ Calculate your percentage and find your level:
 
 **Explanation:** Sync status and health status are independent. An Application can be "Synced" (meaning the live state matches the desired state in Git) but "Degraded" in health (meaning some resources are failing, like pods in CrashLoopBackOff). For example, if Git defines a Deployment with a broken container image, ArgoCD will successfully sync it (Synced status) but the pods will fail (Degraded health).
 
+</details>
+
 ---
 
-## Scoring Section
+## Scoring
 
-**Calculate your score:**
-
-Count your correct answers and multiply by the points for each question:
-- Section 1: _____ / 25 points
-- Section 2: _____ / 20 points
-- Section 3: _____ / 15 points
-- Section 4: _____ / 25 points
-- Section 5: _____ / 15 points
+- Section 1 (Fundamentals): _____ / 25 points
+- Section 2 (Source Configuration): _____ / 20 points
+- Section 3 (Destination Configuration): _____ / 15 points
+- Section 4 (Sync Policies): _____ / 25 points
+- Section 5 (Lifecycle & States): _____ / 15 points
 
 **Total Score: _____ / 100 points**
 
@@ -410,87 +358,18 @@ Count your correct answers and multiply by the points for each question:
 
 ## Grading Scale
 
-**Your Proficiency Level:**
-
-- **90-100 points (90-100%)**: **ArgoCD Application Expert** ⭐⭐⭐⭐⭐
-  - Excellent! You have mastered ArgoCD Application CRDs
-  - You're ready to design complex deployment strategies
-  - Consider mentoring others or contributing to ArgoCD community
-
-- **80-89 points (80-89%)**: **Advanced Practitioner** ⭐⭐⭐⭐
-  - Strong understanding of Application CRDs
-  - Review missed concepts to perfect your expertise
-  - You can confidently manage production Applications
-
-- **70-79 points (70-79%)**: **Intermediate** ⭐⭐⭐
-  - Good grasp of Application fundamentals
-  - Study areas where you had difficulties
-  - Practice with different sync policies and configurations
-
-- **60-69 points (60-69%)**: **Beginner** ⭐⭐
-  - You understand the basics
-  - Review README materials more thoroughly
-  - Focus on sync policies and lifecycle management
-
-- **Below 60 points (<60%)**: **Novice** ⭐
-  - Take time to carefully study the materials
-  - Start with simple Application examples
-  - Try the quiz again after studying
+- **90-100 points**: **ArgoCD Application Expert** - Outstanding! Ready to design complex deployment strategies.
+- **80-89 points**: **Advanced Practitioner** - Excellent knowledge. Review missed concepts to perfect expertise.
+- **70-79 points**: **Intermediate** - Good foundation. Study areas where you had difficulties.
+- **60-69 points**: **Beginner** - You grasp the basics. Review sync policies and lifecycle management.
+- **Below 60 points**: **Novice** - Re-read the Application CRD materials and try again.
 
 ---
 
-## Areas for Improvement
-
-Based on which sections you struggled with:
-
-- **Section 1 (Fundamentals)**: Review the core concepts of Application CRDs, their purpose, and how ArgoCD tracks resources.
-
-- **Section 2 (Source Configuration)**: Study how Applications determine what to deploy, including config management tools and tool detection.
-
-- **Section 3 (Destination Configuration)**: Learn about cluster targeting, namespace management, and cluster-scoped vs namespace-scoped resources.
-
-- **Section 4 (Sync Policies)**: Understand sync behavior, automation options, self-healing, pruning, and sync options.
-
-- **Section 5 (Lifecycle and States)**: Master Application states, sync status vs health status, and what different statuses mean.
-
----
-
-## Next Steps
-
-1. **If you scored 80+**: Excellent work! Action items:
-   - Create complex Applications with multiple sync options
-   - Implement App of Apps pattern
-   - Explore sync waves and resource hooks
-   - Experiment with multi-source Applications
-
-2. **If you scored 60-79**: Good progress! Action items:
-   - Review sections where you missed questions
-   - Create test Applications with different configs
-   - Practice with automated and manual sync
-   - Experiment with self-heal and prune options
-
-3. **If you scored below 60**: Keep learning! Action items:
-   - Carefully re-read the README materials
-   - Start with a simple Application deployment
-   - Understand the basic structure first
-   - Retake the quiz when ready
-
-**Recommended Practice:**
-- Create an Application for a simple app (like nginx)
-- Enable automated sync and observe behavior
-- Make a manual change to a deployed resource and watch self-heal
-- Remove a resource from Git and observe pruning
-- Try different config tools (Helm, Kustomize, plain YAML)
-- Experiment with sync waves for ordered deployment
-
-**Additional Resources:**
-- [ArgoCD Application Specification](https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/)
-- [ArgoCD Example Applications](https://github.com/argoproj/argocd-example-apps)
-- [Sync Options Reference](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/)
-- [Best Practices Guide](https://argo-cd.readthedocs.io/en/stable/user-guide/best_practices/)
-
-Keep learning! Mastering ArgoCD Applications comes from understanding the concepts and hands-on practice. 🚀
-
-</details>
+**Next Steps:**
+- Review sections where you missed questions
+- Try the [Interactive Quiz](quiz.html) for instant feedback
+- Create a test Application CRD and experiment with sync policies
+- Move on to [Module 4 — Practice](../../4-Practice/PrerequisitesInstallation.md)
 
 ---

@@ -1,6 +1,10 @@
 # ArgoCD Application CRD
 
-> **Note for VS Code Users:** To view Mermaid diagrams in this document, install the [Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced) or [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) extension.
+You know what ArgoCD is and how it fits into the GitOps workflow. Now it's time to learn the language it speaks. The **Application CRD** is the single YAML resource that tells ArgoCD everything it needs to know: which Git repo to watch, which Helm chart or Kustomize overlay to render, which cluster and namespace to target, and how aggressively to self-heal when reality drifts from your intent. Master this one resource and you can automate the deployment of anything — from a single microservice to an entire platform.
+
+> **VS Code Users:** Install [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) to render the diagrams below.
+
+![ArgoCD Application CRD](../ArgoCD_CRD.png)
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -775,11 +779,13 @@ spec:
 
 ---
 
-**Next Steps:**
-- Take the [Knowledge Assessment Quiz](quiz.md) to test your understanding
-- Create your first Application CRD
-- Experiment with different sync policies
-- Try using different config management tools
+**Ready to test your knowledge?** Take the [Knowledge Assessment Quiz](quiz.md) or try the [Interactive Quiz](quiz.html) for instant feedback.
 
-Happy deploying with ArgoCD Applications! 🚀
+---
+
+*This module is part of the GitOps & Continuous Delivery course.*
+
+| Previous | Home | Next |
+|----------|------|------|
+| [Module 2 — Introduction to ArgoCD](../../2-Introduction-to-ArgoCD/EN/IntroductionToArgoCD.md) | [Course Overview](../../README.md) | [Module 4 — Practice](../../4-Practice/PrerequisitesInstallation.md) |
 
