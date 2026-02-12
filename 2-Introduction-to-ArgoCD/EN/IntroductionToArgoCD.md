@@ -1,6 +1,10 @@
 # Introduction to ArgoCD
 
-> **Note for VS Code Users:** To view Mermaid diagrams in this document, install the [Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced) or [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) extension.
+You've learned what GitOps is and why it matters. Now meet the tool that brings it to life. Imagine a tireless operator that watches your Git repository 24/7, instantly spots every change you commit, and rolls it out to your Kubernetes clusters — no manual `kubectl apply`, no deploy scripts, no late-night pager alerts from a botched deployment. That operator is **ArgoCD**, and once you see it in action, you'll wonder how you ever deployed without it.
+
+> **VS Code Users:** Install [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) to render the diagrams below.
+
+![ArgoCD Architectural Overview](../ArgoCD_ArchitecturalOverview.png)
 
 ## Table of Contents
 - [What is ArgoCD?](#what-is-argocd)
@@ -346,7 +350,7 @@ Integration with tools like Argo Rollouts enables canary deployments, blue-green
 
 ### Prerequisites
 
-- A Kubernetes cluster (v1.21 or newer)
+- A Kubernetes cluster (v1.26 or newer)
 - `kubectl` installed and configured
 - Git repository for storing application manifests
 
@@ -493,11 +497,13 @@ Integrate with secret management solutions:
 
 ---
 
-**Next Steps:**
-- Take the [Knowledge Assessment Quiz](quiz.md) to test your understanding
-- Practice deploying a sample application with ArgoCD
-- Explore advanced features like Argo Rollouts for progressive delivery
-- Join the ArgoCD community on Slack and GitHub
+**Ready to test your ArgoCD knowledge?** Take the [Knowledge Assessment Quiz](quiz.md) or try the [Interactive Quiz](quiz.html) to see how well you've absorbed the material.
 
-Happy GitOps-ing! 🚀
+---
+
+*This module is part of the GitOps & Continuous Delivery course.*
+
+| Previous | Home | Next |
+|----------|------|------|
+| [Module 1 — Introduction to GitOps](../../1-Intrduction-GitOps/EN/IntroductionToGitOps.md) | [Course Overview](../../README.md) | [Module 3 — ArgoCD CRDs](../../3-CRD-ArgoCD/EN/CRD-ArgoCD.md) |
 

@@ -78,14 +78,10 @@ True or False: ArgoCD uses a push-based deployment model where CI/CD pipelines p
 ### Question 5 (5 points)
 How does ArgoCD handle configuration drift?
 
-A) It sends an alert but takes no action  
-B) It shuts down the cluster for safety  
-C) It automatically reconciles the live state to match the desired state in Git  
+A) It sends an alert but takes no action
+B) It shuts down the cluster for safety
+C) It automatically reconciles the live state to match the desired state in Git
 D) It requires manual intervention every time
-
----
-
-## Section 2: ArgoCD and GitOps (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -93,11 +89,11 @@ D) It requires manual intervention every time
 
 **Explanation:** When ArgoCD detects drift (differences between the desired state in Git and the live state in the cluster), it automatically or manually (depending on sync policy) reconciles the live state to match Git. This self-healing capability is a core feature of ArgoCD.
 
+</details>
+
 ---
 
 ## Section 2: ArgoCD and GitOps (20 points)
-
-</details>
 
 ---
 ### Question 6 (5 points)
@@ -149,14 +145,10 @@ True or False: ArgoCD requires write access credentials to the Kubernetes cluste
 ### Question 9 (5 points)
 What happens when ArgoCD detects that the live cluster state differs from the desired state in Git?
 
-A) It logs the difference but does nothing  
-B) It automatically or manually (based on policy) synchronizes to restore the desired state  
-C) It deletes the application  
+A) It logs the difference but does nothing
+B) It automatically or manually (based on policy) synchronizes to restore the desired state
+C) It deletes the application
 D) It creates a new cluster
-
----
-
-## Section 3: ArgoCD and Continuous Delivery (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -164,11 +156,11 @@ D) It creates a new cluster
 
 **Explanation:** When drift is detected, ArgoCD's behavior depends on the sync policy. With auto-sync enabled, it immediately reconciles. With manual sync, it alerts users but waits for manual approval. Either way, it can restore the desired state from Git.
 
+</details>
+
 ---
 
 ## Section 3: ArgoCD and Continuous Delivery (20 points)
-
-</details>
 
 ---
 ### Question 10 (5 points)
@@ -220,14 +212,10 @@ True or False: ArgoCD handles both the CI (Continuous Integration) and CD (Conti
 ### Question 13 (5 points)
 What is a key benefit of using ArgoCD for the deployment phase of CD?
 
-A) Faster code compilation  
-B) Automatic code review  
-C) Declarative deployments with Git-based auditability and rollback  
+A) Faster code compilation
+B) Automatic code review
+C) Declarative deployments with Git-based auditability and rollback
 D) Improved developer laptop performance
-
----
-
-## Section 4: ArgoCD and Kubernetes (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -235,11 +223,11 @@ D) Improved developer laptop performance
 
 **Explanation:** ArgoCD enables declarative deployments where you define the desired state rather than writing deployment scripts. Since everything is in Git, you get complete audit history of who deployed what and when, plus easy rollback capabilities using `git revert`. It doesn't improve compilation (A), code review (B), or laptop performance (D).
 
+</details>
+
 ---
 
 ## Section 4: ArgoCD and Kubernetes (20 points)
-
-</details>
 
 ---
 ### Question 14 (5 points)
@@ -291,14 +279,10 @@ True or False: ArgoCD configurations are portable between Kubernetes clusters re
 ### Question 17 (5 points)
 What does the ArgoCD `syncPolicy: automated: {}` configuration enable?
 
-A) Manual approval required for all deployments  
-B) Automatic synchronization of changes from Git to the cluster  
-C) Automatic cluster scaling  
+A) Manual approval required for all deployments
+B) Automatic synchronization of changes from Git to the cluster
+C) Automatic cluster scaling
 D) Automatic backup of cluster data
-
----
-
-## Section 5: ArgoCD Features and Best Practices (15 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -306,11 +290,11 @@ D) Automatic backup of cluster data
 
 **Explanation:** Setting `syncPolicy: automated: {}` enables auto-sync, meaning ArgoCD will automatically deploy changes from Git to the cluster without manual intervention. This doesn't control cluster scaling (C) or backups (D), and it specifically removes the need for manual approval (A).
 
+</details>
+
 ---
 
 ## Section 5: ArgoCD Features and Best Practices (15 points)
-
-</details>
 
 ---
 ### Question 18 (5 points)
@@ -345,44 +329,10 @@ True or False: In a GitOps workflow with ArgoCD, it is recommended to keep appli
 ### Question 20 (5 points)
 What is the "App of Apps" pattern in ArgoCD?
 
-A) Running multiple instances of the same application  
-B) Managing multiple applications as a single unit where one ArgoCD Application manages other Applications  
-C) Using multiple ArgoCD servers  
+A) Running multiple instances of the same application
+B) Managing multiple applications as a single unit where one ArgoCD Application manages other Applications
+C) Using multiple ArgoCD servers
 D) Deploying applications to multiple regions simultaneously
-
----
-
-## Total Score: _____ / 100
-
----
-
-## Grading Scale
-
-Calculate your percentage and find your level:
-
-- **90-100 points (90-100%)**: **ArgoCD Expert** - Outstanding understanding! You're ready to implement and advocate for ArgoCD in production environments.
-
-- **80-89 points (80-89%)**: **Advanced Practitioner** - Strong grasp of ArgoCD concepts. Review any missed questions to solidify your expertise.
-
-- **70-79 points (70-79%)**: **Intermediate** - Good foundation in ArgoCD principles. Consider deeper study of topics you found challenging.
-
-- **60-69 points (60-69%)**: **Beginner** - You understand the basics. Review the README materials more thoroughly, especially sections related to missed questions.
-
-- **Below 60 points (<60%)**: **Novice** - Take time to carefully review the ArgoCD introduction materials and try the quiz again.
-
----
-
-**Next Steps:**
-1. Calculate your score (each correct answer is worth the points shown)
-2. Calculate your total score
-3. Review any sections where you had incorrect answers
-4. Retake the quiz after studying to track your improvement!
-
-**Hands-On Practice:**
-- Set up ArgoCD in a test Kubernetes cluster
-- Deploy a sample application using GitOps principles
-- Experiment with sync policies and drift detection
-- Explore the ArgoCD web UI and its features
 <details>
 <summary>Click to see answer</summary>
 
@@ -390,18 +340,19 @@ Calculate your percentage and find your level:
 
 **Explanation:** The "App of Apps" pattern uses one ArgoCD Application that points to a directory containing definitions for multiple other Applications. This parent application manages child applications, making it easy to deploy entire environments or related application sets as a single unit.
 
+</details>
+
 ---
 
-## Scoring Section
+## Scoring
 
 **Calculate your score:**
 
-Count your correct answers and multiply by the points for each question:
-- Section 1: _____ / 25 points
-- Section 2: _____ / 20 points
-- Section 3: _____ / 20 points
-- Section 4: _____ / 20 points
-- Section 5: _____ / 15 points
+- Section 1 (Fundamentals): _____ / 25 points
+- Section 2 (GitOps): _____ / 20 points
+- Section 3 (Continuous Delivery): _____ / 20 points
+- Section 4 (Kubernetes): _____ / 20 points
+- Section 5 (Features & Best Practices): _____ / 15 points
 
 **Total Score: _____ / 100 points**
 
@@ -409,81 +360,18 @@ Count your correct answers and multiply by the points for each question:
 
 ## Grading Scale
 
-**Your Proficiency Level:**
-
-- **90-100 points (90-100%)**: **ArgoCD Expert** ⭐⭐⭐⭐⭐
-  - Excellent! You have outstanding understanding of ArgoCD
-  - You're ready to implement ArgoCD in production environments
-  - Consider mentoring others or leading ArgoCD initiatives
-
-- **80-89 points (80-89%)**: **Advanced Practitioner** ⭐⭐⭐⭐
-  - Strong understanding of ArgoCD concepts and practices
-  - Review missed questions to reinforce your expertise
-  - You can confidently deploy and manage ArgoCD in production
-
-- **70-79 points (70-79%)**: **Intermediate** ⭐⭐⭐
-  - Good foundation in ArgoCD principles
-  - Deepen your knowledge in areas you found challenging
-  - Practice implementing ArgoCD in test environments
-
-- **60-69 points (60-69%)**: **Beginner** ⭐⭐
-  - You understand the basics but need more study
-  - Thoroughly review the README materials
-  - Focus on understanding the "why" behind ArgoCD practices
-
-- **Below 60 points (<60%)**: **Novice** ⭐
-  - Take time to carefully read the ArgoCD materials
-  - ArgoCD concepts require practice to fully understand
-  - Try the quiz again after studying
+- **90-100 points**: **ArgoCD Expert** - Outstanding! You're ready to implement ArgoCD in production.
+- **80-89 points**: **Advanced Practitioner** - Strong grasp. Review missed questions to solidify expertise.
+- **70-79 points**: **Intermediate** - Good foundation. Deepen your knowledge in weaker areas.
+- **60-69 points**: **Beginner** - You understand the basics. Review the module materials more thoroughly.
+- **Below 60 points**: **Novice** - Re-read the ArgoCD introduction and try again.
 
 ---
 
-## Areas for Improvement
-
-Based on which sections you struggled with:
-
-- **Section 1 (Fundamentals)**: Review the core concepts of ArgoCD, its architecture, and how it handles drift detection and reconciliation.
-
-- **Section 2 (GitOps)**: Study how ArgoCD implements GitOps principles, especially the pull-based model and continuous reconciliation.
-
-- **Section 3 (Continuous Delivery)**: Understand how ArgoCD fits into the broader CD workflow and its interaction with CI pipelines.
-
-- **Section 4 (Kubernetes Integration)**: Learn about CRDs, supported config management tools, and why ArgoCD is Kubernetes-native.
-
-- **Section 5 (Features & Best Practices)**: Explore the ArgoCD UI, repository structure best practices, and patterns like App of Apps.
-
----
-
-## Next Steps
-
-1. **If you scored 80+**: Excellent work! Consider:
-   - Setting up ArgoCD in a production or production-like environment
-   - Exploring advanced features like Argo Rollouts for progressive delivery
-   - Implementing multi-cluster management
-   - Contributing to ArgoCD community or documentation
-
-2. **If you scored 60-79**: Good progress! Action items:
-   - Review sections where you missed questions
-   - Practice with hands-on ArgoCD implementations
-   - Set up a test cluster and deploy sample applications
-   - Retake the quiz after additional study
-
-3. **If you scored below 60**: Don't worry! Learning path:
-   - Carefully re-read the README materials
-   - Take notes on key concepts
-   - Watch ArgoCD tutorials or demos
-   - Set up a simple ArgoCD instance and experiment
-   - Retake the quiz when ready
-
-**Recommended Resources:**
-- Visit [ArgoCD Documentation](https://argo-cd.readthedocs.io/)
-- Explore [ArgoCD Examples Repository](https://github.com/argoproj/argocd-example-apps)
-- Join [ArgoCD Slack Community](https://argoproj.github.io/community/join-slack)
-- Watch [CNCF ArgoCD Presentations](https://www.youtube.com/results?search_query=argocd+cncf)
-- Practice with [Hands-on ArgoCD Tutorials](https://argo-cd.readthedocs.io/en/stable/getting_started/)
-
-Keep learning! Mastering ArgoCD comes from understanding the principles and hands-on practice. 🚀
-
-</details>
+**Next Steps:**
+- Review sections where you missed questions
+- Try the [Interactive Quiz](quiz.html) for instant feedback
+- Practice deploying a sample application with ArgoCD
+- Move on to [Module 3 — ArgoCD CRDs](../../3-CRD-ArgoCD/EN/CRD-ArgoCD.md)
 
 ---
