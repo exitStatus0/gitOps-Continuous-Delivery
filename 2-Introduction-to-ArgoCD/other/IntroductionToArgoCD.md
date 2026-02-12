@@ -1,6 +1,10 @@
 # Введение в ArgoCD
 
-> **Примечание для пользователей VS Code:** Чтобы просматривать диаграммы Mermaid в этом документе, установите расширение [Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced) или [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid).
+Вы узнали, что такое GitOps и почему он важен. Теперь познакомьтесь с инструментом, который воплощает его в жизнь. Представьте неутомимого оператора, который следит за вашим Git-репозиторием 24/7, мгновенно замечает каждый коммит и разворачивает его в ваши Kubernetes-кластеры — без ручного `kubectl apply`, без скриптов деплоя, без ночных звонков из-за неудачного развертывания. Этот оператор — **ArgoCD**, и как только вы увидите его в действии, вы удивитесь, как вообще деплоили без него.
+
+> **Пользователи VS Code:** Установите [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) для отображения диаграмм ниже.
+
+![Архитектурный обзор ArgoCD](../ArgoCD_ArchitecturalOverview.png)
 
 ## Содержание
 - [Что такое ArgoCD?](#что-такое-argocd)
@@ -346,7 +350,7 @@ ArgoCD специально создан для GitOps, что позволяе�
 
 ### Предварительные условия
 
-- Кластер Kubernetes (v1.21 или новее).
+- Кластер Kubernetes (v1.26 или новее).
 - Установленный и настроенный `kubectl`.
 - Репозиторий Git для хранения манифестов приложений.
 
@@ -493,10 +497,12 @@ spec:
 
 ---
 
-**Следующие шаги:**
-- Пройдите [Тест на проверку знаний](quiz.md)
-- Потренируйтесь в развертывании примера приложения с ArgoCD
-- Изучите продвинутые функции, такие как Argo Rollouts
-- Присоединяйтесь к сообществу ArgoCD в Slack и GitHub
+**Готовы проверить свои знания ArgoCD?** Пройдите [Тест на проверку знаний](quiz.md) или попробуйте [Интерактивный тест](quiz.html) для мгновенной обратной связи.
 
-Удачного погружения в GitOps! 🚀
+---
+
+*Этот модуль является частью курса GitOps и Continuous Delivery.*
+
+| Предыдущий | Главная | Следующий |
+|------------|---------|-----------|
+| [Модуль 1 — Введение в GitOps](../../1-Intrduction-GitOps/other/IntroductionToGitOps.md) | [Обзор курса](../../README.md) | [Модуль 3 — CRD ArgoCD](../../3-CRD-ArgoCD/other/CRD-ArgoCD.md) |
