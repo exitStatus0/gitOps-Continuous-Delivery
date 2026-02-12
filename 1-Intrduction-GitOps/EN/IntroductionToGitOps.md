@@ -1,9 +1,12 @@
 # Introduction to GitOps
 
-> **Note:** This document contains Mermaid diagrams. To view them properly:
-> - **VS Code**: Install the "Markdown Preview Mermaid Support" extension
-> - **GitHub/GitLab**: Diagrams render automatically
-> - **Other editors**: Install a Mermaid preview extension
+*Imagine this: it's 2 AM, your production cluster is down, and the person who last configured it left the company months ago. Nobody knows what changed, nobody can reproduce the setup, and every minute of downtime costs money. What if your entire infrastructure could be rebuilt from a single Git repository in minutes — with a full audit trail of every change ever made?*
+
+*That's the promise of GitOps.*
+
+> **Note:** This document contains Mermaid diagrams. For best viewing use GitHub or a Mermaid-compatible editor.
+
+![GitOps Overview](../GitOpsDetailed.png)
 
 ## What is GitOps?
 
@@ -236,8 +239,7 @@ Implementing GitOps delivers significant advantages across multiple dimensions:
 While this course focuses on GitOps principles rather than specific tools, several GitOps operators are commonly used:
 
 - **Flux CD** - CNCF graduated project for GitOps on Kubernetes
-- **ArgoCD** - Popular GitOps operator with powerful UI
-- **Jenkins X** - Cloud-native CI/CD with built-in GitOps
+- **ArgoCD** - Popular GitOps operator with powerful UI (covered in this course!)
 - **Rancher Fleet** - Lightweight GitOps for multi-cluster management
 
 Each operator implements the core GitOps principles while offering different features and user experiences. The key is understanding the principles, which remain constant regardless of the tooling.
@@ -299,5 +301,8 @@ Remember: GitOps is not just about tools—it's about adopting a mindset of decl
 
 ---
 
-**Ready to test your knowledge? Try the GitOps quiz to see how well you understand these concepts!**
+**Ready to test your knowledge? Try the [GitOps quiz](quiz.md) to see how well you understand these concepts!**
 
+---
+
+[&larr; Previous: Introduction to Continuous Delivery](../../0-Introduction-CD/EN/IntroductionToCD.md) | [Next: Introduction to ArgoCD &rarr;](../../2-Introduction-to-ArgoCD/EN/IntroductionToArgoCD.md)

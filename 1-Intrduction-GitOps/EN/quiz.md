@@ -5,7 +5,7 @@ Test your understanding of GitOps principles, practices, and implementation stra
 **Instructions:**
 - Answer all questions honestly without referring to the materials
 - Write down your answers (A, B, C, D or True/False)
-- Check your responses using the `quiz-answers.md` file
+- Click "Click to see answer" to check your response
 - Calculate your final score using the rating system provided
 
 ---
@@ -83,9 +83,6 @@ D) Automated billing reconciliation for cloud resources
 ### Question 5 (5 points)
 True or False: In GitOps, Git serves as the single source of truth for both infrastructure and application definitions.
 
----
-
-## Section 2: Push vs. Pull Models (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -93,11 +90,11 @@ True or False: In GitOps, Git serves as the single source of truth for both infr
 
 **Explanation:** One of the core tenets of GitOps is that Git is the single source of truth. All infrastructure and application configuration is stored in Git repositories, making them the authoritative source for desired state.
 
+</details>
+
 ---
 
 ## Section 2: Push vs. Pull Models (20 points)
-
-</details>
 
 ---
 ### Question 6 (5 points)
@@ -154,9 +151,6 @@ D) Built-in encryption of all data
 ### Question 9 (5 points)
 True or False: The push model is considered "declarative" because it defines the exact steps to achieve deployment.
 
----
-
-## Section 3: GitOps and Continuous Delivery (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -164,11 +158,11 @@ True or False: The push model is considered "declarative" because it defines the
 
 **Explanation:** This is incorrect. The push model is actually considered "imperative" because it defines a sequence of steps to achieve the end goal. The pull model (GitOps) is declarative because you define what should exist, not how to achieve it.
 
+</details>
+
 ---
 
 ## Section 3: GitOps and Continuous Delivery (20 points)
-
-</details>
 
 ---
 ### Question 10 (5 points)
@@ -225,9 +219,6 @@ B) Monitoring application performance
 C) Automating the software release pipeline  
 D) Configuring network policies
 
----
-
-## Section 4: Benefits and Implementation (20 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -235,11 +226,11 @@ D) Configuring network policies
 
 **Explanation:** In the CD/GitOps relationship, Continuous Delivery focuses on automating the software release pipeline - building, testing, and preparing software for deployment. GitOps then handles the actual deployment and state management.
 
+</details>
+
 ---
 
 ## Section 4: Benefits and Implementation (20 points)
-
-</details>
 
 ---
 ### Question 14 (5 points)
@@ -296,9 +287,6 @@ B) Lower licensing costs
 C) Deployments become repeatable and environments easily recreated  
 D) Automatic scaling decisions
 
----
-
-## Section 5: Advanced Concepts (15 points)
 <details>
 <summary>Click to see answer</summary>
 
@@ -306,11 +294,11 @@ D) Automatic scaling decisions
 
 **Explanation:** Declarative configuration means you define what should exist, making deployments inherently repeatable. Since you're declaring desired state rather than steps to achieve it, environments can be easily recreated at any time from the Git repository.
 
+</details>
+
 ---
 
 ## Section 5: Advanced Concepts (15 points)
-
-</details>
 
 ---
 ### Question 18 (5 points)
@@ -350,6 +338,15 @@ D) Manual intervention is always required
 ### Question 20 (5 points)
 True or False: The system's desired state with immutable versions must be stored declaratively, and a software agent reconciles the actual state with this desired state.
 
+<details>
+<summary>Click to see answer</summary>
+
+**Correct Answer: True**
+
+**Explanation:** This statement accurately summarizes GitOps in one sentence, combining the key principles: declarative storage, immutable versions, and continuous reconciliation by a software agent.
+
+</details>
+
 ---
 
 ## Total Score: _____ / 100
@@ -383,104 +380,3 @@ Evaluate your GitOps expertise based on your score:
 - Practice creating declarative Kubernetes manifests
 - Experiment with different repository structures
 - Explore real-world GitOps implementations
-<details>
-<summary>Click to see answer</summary>
-
-**Correct Answer: True**
-
-**Explanation:** This statement accurately summarizes GitOps in one sentence, combining the key principles: declarative storage, immutable versions, and continuous reconciliation by a software agent.
-
----
-
-## Scoring Section
-
-**Calculate Your Score:**
-
-Count correct answers and multiply by points for each question:
-- Section 1: _____ / 25 points
-- Section 2: _____ / 20 points
-- Section 3: _____ / 20 points
-- Section 4: _____ / 20 points
-- Section 5: _____ / 15 points
-
-**Total Score: _____ / 100 points**
-
----
-
-## Rating Scale
-
-**Your GitOps Proficiency Level:**
-
-- **90-100 points (90-100%)**: **GitOps Expert** ⭐⭐⭐⭐⭐
-  - Outstanding! You have exceptional understanding of GitOps
-  - You're ready to implement and lead GitOps initiatives
-  - Consider mentoring others or contributing to GitOps communities
-
-- **80-89 points (80-89%)**: **Advanced Practitioner** ⭐⭐⭐⭐
-  - Strong grasp of GitOps concepts and practices
-  - Review missed questions to solidify expertise
-  - You can confidently implement GitOps in production
-
-- **70-79 points (70-79%)**: **Intermediate** ⭐⭐⭐
-  - Good foundation in GitOps principles
-  - Deepen knowledge in areas where you struggled
-  - Practice implementing GitOps in test environments
-
-- **60-69 points (60-69%)**: **Novice** ⭐⭐
-  - You understand the basics but need more study
-  - Review the README materials thoroughly
-  - Focus on understanding the "why" behind GitOps practices
-
-- **Below 60 points (<60%)**: **Beginner** ⭐
-  - Take time to carefully read through the GitOps materials
-  - GitOps concepts require practice to fully understand
-  - Try the quiz again after studying
-
----
-
-## Areas for Improvement
-
-Based on which sections you struggled with:
-
-- **Section 1 (Core Principles)**: Review the four GitOps principles in detail. Understand what each principle means and why it matters.
-
-- **Section 2 (Push vs Pull)**: Study the differences between imperative and declarative approaches. Understand the security and operational benefits of the pull model.
-
-- **Section 3 (GitOps & CD)**: Explore how GitOps and Continuous Delivery complement each other. Understand where CD ends and GitOps begins.
-
-- **Section 4 (Benefits)**: Consider real-world scenarios where each GitOps benefit would be valuable. Think about disaster recovery, collaboration, and repeatability.
-
-- **Section 5 (Advanced Concepts)**: Experiment with a GitOps operator in a test environment. See drift detection and reconciliation in action.
-
----
-
-## Next Steps
-
-1. **If you scored 80+**: Excellent work! Consider:
-   - Setting up a GitOps operator in a real project
-   - Exploring advanced GitOps patterns (multi-cluster, progressive delivery)
-   - Contributing to GitOps tools or communities
-
-2. **If you scored 60-79**: Good progress! Actions to take:
-   - Review sections where you missed questions
-   - Practice with hands-on GitOps implementations
-   - Retake the quiz after studying
-
-3. **If you scored below 60**: Don't worry! Learning path:
-   - Carefully read through the README materials again
-   - Take notes on key concepts
-   - Try setting up a simple GitOps workflow
-   - Retake the quiz when ready
-
-**Recommended Resources:**
-- Visit [opengitops.dev](https://opengitops.dev) for official standards
-- Explore GitOps operator documentation (Flux, ArgoCD)
-- Join CNCF GitOps Working Group discussions
-- Read GitOps case studies from real organizations
-- Practice with lab environments and tutorials
-
-Keep learning! GitOps mastery comes from understanding the principles deeply and practicing implementation. 🚀
-
-</details>
-
----
