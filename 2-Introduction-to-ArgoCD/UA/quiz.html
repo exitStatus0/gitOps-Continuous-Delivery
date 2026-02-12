@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оцінка знань з ArgoCD</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .question.correct { border-color: var(--green); }
+  .question.incorrect { border-color: var(--red); }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .question-number { font-weight: 600; font-size: 1.05rem; }
+  .points { color: var(--muted); font-size: 0.85rem; }
+  .question-text { margin-bottom: 1rem; font-size: 1rem; }
+  .options { list-style: none; }
+  .options li {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .options li:hover { background: #1c2333; }
+  .options li.selected {
+    background: #1c2333;
+    border-color: var(--accent);
+  }
+  .options input[type="radio"] { display: none; }
+  .options label {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation.correct-answer { background: rgba(63,185,80,0.1); border-left: 3px solid var(--green); }
+  .explanation.incorrect-answer { background: rgba(248,81,73,0.1); border-left: 3px solid var(--red); }
+  .btn-row { display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+  button {
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  button:hover { background: #1c2333; border-color: var(--accent); }
+  button.primary {
+    background: #238636;
+    border-color: #2ea043;
+  }
+  button.primary:hover { background: #2ea043; }
+  .results {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    display: none;
+  }
+  .results.show { display: block; }
+  .score-display {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .score-bar {
+    width: 100%;
+    height: 12px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .score-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 1s ease;
+  }
+  .level {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 1rem 0;
+  }
+  .section-scores {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  .section-score-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+  }
+  .section-score-row .label { color: var(--muted); }
+  .nav-links {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .nav-links a { color: var(--accent); text-decoration: none; }
+  .nav-links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Оцінка знань з ArgoCD</h1>
+  <p class="subtitle">20 питань &middot; 100 балів &middot; Перевірте своє розуміння ArgoCD</p>
+
+  <!-- Section 1 -->
+  <h2 class="section-title">Розділ 1: Основи ArgoCD (25 балів)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 1</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що таке ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="a">A) Платформа CI/CD для збірки та тестування додатків</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="b">B) Декларативний інструмент безперервної доставки для Kubernetes на основі GitOps</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="c">C) Реєстр контейнерів для зберігання Docker образів</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="d">D) Інструмент моніторингу для кластерів Kubernetes</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD спеціально розроблений як декларативний інструмент безперервної доставки на основі GitOps для Kubernetes. Це не платформа CI (A), реєстр контейнерів (C) чи інструмент моніторингу (D), хоча він інтегрується з цими компонентами.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 2</span><span class="points">5 балів</span></div>
+    <div class="question-text">Який архітектурний шаблон використовує ArgoCD для управління кількома кластерами?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="a">A) Мікросервісна архітектура</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="b">B) Модель hub-and-spoke</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="c">C) Peer-to-peer архітектура</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="d">D) Serverless архітектура</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD використовує архітектуру hub-and-spoke, де центральний кластер control-plane з ArgoCD управляє розгортаннями в кількох цільових кластерах. Цей централізований підхід надає єдину панель для управління всіма кластерами.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 3</span><span class="points">5 балів</span></div>
+    <div class="question-text">У контексті GitOps, яку роль виконує ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="a">A) Він зберігає Git-репозиторії</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="b">B) Він діє як програмний агент, який витягує бажаний стан та узгоджує його з живим станом</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="c">C) Він збирає образи контейнерів з вихідного коду</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="d">D) Він надає інфраструктуру кластера Kubernetes</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD є агентом автоматизації, який реалізує принципи GitOps. Він безперервно витягує бажаний стан з Git-репозиторіїв і узгоджує його з живим станом у кластерах Kubernetes, автоматично виявляючи та виправляючи дрейф.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 4</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: ArgoCD використовує модель розгортання на основі push, де конвеєри CI/CD проштовхують зміни безпосередньо в кластери.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD використовує **модель pull**, що є фундаментальним для GitOps. ArgoCD витягує зміни з Git-репозиторіїв, а не отримує їх через push з конвеєрів CI/CD безпосередньо в кластери. Це покращує безпеку та слідує принципу GitOps "витягується автоматично".</div>
+  </div>
+
+
+
+  <div class="question" data-correct="c" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 5</span><span class="points">5 балів</span></div>
+    <div class="question-text">Як ArgoCD обробляє дрейф конфігурації?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="a">A) Він надсилає сповіщення, але не вживає жодних дій</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="b">B) Він вимикає кластер для безпеки</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="c">C) Він автоматично узгоджує живий стан відповідно до бажаного стану в Git</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="d">D) Він вимагає ручного втручання кожного разу</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; Коли ArgoCD виявляє дрейф (різницю між бажаним станом у Git та живим станом у кластері), він автоматично або вручну (залежно від політики синхронізації) узгоджує живий стан відповідно до Git. Ця можливість самовідновлення є основною функцією ArgoCD.</div>
+  </div>
+
+
+
+  <!-- Section 2 -->
+  <h2 class="section-title">Розділ 2: ArgoCD та GitOps (20 балів)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Питання 6</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що означає "безперервне узгодження" в контексті ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="a">A) ArgoCD розгортає один раз і ніколи більше не перевіряє кластер</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="b">B) ArgoCD періодично синхронізується за фіксованим розкладом</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="c">C) ArgoCD безперервно моніторить та виправляє різницю між бажаним та живим станом</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="d">D) ArgoCD узгоджує тільки при ручному тригері</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; Безперервне узгодження — це процес, коли ArgoCD постійно порівнює бажаний стан (визначений у Git) з живим станом (у кластері) та автоматично виправляє будь-які різниці. Це забезпечує, що кластер завжди залишається синхронізованим з Git.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Питання 7</span><span class="points">5 балів</span></div>
+    <div class="question-text">Який принцип GitOps підтримує ArgoCD, використовуючи Git як джерело правди?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="a">A) Імперативне управління конфігурацією</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="b">B) Декларативна конфігурація з версійністю та незмінністю</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="c">C) Ручні процеси розгортання</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="d">D) Прямі модифікації кластера</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Використовуючи Git як єдине джерело правди, ArgoCD підтримує принципи GitOps декларативної конфігурації (визначення того, що має існувати) з версійністю (історія Git) та незмінністю (коміти Git є незмінними). Це контрастує з імперативними підходами, які визначають, як досягти стану.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Питання 8</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: ArgoCD вимагає зберігання облікових даних з правом запису до кластера Kubernetes у конвеєрі CI/CD.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Це ключова перевага безпеки ArgoCD! Оскільки ArgoCD працює всередині кластера та витягує з Git, конвеєру CI/CD не потрібен доступ на запис до кластера. Конвеєр CI потребує лише оновлювати Git, а ArgoCD обробляє розгортання. Це зменшує поверхню атаки та слідує принципу найменших привілеїв.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Питання 9</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що відбувається, коли ArgoCD виявляє, що живий стан кластера відрізняється від бажаного стану в Git?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="a">A) Він записує різницю в лог, але нічого не робить</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="b">B) Він автоматично або вручну (залежно від політики) синхронізується для відновлення бажаного стану</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="c">C) Він видаляє додаток</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="d">D) Він створює новий кластер</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Коли виявлено дрейф, поведінка ArgoCD залежить від політики синхронізації. З увімкненою auto-sync він негайно узгоджує. З ручною синхронізацією він сповіщає користувачів, але чекає на ручне схвалення. У будь-якому випадку він може відновити бажаний стан з Git.</div>
+  </div>
+
+
+
+  <!-- Section 3 -->
+  <h2 class="section-title">Розділ 3: ArgoCD та Continuous Delivery (20 балів)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Питання 10</span><span class="points">5 балів</span></div>
+    <div class="question-text">У робочому процесі CD з ArgoCD, що є основною відповідальністю ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="a">A) Збірка та компіляція коду додатку</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="b">B) Виконання автоматизованих тестів</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="c">C) Розгортання додатків та конфігурацій в Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="d">D) Управління репозиторіями вихідного коду</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; У робочому процесі CD ArgoCD зосереджується саме на фазі розгортання — беручи зібрані, протестовані додатки та розгортаючи їх у Kubernetes. Конвеєр CI обробляє збірку (A) та тестування (B), а Git обробляє управління вихідним кодом (D).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Питання 11</span><span class="points">5 балів</span></div>
+    <div class="question-text">Як конвеєр CI зазвичай взаємодіє з ArgoCD у робочому процесі GitOps?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="a">A) CI проштовхує безпосередньо в кластер Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="b">B) CI оновлює маніфести в репозиторії GitOps, який моніторить ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="c">C) CI вручну тригерує ArgoCD через виклики API</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="d">D) CI взагалі не взаємодіє з ArgoCD</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; У правильному робочому процесі GitOps конвеєр CI не взаємодіє безпосередньо з кластером або ArgoCD. Натомість він оновлює маніфести Kubernetes (зазвичай з новими тегами образів) у Git-репозиторії, а ArgoCD автоматично виявляє ці зміни та розгортає їх. Це розділення обов'язків є ключовим для GitOps.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Питання 12</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: ArgoCD обробляє як CI (Continuous Integration), так і CD (Continuous Delivery) фази конвеєра доставки програмного забезпечення.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD зосереджується лише на фазі CD (Continuous Delivery/Deployment). Він не збирає код, не запускає тести та не створює образи контейнерів — це робота інструментів CI, таких як Jenkins, GitLab CI або GitHub Actions. ArgoCD бере артефакти з CI та розгортає їх у Kubernetes.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Питання 13</span><span class="points">5 балів</span></div>
+    <div class="question-text">Яка ключова перевага використання ArgoCD для фази розгортання CD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="a">A) Швидша компіляція коду</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="b">B) Автоматичний огляд коду</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="c">C) Декларативні розгортання з аудитом на основі Git та можливістю відкату</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="d">D) Покращена продуктивність ноутбука розробника</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; ArgoCD дозволяє декларативні розгортання, де ви визначаєте бажаний стан, а не пишете скрипти розгортання. Оскільки все в Git, ви отримуєте повну історію аудиту того, хто що розгортав і коли, плюс легкі можливості відкату за допомогою `git revert`. Він не покращує компіляцію (A), огляд коду (B) чи продуктивність ноутбука (D).</div>
+  </div>
+
+
+
+  <!-- Section 4 -->
+  <h2 class="section-title">Розділ 4: ArgoCD та Kubernetes (20 балів)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 14</span><span class="points">5 балів</span></div>
+    <div class="question-text">Як визначаються додатки ArgoCD у Kubernetes?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="a">A) Як Docker образи</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="b">B) Як Custom Resource Definitions (CRDs)</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="c">C) Як змінні середовища</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="d">D) Тільки як ConfigMaps</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD використовує Kubernetes CRD для визначення додатків. Це робить ArgoCD Kubernetes-native, дозволяючи адміністраторам використовувати знайомі інструменти, такі як `kubectl` та YAML, для управління додатками ArgoCD так само, як і будь-яким іншим ресурсом Kubernetes.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="c" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 15</span><span class="points">5 балів</span></div>
+    <div class="question-text">Які інструменти управління конфігурацією підтримує ArgoCD? (Виберіть НАЙПОВНІШУ відповідь)</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="a">A) Тільки звичайні YAML маніфести Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="b">B) Тільки Helm charts</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="c">C) Kubernetes маніфести, Helm, Kustomize, Jsonnet та користувацькі плагіни</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="d">D) Тільки файли Terraform</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; ArgoCD є гнучким і підтримує кілька інструментів управління конфігурацією: звичайні YAML маніфести, Helm charts, Kustomize, Jsonnet та навіть користувацькі плагіни управління конфігурацією. Ця гнучкість дозволяє командам використовувати їхні улюблені інструменти.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="a" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 16</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: Конфігурації ArgoCD є портативними між кластерами Kubernetes незалежно від базової інфраструктури.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: A</strong> &mdash; Оскільки ArgoCD використовує Kubernetes-native CRD та стандартні маніфести Kubernetes, конфігурації є портативними для будь-якого кластера Kubernetes — чи то він працює на AWS, GCP, Azure, on-premises, чи навіть у локальних кластерах розробки, таких як kind або minikube.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 17</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що дозволяє конфігурація ArgoCD `syncPolicy: automated: {}`?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="a">A) Ручне схвалення, необхідне для всіх розгортань</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="b">B) Автоматична синхронізація змін з Git у кластер</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="c">C) Автоматичне масштабування кластера</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="d">D) Автоматичне резервне копіювання даних кластера</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Встановлення `syncPolicy: automated: {}` дозволяє auto-sync, що означає, що ArgoCD автоматично розгортатиме зміни з Git у кластер без ручного втручання. Це не контролює масштабування кластера (C) або резервне копіювання (D), і це саме усуває потребу в ручному схваленні (A).</div>
+  </div>
+
+
+
+  <!-- Section 5 -->
+  <h2 class="section-title">Розділ 5: Функції ArgoCD та найкращі практики (15 балів)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Питання 18</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що дозволяє робити веб-інтерфейс ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="a">A) Писати код додатків</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="b">B) Візуалізувати та взаємодіяти з ресурсами Kubernetes, керувати додатками та моніторити статус синхронізації/здоров'я</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="c">C) Створювати Git-репозиторії</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="d">D) Проектувати архітектуру інфраструктури</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Веб-інтерфейс ArgoCD є потужним інструментом для візуалізації ресурсів Kubernetes та їх взаємозв'язків, управління життєвим циклом додатків, перегляду статусу синхронізації, перевірки статусу здоров'я, доступу до логів та тригерування ручних синхронізацій. Він не надає редагування коду (A), створення Git-репозиторіїв (C) чи інструментів проектування архітектури (D).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Питання 19</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: У робочому процесі GitOps з ArgoCD рекомендується зберігати вихідний код додатку та маніфести конфігурації Kubernetes в одному репозиторії.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Найкраща практика — **розділяти** вихідний код додатку та маніфести конфігурації Kubernetes в різні репозиторії. Це слідує принципу GitOps розділення обов'язків, забезпечує кращу безпеку (розробникам не потрібен доступ до production конфігурацій) та дозволяє незалежне версіонування та контроль доступу.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Питання 20</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що таке шаблон "App of Apps" в ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="a">A) Запуск кількох екземплярів одного додатку</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="b">B) Управління кількома додатками як одиницею, де один додаток ArgoCD управляє іншими додатками</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="c">C) Використання кількох серверів ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="d">D) Одночасне розгортання додатків у кілька регіонів</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Шаблон "App of Apps" використовує один додаток ArgoCD, який вказує на директорію, що містить визначення для кількох інших додатків. Цей батьківський додаток управляє дочірніми додатками, що полегшує розгортання цілих середовищ або пов'язаних наборів додатків як єдиної одиниці.</div>
+  </div>
+
+
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="primary" onclick="showResults()">Показати результати</button>
+    <button onclick="resetQuiz()">Скинути</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <h2 style="text-align:center;margin-bottom:0.5rem;">Ваші результати</h2>
+    <div class="score-display" id="score-display">0 / 100</div>
+    <div class="score-bar"><div class="score-fill" id="score-fill"></div></div>
+    <div class="level" id="level"></div>
+    <div class="section-scores" id="section-scores"></div>
+  </div>
+
+  <div class="nav-links">
+    <a href="ВступДоArgoCD.md">&larr; Назад до модуля</a> &nbsp;&middot;&nbsp;
+    <a href="../../README.md">Головна курсу</a> &nbsp;&middot;&nbsp;
+    <a href="../../3-CRD-ArgoCD/UA/АплікаціяArgoCD.md">Наступний модуль &rarr;</a>
+  </div>
+</div>
+
+<script>
+function sel(li) {
+  const opts = li.closest('.options');
+  opts.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+  li.classList.add('selected');
+  li.querySelector('input').checked = true;
+}
+
+function showResults() {
+  const questions = document.querySelectorAll('.question');
+  let total = 0, earned = 0;
+  const sections = {};
+  const sectionNames = {
+    '1': 'Основи ArgoCD',
+    '2': 'ArgoCD та GitOps',
+    '3': 'ArgoCD та Continuous Delivery',
+    '4': 'ArgoCD та Kubernetes',
+    '5': 'Функції та найкращі практики'
+  };
+  const sectionMax = {'1':25,'2':20,'3':20,'4':20,'5':15};
+
+  questions.forEach(q => {
+    const correct = q.dataset.correct;
+    const pts = parseInt(q.dataset.points);
+    const sec = q.dataset.section;
+    total += pts;
+    if (!sections[sec]) sections[sec] = {earned:0, max:sectionMax[sec]};
+
+    const selected = q.querySelector('input:checked');
+    const expl = q.querySelector('.explanation');
+
+    q.classList.remove('correct','incorrect');
+    expl.classList.remove('correct-answer','incorrect-answer');
+
+    if (selected) {
+      if (selected.value === correct) {
+        earned += pts;
+        sections[sec].earned += pts;
+        q.classList.add('correct');
+        expl.classList.add('show','correct-answer');
+      } else {
+        q.classList.add('incorrect');
+        expl.classList.add('show','incorrect-answer');
+      }
+    } else {
+      expl.classList.add('show','incorrect-answer');
+    }
+  });
+
+  const pct = Math.round(earned / total * 100);
+  document.getElementById('score-display').textContent = earned + ' / ' + total;
+  const fill = document.getElementById('score-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = pct >= 90 ? 'var(--green)' : pct >= 70 ? 'var(--accent)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+
+  let level = '', color = '';
+  if (pct >= 90) { level = 'Експерт з ArgoCD'; color = 'var(--green)'; }
+  else if (pct >= 80) { level = 'Просунутий практик'; color = 'var(--accent)'; }
+  else if (pct >= 70) { level = 'Середній рівень'; color = 'var(--accent)'; }
+  else if (pct >= 60) { level = 'Новачок'; color = 'var(--yellow)'; }
+  else { level = 'Початківець'; color = 'var(--red)'; }
+
+  const lv = document.getElementById('level');
+  lv.textContent = level + ' (' + pct + '%)';
+  lv.style.color = color;
+
+  let html = '';
+  for (const s in sections) {
+    const sp = Math.round(sections[s].earned / sections[s].max * 100);
+    html += '<div class="section-score-row"><span class="label">' + sectionNames[s] + '</span><span>' + sections[s].earned + ' / ' + sections[s].max + ' (' + sp + '%)</span></div>';
+  }
+  document.getElementById('section-scores').innerHTML = html;
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.question').forEach(q => {
+    q.classList.remove('correct','incorrect');
+    q.querySelector('.explanation').classList.remove('show','correct-answer','incorrect-answer');
+    q.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+    q.querySelectorAll('input').forEach(i => i.checked = false);
+  });
+  document.getElementById('results').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

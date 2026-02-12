@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArgoCD Quiz</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .question.correct { border-color: var(--green); }
+  .question.incorrect { border-color: var(--red); }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .question-number { font-weight: 600; font-size: 1.05rem; }
+  .points { color: var(--muted); font-size: 0.85rem; }
+  .question-text { margin-bottom: 1rem; font-size: 1rem; }
+  .options { list-style: none; }
+  .options li {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .options li:hover { background: #1c2333; }
+  .options li.selected {
+    background: #1c2333;
+    border-color: var(--accent);
+  }
+  .options input[type="radio"] { display: none; }
+  .options label {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation.correct-answer { background: rgba(63,185,80,0.1); border-left: 3px solid var(--green); }
+  .explanation.incorrect-answer { background: rgba(248,81,73,0.1); border-left: 3px solid var(--red); }
+  .btn-row { display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+  button {
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  button:hover { background: #1c2333; border-color: var(--accent); }
+  button.primary {
+    background: #238636;
+    border-color: #2ea043;
+  }
+  button.primary:hover { background: #2ea043; }
+  .results {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    display: none;
+  }
+  .results.show { display: block; }
+  .score-display {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  .score-bar {
+    width: 100%;
+    height: 12px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .score-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 1s ease;
+  }
+  .level {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 1rem 0;
+  }
+  .section-scores {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  .section-score-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+  }
+  .section-score-row .label { color: var(--muted); }
+  .nav-links {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .nav-links a { color: var(--accent); text-decoration: none; }
+  .nav-links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>ArgoCD Knowledge Assessment</h1>
+  <p class="subtitle">20 questions &middot; 100 points &middot; Test your understanding of ArgoCD</p>
+
+  <!-- Section 1 -->
+  <h2 class="section-title">Section 1: ArgoCD Fundamentals (25 pts)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 1</span><span class="points">5 pts</span></div>
+    <div class="question-text">What is ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="a">A) A CI/CD platform for building and testing applications</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="b">B) A declarative, GitOps continuous delivery tool for Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="c">C) A container registry for storing Docker images</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="d">D) A monitoring tool for Kubernetes clusters</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; ArgoCD is specifically designed as a declarative, GitOps-based continuous delivery tool for Kubernetes. It&rsquo;s not a CI platform, container registry, or monitoring tool, though it integrates with those components.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 2</span><span class="points">5 pts</span></div>
+    <div class="question-text">Which architectural pattern does ArgoCD follow for multi-cluster management?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="a">A) Microservices architecture</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="b">B) Hub-and-spoke model</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="c">C) Peer-to-peer architecture</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="d">D) Serverless architecture</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; ArgoCD uses a hub-and-spoke architecture where a central control-plane cluster manages deployments to multiple target clusters, providing a single pane of glass.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 3</span><span class="points">5 pts</span></div>
+    <div class="question-text">In the context of GitOps, what role does ArgoCD play?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="a">A) It stores the Git repositories</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="b">B) It acts as the software agent that pulls desired state and reconciles it with live state</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="c">C) It builds container images from source code</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="d">D) It provides the Kubernetes cluster infrastructure</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; ArgoCD is the automation agent that implements GitOps principles. It continuously pulls the desired state from Git and reconciles it with the live state in Kubernetes clusters.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 4</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: ArgoCD uses a push-based deployment model where CI/CD pipelines push changes directly to clusters.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: False</strong> &mdash; ArgoCD uses a <strong>pull-based</strong> model. It pulls changes from Git repositories rather than having CI/CD pipelines push to clusters. This improves security and follows the GitOps principle of &ldquo;pulled automatically.&rdquo;</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Question 5</span><span class="points">5 pts</span></div>
+    <div class="question-text">How does ArgoCD handle configuration drift?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="a">A) It sends an alert but takes no action</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="b">B) It shuts down the cluster for safety</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="c">C) It automatically reconciles the live state to match the desired state in Git</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="d">D) It requires manual intervention every time</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; When ArgoCD detects drift, it automatically or manually (depending on sync policy) reconciles the live state to match Git. This self-healing capability is a core feature.</div>
+  </div>
+
+  <!-- Section 2 -->
+  <h2 class="section-title">Section 2: ArgoCD and GitOps (20 pts)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Question 6</span><span class="points">5 pts</span></div>
+    <div class="question-text">What does &ldquo;continuous reconciliation&rdquo; mean in the context of ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="a">A) ArgoCD deploys once and never checks the cluster again</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="b">B) ArgoCD periodically syncs on a fixed schedule only</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="c">C) ArgoCD continuously monitors and corrects differences between desired and live state</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="d">D) ArgoCD only reconciles when manually triggered</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; Continuous reconciliation means ArgoCD constantly compares the desired state (Git) with the live state (cluster) and automatically corrects any differences.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Question 7</span><span class="points">5 pts</span></div>
+    <div class="question-text">Which GitOps principle does ArgoCD support by using Git as the source of truth?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="a">A) Imperative configuration management</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="b">B) Declarative configuration with versioning and immutability</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="c">C) Manual deployment processes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="d">D) Direct cluster modifications</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; By using Git as the single source of truth, ArgoCD supports declarative configuration with versioning (Git history) and immutability (Git commits are immutable).</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Question 8</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: ArgoCD requires write access credentials to the Kubernetes cluster to be stored in the CI/CD pipeline.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: False</strong> &mdash; Since ArgoCD runs inside the cluster and pulls from Git, the CI/CD pipeline doesn&rsquo;t need write access to the cluster. CI only needs to update Git. This reduces the attack surface.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Question 9</span><span class="points">5 pts</span></div>
+    <div class="question-text">What happens when ArgoCD detects that the live cluster state differs from the desired state in Git?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="a">A) It logs the difference but does nothing</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="b">B) It automatically or manually (based on policy) synchronizes to restore the desired state</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="c">C) It deletes the application</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="d">D) It creates a new cluster</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; ArgoCD&rsquo;s behavior depends on the sync policy. With auto-sync it immediately reconciles; with manual sync it alerts users but waits for approval. Either way, it can restore the desired state from Git.</div>
+  </div>
+
+  <!-- Section 3 -->
+  <h2 class="section-title">Section 3: ArgoCD and Continuous Delivery (20 pts)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Question 10</span><span class="points">5 pts</span></div>
+    <div class="question-text">In a CD workflow with ArgoCD, what is the primary responsibility of ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="a">A) Building and compiling application code</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="b">B) Running automated tests</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="c">C) Deploying applications and configurations to Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="d">D) Managing source code repositories</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; ArgoCD focuses on the deployment phase &mdash; taking built, tested applications and deploying them to Kubernetes. CI handles building and testing; Git handles source code management.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Question 11</span><span class="points">5 pts</span></div>
+    <div class="question-text">How does the CI pipeline typically interact with ArgoCD in a GitOps workflow?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="a">A) CI pushes directly to the Kubernetes cluster</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="b">B) CI updates manifests in a GitOps repository, which ArgoCD monitors</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="c">C) CI manually triggers ArgoCD via API calls</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="d">D) CI doesn&rsquo;t interact with ArgoCD at all</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; CI updates Kubernetes manifests (usually with new image tags) in a Git repository, and ArgoCD automatically detects and deploys the changes. This separation of concerns is key to GitOps.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Question 12</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: ArgoCD handles both the CI (Continuous Integration) and CD (Continuous Delivery) phases of the software delivery pipeline.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: False</strong> &mdash; ArgoCD focuses on CD only. It doesn&rsquo;t build code, run tests, or create container images &mdash; that&rsquo;s the job of CI tools like Jenkins, GitLab CI, or GitHub Actions.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Question 13</span><span class="points">5 pts</span></div>
+    <div class="question-text">What is a key benefit of using ArgoCD for the deployment phase of CD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="a">A) Faster code compilation</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="b">B) Automatic code review</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="c">C) Declarative deployments with Git-based auditability and rollback</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="d">D) Improved developer laptop performance</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; ArgoCD enables declarative deployments with complete Git audit history and easy rollback via <code>git revert</code>.</div>
+  </div>
+
+  <!-- Section 4 -->
+  <h2 class="section-title">Section 4: ArgoCD and Kubernetes (20 pts)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 14</span><span class="points">5 pts</span></div>
+    <div class="question-text">How are ArgoCD applications defined in Kubernetes?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="a">A) As Docker images</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="b">B) As Custom Resource Definitions (CRDs)</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="c">C) As environment variables</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="d">D) As ConfigMaps only</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; ArgoCD uses Kubernetes CRDs to define applications. This makes it Kubernetes-native, so administrators can use familiar tools like <code>kubectl</code> and YAML.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 15</span><span class="points">5 pts</span></div>
+    <div class="question-text">Which configuration management tools does ArgoCD support? (Choose the MOST complete answer)</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="a">A) Only plain Kubernetes YAML manifests</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="b">B) Only Helm charts</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="c">C) Kubernetes manifests, Helm, Kustomize, Jsonnet, and custom plugins</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="d">D) Only Terraform files</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: C</strong> &mdash; ArgoCD supports plain YAML manifests, Helm charts, Kustomize, Jsonnet, and custom config management plugins. This flexibility lets teams use their preferred tools.</div>
+  </div>
+
+  <div class="question" data-correct="a" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 16</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: ArgoCD configurations are portable between Kubernetes clusters regardless of the underlying infrastructure.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: True</strong> &mdash; Since ArgoCD uses Kubernetes-native CRDs and standard manifests, configurations are portable across any cluster &mdash; AWS, GCP, Azure, on-premises, or local clusters like kind or minikube.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Question 17</span><span class="points">5 pts</span></div>
+    <div class="question-text">What does the ArgoCD <code>syncPolicy: automated: {}</code> configuration enable?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="a">A) Manual approval required for all deployments</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="b">B) Automatic synchronization of changes from Git to the cluster</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="c">C) Automatic cluster scaling</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="d">D) Automatic backup of cluster data</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; Setting <code>syncPolicy: automated: {}</code> enables auto-sync, meaning ArgoCD will automatically deploy changes from Git without manual intervention.</div>
+  </div>
+
+  <!-- Section 5 -->
+  <h2 class="section-title">Section 5: ArgoCD Features and Best Practices (15 pts)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Question 18</span><span class="points">5 pts</span></div>
+    <div class="question-text">What does the ArgoCD web UI enable users to do?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="a">A) Write application code</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="b">B) Visualize and interact with Kubernetes resources, manage applications, and monitor sync/health status</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="c">C) Create Git repositories</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="d">D) Design infrastructure architecture</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; The ArgoCD UI visualizes Kubernetes resources and their relationships, manages application lifecycles, shows sync and health status, provides log access, and allows manual sync triggers.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Question 19</span><span class="points">5 pts</span></div>
+    <div class="question-text">True or False: In a GitOps workflow with ArgoCD, it is recommended to keep application source code and Kubernetes configuration manifests in the same repository.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="a">A) True</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="b">B) False</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: False</strong> &mdash; Best practice is to <strong>separate</strong> application source code and Kubernetes manifests into different repositories for better security, separation of concerns, and independent versioning.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Question 20</span><span class="points">5 pts</span></div>
+    <div class="question-text">What is the &ldquo;App of Apps&rdquo; pattern in ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="a">A) Running multiple instances of the same application</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="b">B) Managing multiple applications as a single unit where one ArgoCD Application manages other Applications</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="c">C) Using multiple ArgoCD servers</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="d">D) Deploying applications to multiple regions simultaneously</label></li>
+    </ul>
+    <div class="explanation"><strong>Answer: B</strong> &mdash; The &ldquo;App of Apps&rdquo; pattern uses one parent ArgoCD Application that points to a directory containing definitions for multiple child Applications, making it easy to manage entire environments as a single unit.</div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="primary" onclick="showResults()">Show Results</button>
+    <button onclick="resetQuiz()">Reset</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <h2 style="text-align:center;margin-bottom:0.5rem;">Your Results</h2>
+    <div class="score-display" id="score-display">0 / 100</div>
+    <div class="score-bar"><div class="score-fill" id="score-fill"></div></div>
+    <div class="level" id="level"></div>
+    <div class="section-scores" id="section-scores"></div>
+  </div>
+
+  <div class="nav-links">
+    <a href="IntroductionToArgoCD.md">&larr; Back to Module</a> &nbsp;&middot;&nbsp;
+    <a href="../../README.md">Course Home</a> &nbsp;&middot;&nbsp;
+    <a href="../../3-CRD-ArgoCD/EN/CRD-ArgoCD.md">Next Module &rarr;</a>
+  </div>
+</div>
+
+<script>
+function sel(li) {
+  const opts = li.closest('.options');
+  opts.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+  li.classList.add('selected');
+  li.querySelector('input').checked = true;
+}
+
+function showResults() {
+  const questions = document.querySelectorAll('.question');
+  let total = 0, earned = 0;
+  const sections = {};
+  const sectionNames = {
+    '1': 'ArgoCD Fundamentals',
+    '2': 'ArgoCD and GitOps',
+    '3': 'ArgoCD and Continuous Delivery',
+    '4': 'ArgoCD and Kubernetes',
+    '5': 'Features and Best Practices'
+  };
+  const sectionMax = {'1':25,'2':20,'3':20,'4':20,'5':15};
+
+  questions.forEach(q => {
+    const correct = q.dataset.correct;
+    const pts = parseInt(q.dataset.points);
+    const sec = q.dataset.section;
+    total += pts;
+    if (!sections[sec]) sections[sec] = {earned:0, max:sectionMax[sec]};
+
+    const selected = q.querySelector('input:checked');
+    const expl = q.querySelector('.explanation');
+
+    q.classList.remove('correct','incorrect');
+    expl.classList.remove('correct-answer','incorrect-answer');
+
+    if (selected) {
+      if (selected.value === correct) {
+        earned += pts;
+        sections[sec].earned += pts;
+        q.classList.add('correct');
+        expl.classList.add('show','correct-answer');
+      } else {
+        q.classList.add('incorrect');
+        expl.classList.add('show','incorrect-answer');
+      }
+    } else {
+      expl.classList.add('show','incorrect-answer');
+    }
+  });
+
+  const pct = Math.round(earned / total * 100);
+  document.getElementById('score-display').textContent = earned + ' / ' + total;
+  const fill = document.getElementById('score-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = pct >= 90 ? 'var(--green)' : pct >= 70 ? 'var(--accent)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+
+  let level = '', color = '';
+  if (pct >= 90) { level = 'ArgoCD Expert'; color = 'var(--green)'; }
+  else if (pct >= 80) { level = 'Advanced Practitioner'; color = 'var(--accent)'; }
+  else if (pct >= 70) { level = 'Intermediate'; color = 'var(--accent)'; }
+  else if (pct >= 60) { level = 'Beginner'; color = 'var(--yellow)'; }
+  else { level = 'Novice'; color = 'var(--red)'; }
+
+  const lv = document.getElementById('level');
+  lv.textContent = level + ' (' + pct + '%)';
+  lv.style.color = color;
+
+  let html = '';
+  for (const s in sections) {
+    const sp = Math.round(sections[s].earned / sections[s].max * 100);
+    html += '<div class="section-score-row"><span class="label">' + sectionNames[s] + '</span><span>' + sections[s].earned + ' / ' + sections[s].max + ' (' + sp + '%)</span></div>';
+  }
+  document.getElementById('section-scores').innerHTML = html;
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.question').forEach(q => {
+    q.classList.remove('correct','incorrect');
+    q.querySelector('.explanation').classList.remove('show','correct-answer','incorrect-answer');
+    q.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+    q.querySelectorAll('input').forEach(i => i.checked = false);
+  });
+  document.getElementById('results').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

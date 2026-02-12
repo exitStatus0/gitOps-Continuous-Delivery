@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оцінка знань з Application CRD ArgoCD</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .question.correct { border-color: var(--green); }
+  .question.incorrect { border-color: var(--red); }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .question-number { font-weight: 600; font-size: 1.05rem; }
+  .points { color: var(--muted); font-size: 0.85rem; }
+  .question-text { margin-bottom: 1rem; font-size: 1rem; }
+  .options { list-style: none; }
+  .options li {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .options li:hover { background: #1c2333; }
+  .options li.selected { background: #1c2333; border-color: var(--accent); }
+  .options input[type="radio"] { display: none; }
+  .options label { cursor: pointer; display: block; width: 100%; }
+  .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation.correct-answer { background: rgba(63,185,80,0.1); border-left: 3px solid var(--green); }
+  .explanation.incorrect-answer { background: rgba(248,81,73,0.1); border-left: 3px solid var(--red); }
+  .btn-row { display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+  button {
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  button:hover { background: #1c2333; border-color: var(--accent); }
+  button.primary { background: #238636; border-color: #2ea043; }
+  button.primary:hover { background: #2ea043; }
+  .results {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    display: none;
+  }
+  .results.show { display: block; }
+  .score-display { font-size: 3rem; font-weight: 700; text-align: center; margin: 1rem 0; }
+  .score-bar { width: 100%; height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; margin: 1rem 0; }
+  .score-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
+  .level { text-align: center; font-size: 1.2rem; font-weight: 600; margin: 1rem 0; }
+  .section-scores { margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .section-score-row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.95rem; }
+  .section-score-row .label { color: var(--muted); }
+  .nav-links {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .nav-links a { color: var(--accent); text-decoration: none; }
+  .nav-links a:hover { text-decoration: underline; }
+  code { background: var(--border); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Оцінка знань з Application CRD ArgoCD</h1>
+  <p class="subtitle">20 питань &middot; 100 балів &middot; Перевірте своє розуміння Application CRD</p>
+
+  <!-- Section 1 -->
+  <h2 class="section-title">Розділ 1: Основи Application CRD (25 балів)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 1</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що таке ArgoCD Application CRD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="a">A) Docker образ для розгортання додатків</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="b">B) Kubernetes Custom Resource, що представляє розгорнутий додаток</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="c">C) Інструмент командного рядка для управління ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="d">D) Сервіс моніторингу для кластерів Kubernetes</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD Application є Kubernetes Custom Resource (CR), визначеним Custom Resource Definition (CRD). Він представляє розгорнутий додаток у вашому кластері та містить всю інформацію, необхідну ArgoCD для розгортання та управління цим додатком. Це не Docker образ (A), CLI інструмент (C) або сервіс моніторингу (D).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="c" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 2</span><span class="points">5 балів</span></div>
+    <div class="question-text">Яке поле в Application CRD є обов'язковим і визначає звідки беруться маніфести?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="a">A) <code>spec.destination</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="b">B) <code>spec.syncPolicy</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="c">C) <code>spec.source</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="d">D) <code>spec.project</code></label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; Поле <code>spec.source</code> є обов'язковим і визначає, звідки ArgoCD повинен отримати маніфести (Git-репозиторій, Helm-репозиторій тощо). Хоча <code>spec.destination</code> (A) та <code>spec.project</code> (D) також є обов'язковими, питання конкретно стосується того, звідки *беруться* маніфести. <code>spec.syncPolicy</code> (B) є необов'язковим.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 3</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: Application CRD може розгортати тільки звичайні YAML маніфести.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD Applications підтримують кілька інструментів управління конфігурацією, включаючи Helm, Kustomize, Jsonnet, plain YAML/JSON та користувацькі плагіни. Ця гнучкість дозволяє командам використовувати свої улюблені інструменти для визначення ресурсів Kubernetes.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 4</span><span class="points">5 балів</span></div>
+    <div class="question-text">Як ArgoCD відстежує ресурси, розгорнуті Аплікацією?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="a">A) Зберігаючи їх у базі даних</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="b">B) Додаючи labels або annotations до ресурсів</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="c">C) Створюючи ConfigMap зі списками ресурсів</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="d">D) Запитуючи Kubernetes API кожного разу</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; ArgoCD додає labels або annotations (залежно від налаштованого методу відстеження) до всіх ресурсів, розгорнутих Аплікацією. Це дозволяє ArgoCD моніторити статус здоров'я, виявляти дрейф, виконувати очищення та показувати взаємозв'язки в UI. Він не використовує базу даних (A), ConfigMaps (C) або постійні запити API (D).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="c" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Питання 5</span><span class="points">5 балів</span></div>
+    <div class="question-text">Який з наступних інструментів НЕ підтримується в ArgoCD Applications?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="a">A) Helm</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="b">B) Kustomize</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="c">C) Terraform</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="d">D) Jsonnet</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; Хоча ArgoCD нативно підтримує Helm (A), Kustomize (B), Jsonnet (D) та plain YAML, він не підтримує Terraform нативно. Однак ви потенційно можете інтегрувати Terraform, використовуючи користувацький Config Management Plugin (CMP), але це не вбудований підтримуваний інструмент.</div>
+  </div>
+
+
+
+  <!-- Section 2 -->
+  <h2 class="section-title">Розділ 2: Конфігурація джерела (20 балів)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Питання 6</span><span class="points">5 балів</span></div>
+    <div class="question-text">У полі <code>source</code>, що визначає <code>targetRevision</code>?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="a">A) Версію Kubernetes API</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="b">B) Git гілку, тег або коміт для відстеження</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="c">C) Вимогу до версії ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="d">D) Версію файлу маніфесту</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Поле <code>targetRevision</code> вказує, яку версію джерела використовувати. Для Git-репозиторіїв це може бути назва гілки (наприклад, <code>main</code>), тег (наприклад, <code>v1.0.0</code>) або конкретний SHA коміту. Для Helm chart репозиторіїв він вказує версію chart. Це не має нічого спільного з версією Kubernetes API (A), версією ArgoCD (C) або версією файлу маніфесту (D).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="a" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Питання 7</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: ArgoCD може автоматично визначити, який інструмент управління конфігурацією використовувати на основі файлів у репозиторії.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: A</strong> &mdash; ArgoCD виконує автоматичне виявлення інструменту на основі файлів, знайдених у шляху репозиторію. Наприклад, якщо він знаходить <code>Chart.yaml</code>, він використовує Helm; якщо знаходить <code>kustomization.yaml</code>, використовує Kustomize; якщо знаходить файли <code>*.jsonnet</code>, використовує Jsonnet; інакше обробляє файли як plain YAML.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="c" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Питання 8</span><span class="points">5 балів</span></div>
+    <div class="question-text">Якщо репозиторій містить файл <code>Chart.yaml</code>, який інструмент ArgoCD автоматично виявить?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="a">A) Kustomize</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="b">B) Plain YAML</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="c">C) Helm</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="d">D) Jsonnet</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; Наявність файлу <code>Chart.yaml</code> є стандартним індикатором Helm chart. ArgoCD автоматично виявить це та використає Helm для рендерингу маніфестів. <code>kustomization.yaml</code> вказував би на Kustomize (A), <code>*.jsonnet</code> на Jsonnet (D), а окремі файли <code>*.yaml</code> оброблялися б як plain YAML (B).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Питання 9</span><span class="points">5 балів</span></div>
+    <div class="question-text">Яка мета вказівки <code>valueFiles</code> у конфігурації джерела Helm?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="a">A) Перерахувати всі Helm charts у репозиторії</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="b">B) Вказати, які файли значень використовувати для рендерингу Helm chart</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="c">C) Визначити версію Helm</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="d">D) Налаштувати облікові дані репозиторію Helm</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Поле <code>valueFiles</code> у конфігурації джерела Helm вказує, які файли значень з репозиторію слід використовувати для перевизначення стандартних значень при рендерингу Helm chart. Це дозволяє мати різні конфігурації для різних середовищ (наприклад, <code>values-production.yaml</code>, <code>values-staging.yaml</code>).</div>
+  </div>
+
+
+
+  <!-- Section 3 -->
+  <h2 class="section-title">Розділ 3: Конфігурація призначення (15 балів)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Питання 10</span><span class="points">5 балів</span></div>
+    <div class="question-text">Як можна вказати цільовий кластер у полі <code>destination</code>?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="a">A) Тільки за назвою кластера</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="b">B) Тільки за URL сервера</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="c">C) Або за назвою кластера, або за URL сервера</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="d">D) Тільки за namespace</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; ArgoCD надає гнучкість у вказівці цільового кластера. Ви можете використовувати або назву кластера (наприклад, <code>name: 'production'</code>), або URL сервера (наприклад, <code>server: 'https://prod-cluster.example.com'</code>). Обидва методи є дійсними і можуть використовуватися на основі ваших переваг. Namespace також має бути вказаний окремо.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Питання 11</span><span class="points">5 балів</span></div>
+    <div class="question-text">Який URL сервера слід використовувати для розгортання в тому ж кластері, де працює ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="a">A) <code>localhost:8080</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="b">B) <code>https://kubernetes.default.svc</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="c">C) <code>http://argocd-server</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="d">D) <code>https://127.0.0.1:6443</code></label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; <code>https://kubernetes.default.svc</code> є стандартною адресою API сервера Kubernetes всередині кластера. Коли ArgoCD розгорнутий у кластері, і ви хочете розгортати додатки в цей же кластер, використовуйте цей URL. Інші варіанти (A, C, D) не є стандартними адресами всередині кластера.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="a" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Питання 12</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: Ресурси з областю кластера, такі як ClusterRoles, ігнорують namespace, вказаний у полі destination.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: A</strong> &mdash; Ресурси з областю кластера (такі як ClusterRoles, ClusterRoleBindings, CustomResourceDefinitions тощо) існують на рівні кластера і не обмежені namespace. Тому поле <code>namespace</code> у конфігурації destination ігнорується для цих ресурсів. Тільки ресурси з областю namespace (як Deployments, Services, ConfigMaps) створюються у вказаному namespace.</div>
+  </div>
+
+
+
+  <!-- Section 4 -->
+  <h2 class="section-title">Розділ 4: Політики синхронізації та поведінка (25 балів)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 13</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що означає "синхронізувати" Аплікацію?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="a">A) Створити резервну копію додатку</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="b">B) Узгодити живий стан кластера з бажаним станом з Git</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="c">C) Оновити версію ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="d">D) Синхронізувати кілька кластерів разом</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Синхронізація Аплікації означає узгодження фактичного стану ресурсів у кластері з бажаним станом, визначеним у Git-репозиторії. ArgoCD отримує маніфести з Git, рендерить їх, порівнює з живим станом кластера та застосовує необхідні зміни для їх відповідності. Це не про резервні копії (A), оновлення ArgoCD (C) або мультикластерну синхронізацію (D).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 14</span><span class="points">5 балів</span></div>
+    <div class="question-text">Яка конфігурація політики синхронізації вмикає автоматичну синхронізацію при виявленні змін у Git?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="a">A) <code>syncPolicy: manual: {}</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="b">B) <code>syncPolicy: automated: {}</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="c">C) <code>syncPolicy: scheduled: {}</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="d">D) <code>syncPolicy: continuous: {}</code></label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Встановлення <code>syncPolicy.automated</code> на порожній об'єкт <code>{}</code> вмикає автоматичну синхронізацію. ArgoCD буде безперервно опитувати Git-репозиторій та автоматично розгортати зміни без ручного втручання. Немає типів політики синхронізації <code>manual</code> (A), <code>scheduled</code> (C) або <code>continuous</code> (D) в ArgoCD.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 15</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що робить опція <code>selfHeal: true</code>?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="a">A) Автоматично перезапускає невдалі pods</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="b">B) Автоматично повертає ручні зміни, внесені безпосередньо в кластер</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="c">C) Лікує проблеми з мережевим підключенням</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="d">D) Ремонтує пошкоджені маніфести в Git</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Опція <code>selfHeal: true</code> вмикає автоматичне виправлення дрейфу. Якщо хтось вручну змінює ресурс у кластері (наприклад, <code>kubectl edit deployment</code>), ArgoCD виявить дрейф і автоматично поверне зміну для відповідності бажаному стану в Git. Вона не перезапускає pods (A), не виправляє проблеми мережі (C) і не ремонтує Git маніфести (D).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="a" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 16</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: Опція <code>prune: true</code> автоматично видалить ресурси з кластера, коли вони видалені з Git.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: A</strong> &mdash; Коли встановлено <code>prune: true</code> в автоматичній політиці синхронізації, ArgoCD автоматично видалить ресурси з кластера, коли вони видалені з Git-репозиторію. Це забезпечує синхронізацію кластера з Git шляхом видалення ресурсів, які більше не визначені у джерелі.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Питання 17</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що робить опція синхронізації <code>CreateNamespace=true</code>?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="a">A) Створює новий кластер Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="b">B) Створює цільовий namespace, якщо він не існує</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="c">C) Створює namespace для самого ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="d">D) Створює резервні namespace для відновлення після аварій</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Опція синхронізації <code>CreateNamespace=true</code> автоматично створює цільовий namespace у цільовому кластері, якщо він ще не існує. Це корисно для перших розгортань, коли namespace ще не був створений вручну. Вона не створює кластери (A), namespace ArgoCD (C) або резервні namespace (D).</div>
+  </div>
+
+
+
+  <!-- Section 5 -->
+  <h2 class="section-title">Розділ 5: Життєвий цикл і стани Application (15 балів)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Питання 18</span><span class="points">5 балів</span></div>
+    <div class="question-text">Що означає статус "OutOfSync"?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="a">A) Аплікація не працює</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="b">B) Живий стан відрізняється від бажаного стану в Git</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="c">C) Операція синхронізації зазнала невдачі</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="d">D) Аплікація очікує на ручне схвалення</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: B</strong> &mdash; Статус "OutOfSync" вказує, що живий стан ресурсів у кластері не відповідає бажаному стану, визначеному в Git. Це може бути через нещодавні зміни в Git, які ще не синхронізовані, або ручні зміни, внесені безпосередньо в кластер. Це індикатор статусу синхронізації, а не статусу роботи (A), статусу невдачі (C) або статусу схвалення (D).</div>
+  </div>
+
+
+
+  <div class="question" data-correct="c" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Питання 19</span><span class="points">5 балів</span></div>
+    <div class="question-text">Який статус здоров'я вказує, що всі ресурси працюють правильно?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="a">A) Synced</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="b">B) Progressing</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="c">C) Healthy</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="d">D) Active</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: C</strong> &mdash; "Healthy" — це статус здоров'я, який вказує, що всі ресурси працюють правильно та функціонують як очікується. "Synced" (A) — це статус синхронізації, а не здоров'я. "Progressing" (B) означає, що ресурси створюються/оновлюються. "Active" (D) не є дійсним статусом здоров'я ArgoCD.</div>
+  </div>
+
+
+
+  <div class="question" data-correct="a" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Питання 20</span><span class="points">5 балів</span></div>
+    <div class="question-text">Так чи Ні: Аплікація може бути "Synced", але все ще бути "Degraded" за статусом здоров'я.</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="a">A) Так</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="b">B) Ні</label></li>
+    </ul>
+    <div class="explanation"><strong>Відповідь: A</strong> &mdash; Статус синхронізації та статус здоров'я є незалежними. Аплікація може бути "Synced" (тобто живий стан відповідає бажаному стану в Git), але "Degraded" за здоров'ям (тобто деякі ресурси зазнають невдачі, наприклад, pods у CrashLoopBackOff). Наприклад, якщо Git визначає Deployment з пошкодженим образом контейнера, ArgoCD успішно синхронізує його (статус Synced), але pods зазнають невдачі (статус здоров'я Degraded).</div>
+  </div>
+
+
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="primary" onclick="showResults()">Показати результати</button>
+    <button onclick="resetQuiz()">Скинути</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <h2 style="text-align:center;margin-bottom:0.5rem;">Ваші результати</h2>
+    <div class="score-display" id="score-display">0 / 100</div>
+    <div class="score-bar"><div class="score-fill" id="score-fill"></div></div>
+    <div class="level" id="level"></div>
+    <div class="section-scores" id="section-scores"></div>
+  </div>
+
+  <div class="nav-links">
+    <a href="АплікаціяArgoCD.md">&larr; Назад до модуля</a> &nbsp;&middot;&nbsp;
+    <a href="../../README.md">Головна курсу</a> &nbsp;&middot;&nbsp;
+    <a href="../../4-Practice/PrerequisitesInstallation.md">Наступний модуль &rarr;</a>
+  </div>
+</div>
+
+<script>
+function sel(li) {
+  const opts = li.closest('.options');
+  opts.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+  li.classList.add('selected');
+  li.querySelector('input').checked = true;
+}
+
+function showResults() {
+  const questions = document.querySelectorAll('.question');
+  let total = 0, earned = 0;
+  const sections = {};
+  const sectionNames = {
+    '1': 'Основи CRD',
+    '2': 'Конфігурація джерела',
+    '3': 'Конфігурація призначення',
+    '4': 'Політики синхронізації та поведінка',
+    '5': 'Життєвий цикл і стани'
+  };
+  const sectionMax = {'1':25,'2':20,'3':15,'4':25,'5':15};
+
+  questions.forEach(q => {
+    const correct = q.dataset.correct;
+    const pts = parseInt(q.dataset.points);
+    const sec = q.dataset.section;
+    total += pts;
+    if (!sections[sec]) sections[sec] = {earned:0, max:sectionMax[sec]};
+
+    const selected = q.querySelector('input:checked');
+    const expl = q.querySelector('.explanation');
+
+    q.classList.remove('correct','incorrect');
+    expl.classList.remove('correct-answer','incorrect-answer');
+
+    if (selected) {
+      if (selected.value === correct) {
+        earned += pts;
+        sections[sec].earned += pts;
+        q.classList.add('correct');
+        expl.classList.add('show','correct-answer');
+      } else {
+        q.classList.add('incorrect');
+        expl.classList.add('show','incorrect-answer');
+      }
+    } else {
+      expl.classList.add('show','incorrect-answer');
+    }
+  });
+
+  const pct = Math.round(earned / total * 100);
+  document.getElementById('score-display').textContent = earned + ' / ' + total;
+  const fill = document.getElementById('score-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = pct >= 90 ? 'var(--green)' : pct >= 70 ? 'var(--accent)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+
+  let level = '', color = '';
+  if (pct >= 90) { level = 'Експерт з Application CRD'; color = 'var(--green)'; }
+  else if (pct >= 80) { level = 'Просунутий практик'; color = 'var(--accent)'; }
+  else if (pct >= 70) { level = 'Середній рівень'; color = 'var(--accent)'; }
+  else if (pct >= 60) { level = 'Новачок'; color = 'var(--yellow)'; }
+  else { level = 'Початківець'; color = 'var(--red)'; }
+
+  const lv = document.getElementById('level');
+  lv.textContent = level + ' (' + pct + '%)';
+  lv.style.color = color;
+
+  let html = '';
+  for (const s in sections) {
+    const sp = Math.round(sections[s].earned / sections[s].max * 100);
+    html += '<div class="section-score-row"><span class="label">' + sectionNames[s] + '</span><span>' + sections[s].earned + ' / ' + sections[s].max + ' (' + sp + '%)</span></div>';
+  }
+  document.getElementById('section-scores').innerHTML = html;
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.question').forEach(q => {
+    q.classList.remove('correct','incorrect');
+    q.querySelector('.explanation').classList.remove('show','correct-answer','incorrect-answer');
+    q.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+    q.querySelectorAll('input').forEach(i => i.checked = false);
+  });
+  document.getElementById('results').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
