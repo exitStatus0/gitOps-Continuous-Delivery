@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Итоговая оценка: Мастерство GitOps и ArgoCD</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.1rem; }
+  .section-title {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+  }
+  .question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .question.correct { border-color: var(--green); }
+  .question.incorrect { border-color: var(--red); }
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .question-number { font-weight: 600; font-size: 1.05rem; }
+  .points { color: var(--muted); font-size: 0.85rem; }
+  .question-text { margin-bottom: 1rem; font-size: 1rem; }
+  .options { list-style: none; }
+  .options li {
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .options li:hover { background: #1c2333; }
+  .options li.selected { background: #1c2333; border-color: var(--accent); }
+  .options input[type="radio"] { display: none; }
+  .options label { cursor: pointer; display: block; width: 100%; }
+  .explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    display: none;
+  }
+  .explanation.show { display: block; }
+  .explanation.correct-answer { background: rgba(63,185,80,0.1); border-left: 3px solid var(--green); }
+  .explanation.incorrect-answer { background: rgba(248,81,73,0.1); border-left: 3px solid var(--red); }
+  .btn-row { display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+  button {
+    padding: 0.75rem 2rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  button:hover { background: #1c2333; border-color: var(--accent); }
+  button.primary { background: #238636; border-color: #2ea043; }
+  button.primary:hover { background: #2ea043; }
+  .results {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    display: none;
+  }
+  .results.show { display: block; }
+  .score-display { font-size: 3rem; font-weight: 700; text-align: center; margin: 1rem 0; }
+  .score-bar { width: 100%; height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; margin: 1rem 0; }
+  .score-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
+  .level { text-align: center; font-size: 1.2rem; font-weight: 600; margin: 1rem 0; }
+  .section-scores { margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .section-score-row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.95rem; }
+  .section-score-row .label { color: var(--muted); }
+  .nav-links {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .nav-links a { color: var(--accent); text-decoration: none; }
+  .nav-links a:hover { text-decoration: underline; }
+  code { background: var(--border); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Итоговая оценка: Мастерство GitOps и ArgoCD</h1>
+  <p class="subtitle">23 вопроса &middot; 115 баллов &middot; Комплексная оценка курса</p>
+
+  <!-- Section 1 -->
+  <h2 class="section-title">Раздел 1: Основы Continuous Delivery (10 баллов)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Вопрос 1</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Какова основная цель Continuous Delivery?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="a">A) Устранить всё ручное тестирование</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="b">B) Развертывать код в продакшн без участия человека</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="c">C) Автоматизировать доставку изменений в продакшн безопасно, быстро и устойчиво</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q1" value="d">D) Сократить количество необходимых разработчиков</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; Continuous Delivery фокусируется на автоматизации процесса выпуска, чтобы доставлять изменения в продакшн безопасно, быстро и устойчиво. Это не обязательно исключает участие человека (это делает Continuous Deployment) или сокращает штат — это освобождает инженеров от рутины для концентрации на доставке ценности.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="1">
+    <div class="question-header"><span class="question-number">Вопрос 2</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Какова связь между Continuous Integration (CI) и Continuous Delivery (CD)?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="a">A) Это одно и то же</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="b">B) CI является необязательным дополнением к CD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="c">C) CI является важным обязательным условием для CD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q2" value="d">D) CD должен быть внедрен до CI</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; CI является важным обязательным условием для CD. Вам нужно сначала интегрировать и протестировать изменения кода (CI), прежде чем вы сможете надежно доставлять их (CD). CI фокусируется на слиянии и тестировании кода, а CD автоматизирует развертывание в среды.</div>
+  </div>
+
+  <!-- Section 2 -->
+  <h2 class="section-title">Раздел 2: Принципы GitOps (15 баллов)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Вопрос 3</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Что из перечисленного НЕ является одним из четырех принципов GitOps?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="a">A) Declarative</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="b">B) Versioned and Immutable</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="c">C) Pushed Automatically</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q3" value="d">D) Continuously Reconciled</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; Четыре принципа GitOps: Declarative, Versioned and Immutable, <strong>Pulled</strong> Automatically (не pushed) и Continuously Reconciled. Модель на основе pull является ключевым отличием от традиционных развертываний на основе push.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Вопрос 4</span><span class="points">5 баллов</span></div>
+    <div class="question-text">В чем основное преимущество безопасности модели pull в GitOps перед традиционной моделью push?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="a">A) Используется более сильное шифрование</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="b">B) Системе CI/CD не нужен доступ на запись в кластер</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="c">C) Требуется меньше токенов аутентификации</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q4" value="d">D) Поддерживается больше провайдеров идентификации</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; В модели pull оператор GitOps, работающий внутри кластера, затягивает изменения из Git. Это означает, что системе CI/CD не нужны учетные данные с правами записи в API кластера, что значительно сокращает поверхность атаки в случае компрометации системы CI/CD.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="2">
+    <div class="question-header"><span class="question-number">Вопрос 5</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Что происходит при обнаружении расхождения (drift) в настройке GitOps с включенным Self-healing?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="a">A) Отправляется оповещение и требуется ручное вмешательство</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="b">B) Система автоматически возвращается к состоянию, описанному в Git</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="c">C) Репозиторий Git обновляется в соответствии с состоянием кластера</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q5" value="d">D) Развертывание откатывается к предыдущей версии</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; При включенном Self-healing оператор GitOps автоматически согласовывает состояние кластера с желаемым состоянием, определенным в Git. Ручные изменения в кластере автоматически откатываются.</div>
+  </div>
+
+  <!-- Section 3 -->
+  <h2 class="section-title">Раздел 3: Архитектура и функции ArgoCD (15 баллов)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Вопрос 6</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Какую модель развертывания использует ArgoCD для управления несколькими кластерами?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="a">A) Peer-to-peer (пиринговая модель)</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="b">B) Distributed mesh (распределенная сеть)</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="c">C) Hub-and-spoke (ступица и спицы)</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q6" value="d">D) Federation (федерация)</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; ArgoCD использует модель hub-and-spoke, где центральный кластер управления (control plane) с установленным ArgoCD управляет развертываниями во множество целевых кластеров. Это обеспечивает централизованное управление при сохранении масштабируемости.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Вопрос 7</span><span class="points">5 баллов</span></div>
+    <div class="question-text">За что из перечисленного отвечает ArgoCD в CI/CD конвейере?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="a">A) Сборка образов контейнеров</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="b">B) Запуск юнит-тестов</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="c">C) Развертывание приложений в Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q7" value="d">D) Линтинг кода и статический анализ</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; ArgoCD фокусируется на фазе развертывания Continuous Delivery. Он отвечает за развертывание приложений в Kubernetes путем синхронизации желаемого состояния из Git. Сборка, тестирование и сканирование обрабатываются инструментами CI.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="3">
+    <div class="question-header"><span class="question-number">Вопрос 8</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Что делает настройка <code>selfHeal: true</code> в политике синхронизации Application в ArgoCD?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="a">A) Автоматически исправляет баги в коде приложения</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="b">B) Перезапускает нездоровые поды</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="c">C) Автоматически откатывает ручные изменения, внесенные в кластер</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q8" value="d">D) Восстанавливает поврежденные Git-репозитории</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; При включенном <code>selfHeal: true</code> ArgoCD автоматически откатывает любые ручные изменения, внесенные напрямую в кластер, чтобы они соответствовали желаемому состоянию в Git. Это предотвращает отклонение конфигурации (drift).</div>
+  </div>
+
+  <!-- Section 4 -->
+  <h2 class="section-title">Раздел 4: ArgoCD Application CRD (15 баллов)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Вопрос 9</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Что определяет поле <code>spec.source</code> в манифесте ArgoCD Application?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="a">A) Целевой кластер и пространство имен для развертывания</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="b">B) Git-репозиторий и путь, содержащий манифесты</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="c">C) Настройки политики синхронизации</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q9" value="d">D) Проект ArgoCD, к которому принадлежит приложение</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; Поле <code>spec.source</code> определяет, откуда ArgoCD должен брать манифесты приложения, включая URL репозитория, путь внутри него, целевую ревизию (ветку/тег/коммит) и настройки инструментов управления конфигурацией.</div>
+  </div>
+
+  <div class="question" data-correct="d" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Вопрос 10</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Какой инструмент управления конфигурацией обнаружит ArgoCD, если найдет файл <code>Chart.yaml</code> в пути источника?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="a">A) Kustomize</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="b">B) Plain YAML</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="c">C) Jsonnet</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q10" value="d">D) Helm</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: D</strong> &mdash; ArgoCD автоматически обнаруживает инструмент управления конфигурацией на основе файлов в пути источника. Файл <code>Chart.yaml</code> указывает на Helm-чарт. Аналогично, <code>kustomization.yaml</code> указывает на Kustomize.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="4">
+    <div class="question-header"><span class="question-number">Вопрос 11</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Какую опцию синхронизации (Sync Option) следует использовать для автоматического создания целевого пространства имен, если оно не существует?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="a">A) <code>AutoCreate=true</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="b">B) <code>CreateNamespace=true</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="c">C) <code>EnsureNamespace=true</code></label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q11" value="d">D) <code>InitNamespace=true</code></label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; Опция синхронизации <code>CreateNamespace=true</code> сообщает ArgoCD о необходимости автоматически создать пространство имен назначения, если оно еще не существует, перед развертыванием ресурсов.</div>
+  </div>
+
+  <!-- Section 5 -->
+  <h2 class="section-title">Раздел 5: Предварительные условия и лучшие практики GitOps (20 баллов)</h2>
+
+  <div class="question" data-correct="c" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Вопрос 12</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Почему автоматизированное тестирование КРИТИЧЕСКИ важно для успеха GitOps?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="a">A) Это ускоряет развертывание</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="b">B) Это снижает потребность в мониторинге</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="c">C) Без него баги автоматически попадают в продакшн</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q12" value="d">D) Этого требует ArgoCD</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; В GitOps с включенным auto-sync развертывания автоматизированы. Если ваши тесты не ловят баги, эти баги также развертываются автоматически. В полностью автоматизированном конвейере нет человеческой &laquo;сетки безопасности&raquo;, поэтому всеобъемлющее тестирование необходимо.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Вопрос 13</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Что НИКОГДА нельзя хранить в Git-репозитории, даже в приватном?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="a">A) Манифесты Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="b">B) Файлы значений Helm (values files)</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="c">C) Пароли и учетные данные в открытом виде</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q13" value="d">D) Теги образов Docker</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; Никогда не храните секреты в открытом виде в Git. Даже приватные репозитории могут быть скомпрометированы, а история Git постоянна. Используйте решения для управления секретами, такие как Sealed Secrets, External Secrets Operator или HashiCorp Vault.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Вопрос 14</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Какова цель правил защиты веток (Branch Protection Rules) в рабочем процессе GitOps?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="a">A) Предотвращение конфликтов слияния</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="b">B) Гарантия того, что изменения будут проверены перед попаданием в продакшн</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="c">C) Ускорение развертываний</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q14" value="d">D) Уменьшение размера Git-репозитория</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; В GitOps слияние в ветку main фактически означает развертывание в продакшн. Правила защиты веток гарантируют, что все изменения проходят через надлежащую проверку (PR, проверки CI, одобрения) перед развертыванием.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="5">
+    <div class="question-header"><span class="question-number">Вопрос 15</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Для какой среды обычно должна быть включена автосинхронизация (Auto-Sync)?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="a">A) Только для Production</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="b">B) Для Development и QA, с ручной синхронизацией для Production</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="c">C) Для всех сред должна быть включена автосинхронизация</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q15" value="d">D) Ни для каких сред не должна быть включена автосинхронизация</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; Лучшей практикой считается включение автосинхронизации для непромышленных сред (dev, QA) для быстрой итерации, при сохранении ручной синхронизации для продакшена для дополнительного контроля и этапов одобрения.</div>
+  </div>
+
+  <!-- Section 6 -->
+  <h2 class="section-title">Раздел 6: Паттерн App of Apps (10 баллов)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="6">
+    <div class="question-header"><span class="question-number">Вопрос 16</span><span class="points">5 баллов</span></div>
+    <div class="question-text">В чем основное преимущество паттерна App of Apps?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="a">A) Он сокращает количество необходимых Git-репозиториев</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="b">B) Он позволяет управлять ресурсами Application декларативно через GitOps</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="c">C) Он ускоряет операции синхронизации ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q16" value="d">D) Он устраняет необходимость в Helm-чартах</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; Паттерн App of Apps позволяет управлять ресурсами ArgoCD Application декларативно через GitOps, как и любым другим ресурсом Kubernetes. Вместо ручного создания приложений через UI, вы определяете их в Git.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="6">
+    <div class="question-header"><span class="question-number">Вопрос 17</span><span class="points">5 баллов</span></div>
+    <div class="question-text">На что обычно указывает Application в паттерне App of Apps?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="a">A) На репозиторий Helm-чартов</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="b">B) На папку, содержащую манифесты других ArgoCD Application</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="c">C) На API-сервер Kubernetes</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q17" value="d">D) На реестр контейнеров</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; Application в паттерне App of Apps указывает на папку в вашем Git-репозитории, которая содержит манифесты других ArgoCD Application. При синхронизации оно создает и управляет всеми дочерними приложениями, определенными в этой папке.</div>
+  </div>
+
+  <!-- Section 7 -->
+  <h2 class="section-title">Раздел 7: Устранение неполадок и эксплуатация (15 баллов)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="7">
+    <div class="question-header"><span class="question-number">Вопрос 18</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Приложение показывает статус "Synced", но статус здоровья "Degraded". Что это значит?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="a">A) Синхронизация не удалась</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="b">B) Манифесты были применены успешно, но сами ресурсы работают со сбоями</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="c">C) Проблема с сетевым подключением</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q18" value="d">D) Git-репозиторий недоступен</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; "Synced" означает, что манифесты из Git были успешно применены к кластеру. "Degraded" означает, что сами ресурсы работают со сбоями (например, поды не могут запуститься из-за неверного тега образа, лимитов ресурсов или ошибок конфигурации).</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="7">
+    <div class="question-header"><span class="question-number">Вопрос 19</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Какой самый простой способ откатить развертывание в GitOps?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="a">A) Перезагрузить сервер ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="b">B) Удалить и заново создать Application</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="c">C) Выполнить <code>git revert</code> проблемного коммита и запушить изменения</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q19" value="d">D) Масштабировать Deployment до нуля реплик</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; В GitOps откат выполняется так же просто, как отмена (revert) Git-коммита, вызвавшего проблему. ArgoCD автоматически синхронизирует откаченное состояние с кластером.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="7">
+    <div class="question-header"><span class="question-number">Вопрос 20</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Какова основная цель мониторинга в среде GitOps?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="a">A) Создание отчетов для руководства</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="b">B) Обнаружение проблем, вызванных автоматизированными развертываниями</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="c">C) Соблюдение нормативных требований</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q20" value="d">D) Отслеживание продуктивности разработчиков</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; С автоматизированными развертываниями вам нужно автоматизированное обнаружение проблем. Мониторинг помогает быстро выявить, когда развертывание вызывает проблемы, обеспечивая быструю реакцию и откат при необходимости.</div>
+  </div>
+
+  <!-- Section 8 -->
+  <h2 class="section-title">Раздел 8: Комплексные сценарии (15 баллов)</h2>
+
+  <div class="question" data-correct="b" data-points="5" data-section="8">
+    <div class="question-header"><span class="question-number">Вопрос 21</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Ваша команда внедряет GitOps впервые. Каким должен быть ваш первый шаг?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q21" value="a">A) Включить автосинхронизацию для всех приложений в продакшене</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q21" value="b">B) Начать с непромышленной среды и ручной синхронизации</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q21" value="c">C) Одновременно мигрировать все существующие приложения на ArgoCD</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q21" value="d">D) Удалить все существующие CI/CD конвейеры</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; При начале работы с GitOps начните с непромышленных сред и ручной синхронизации. Это позволит вам изучить рабочий процесс, обрести уверенность и выявить проблемы до применения автоматизации к критическим системам.</div>
+  </div>
+
+  <div class="question" data-correct="b" data-points="5" data-section="8">
+    <div class="question-header"><span class="question-number">Вопрос 22</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Разработчик вручную изменил ConfigMap в продакшене, чтобы исправить срочную проблему. С GitOps и включенным self-heal, что произойдет дальше?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q22" value="a">A) Изменение сохранится до следующей запланированной синхронизации</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q22" value="b">B) ArgoCD автоматически откатит изменение, чтобы оно соответствовало Git</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q22" value="c">C) ArgoCD обновит Git, чтобы отразить ручное изменение</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q22" value="d">D) Будет отправлено оповещение, но никаких автоматических действий не последует</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: B</strong> &mdash; При включенном self-heal ArgoCD непрерывно согласовывает состояние кластера с Git. Ручное изменение будет автоматически откачено в соответствие с желаемым состоянием в Git. Чтобы сделать изменение постоянным, оно должно быть зафиксировано (commit) в Git.</div>
+  </div>
+
+  <div class="question" data-correct="c" data-points="5" data-section="8">
+    <div class="question-header"><span class="question-number">Вопрос 23</span><span class="points">5 баллов</span></div>
+    <div class="question-text">Ваша организация хочет внедрить GitOps, но на данный момент нет автоматизированного тестирования. Что вам следует сделать?</div>
+    <ul class="options">
+      <li onclick="sel(this)"><label><input type="radio" name="q23" value="a">A) Все равно внедрять GitOps; тестирование можно добавить позже</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q23" value="b">B) Использовать только ручную синхронизацию, пока не будет налажено тестирование</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q23" value="c">C) Инвестировать в инфраструктуру тестирования перед включением автосинхронизации</label></li>
+      <li onclick="sel(this)"><label><input type="radio" name="q23" value="d">D) Использовать встроенные функции тестирования ArgoCD</label></li>
+    </ul>
+    <div class="explanation"><strong>Ответ: C</strong> &mdash; Автоматизированное тестирование — критическое условие успеха GitOps. Без всеобъемлющих тестов включение автосинхронизации означает, что баги будут автоматически попадать в продакшн. Инвестируйте в тестирование перед включением автоматизации.</div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="primary" onclick="showResults()">Показать результаты</button>
+    <button onclick="resetQuiz()">Сбросить</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <h2 style="text-align:center;margin-bottom:0.5rem;">Ваши результаты</h2>
+    <div class="score-display" id="score-display">0 / 115</div>
+    <div class="score-bar"><div class="score-fill" id="score-fill"></div></div>
+    <div class="level" id="level"></div>
+    <div class="section-scores" id="section-scores"></div>
+  </div>
+
+  <div class="nav-links">
+    <a href="Conclusion.md">&larr; Назад к модулю</a> &nbsp;&middot;&nbsp;
+    <a href="../../README.md">Главная курса</a>
+  </div>
+</div>
+
+<script>
+function sel(li) {
+  const opts = li.closest('.options');
+  opts.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+  li.classList.add('selected');
+  li.querySelector('input').checked = true;
+}
+
+function showResults() {
+  const questions = document.querySelectorAll('.question');
+  let total = 0, earned = 0;
+  const sections = {};
+  const sectionNames = {
+    '1': 'Основы Continuous Delivery',
+    '2': 'Принципы GitOps',
+    '3': 'Архитектура и функции ArgoCD',
+    '4': 'ArgoCD Application CRD',
+    '5': 'Предварительные условия и лучшие практики',
+    '6': 'Паттерн App of Apps',
+    '7': 'Устранение неполадок и эксплуатация',
+    '8': 'Комплексные сценарии'
+  };
+  const sectionMax = {'1':10,'2':15,'3':15,'4':15,'5':20,'6':10,'7':15,'8':15};
+
+  questions.forEach(q => {
+    const correct = q.dataset.correct;
+    const pts = parseInt(q.dataset.points);
+    const sec = q.dataset.section;
+    total += pts;
+    if (!sections[sec]) sections[sec] = {earned:0, max:sectionMax[sec]};
+
+    const selected = q.querySelector('input:checked');
+    const expl = q.querySelector('.explanation');
+
+    q.classList.remove('correct','incorrect');
+    expl.classList.remove('correct-answer','incorrect-answer');
+
+    if (selected) {
+      if (selected.value === correct) {
+        earned += pts;
+        sections[sec].earned += pts;
+        q.classList.add('correct');
+        expl.classList.add('show','correct-answer');
+      } else {
+        q.classList.add('incorrect');
+        expl.classList.add('show','incorrect-answer');
+      }
+    } else {
+      expl.classList.add('show','incorrect-answer');
+    }
+  });
+
+  const pct = Math.round(earned / total * 100);
+  document.getElementById('score-display').textContent = earned + ' / ' + total;
+  const fill = document.getElementById('score-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = pct >= 90 ? 'var(--green)' : pct >= 70 ? 'var(--accent)' : pct >= 60 ? 'var(--yellow)' : 'var(--red)';
+
+  let level = '', color = '';
+  if (pct >= 90) { level = 'Эксперт по GitOps'; color = 'var(--green)'; }
+  else if (pct >= 80) { level = 'Продвинутый практик'; color = 'var(--accent)'; }
+  else if (pct >= 70) { level = 'Специалист'; color = 'var(--accent)'; }
+  else if (pct >= 60) { level = 'Развивающийся'; color = 'var(--yellow)'; }
+  else { level = 'Требуется изучение'; color = 'var(--red)'; }
+
+  const lv = document.getElementById('level');
+  lv.textContent = level + ' (' + pct + '%)';
+  lv.style.color = color;
+
+  let html = '';
+  for (const s in sections) {
+    const sp = Math.round(sections[s].earned / sections[s].max * 100);
+    html += '<div class="section-score-row"><span class="label">' + sectionNames[s] + '</span><span>' + sections[s].earned + ' / ' + sections[s].max + ' (' + sp + '%)</span></div>';
+  }
+  document.getElementById('section-scores').innerHTML = html;
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.question').forEach(q => {
+    q.classList.remove('correct','incorrect');
+    q.querySelector('.explanation').classList.remove('show','correct-answer','incorrect-answer');
+    q.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+    q.querySelectorAll('input').forEach(i => i.checked = false);
+  });
+  document.getElementById('results').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

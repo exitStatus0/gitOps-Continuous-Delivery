@@ -17,7 +17,7 @@
 
 ## Course Summary
 
-Congratulations on completing this GitOps course! Let's recap the key concepts you've learned throughout your journey.
+Congratulations — you've made it through the entire GitOps course! You now have a skillset that is in serious demand across the industry. Let's recap what you've built up, chapter by chapter.
 
 ```mermaid
 graph LR
@@ -46,13 +46,13 @@ graph LR
 
 ### Chapter 0: Continuous Delivery
 
-You learned that **Continuous Delivery (CD)** is both a technological and cultural transformation that enables organizations to:
+You learned that **Continuous Delivery (CD)** is both a technological and cultural transformation. It's what separates teams that ship with confidence from teams that dread release day:
 - Automate error-prone manual release processes
 - Codify deployment knowledge for consistency and resilience
 - Accelerate time-to-market through automation
 - Scale without proportional headcount increases
 
-**Key Insight**: CD is not about eliminating people—it's about freeing engineers from toil so they can focus on delivering value.
+**Key Insight**: CD is not about eliminating people — it's about freeing engineers from toil so they can focus on delivering value.
 
 ### Chapter 1: GitOps Principles
 
@@ -63,18 +63,18 @@ You discovered the **four foundational principles of GitOps**:
 3. **Pulled Automatically**: Agents pull changes from Git
 4. **Continuously Reconciled**: Agents maintain desired state automatically
 
-**Key Insight**: GitOps transforms CD by using Git as the single source of truth and implementing a pull-based deployment model.
+**Key Insight**: GitOps transforms CD by using Git as the single source of truth and implementing a pull-based deployment model. This is the foundation that top-performing engineering teams rely on.
 
 ### Chapter 2: ArgoCD
 
-You explored **ArgoCD** as the GitOps operator that:
+You explored **ArgoCD** — the most widely adopted GitOps operator in the Kubernetes ecosystem:
 - Continuously monitors Git repositories
 - Automatically detects and corrects drift
 - Provides a powerful UI for visualization
 - Manages multi-cluster deployments
 - Integrates seamlessly with Kubernetes
 
-**Key Insight**: ArgoCD is the software agent that makes GitOps principles actionable in Kubernetes environments.
+**Key Insight**: ArgoCD is the software agent that makes GitOps principles actionable in Kubernetes environments. It's the industry standard for a reason.
 
 ### Chapter 3: ArgoCD Application CRD
 
@@ -95,7 +95,7 @@ You gained hands-on experience with:
 - Fixing production issues through GitOps
 - Managing multiple environments
 
-**Key Insight**: GitOps simplifies operations—changes in Git automatically propagate to your infrastructure.
+**Key Insight**: GitOps simplifies operations — changes in Git automatically propagate to your infrastructure. You've experienced this firsthand, and that experience is invaluable.
 
 ---
 
@@ -131,7 +131,7 @@ graph TB
 
 ## Critical Prerequisites for GitOps Success
 
-> **IMPORTANT**: GitOps is not just a tool you install—it requires specific organizational practices and culture. Without these prerequisites, **GitOps will provide limited value or even create new problems**.
+> **IMPORTANT**: GitOps is not just a tool you install — it requires specific organizational practices and culture. The good news? If you build these foundations right, GitOps becomes a force multiplier for your entire engineering organization. Without them, you'll struggle to see real results.
 
 ### The Foundation Triangle
 
@@ -344,7 +344,7 @@ graph LR
 
 ```yaml
 # Example: External Secrets Operator
-apiVersion: external-secrets.io/v1beta1
+apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: database-credentials
@@ -491,7 +491,7 @@ git push origin main
 
 ## The Golden GitOps Setup
 
-This is the **ideal setup** that organizations should aim for. You may not achieve all of this immediately, but this represents the target state.
+This is the **ideal setup** that top-performing organizations aim for. You don't need to implement everything on day one — but having this target in mind gives you a clear direction. Each component you add brings measurable improvements to your delivery pipeline.
 
 ```mermaid
 graph TB
@@ -622,7 +622,7 @@ jobs:
         run: npm run test:e2e
         
       - name: Security Scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.28.0
         
       - name: Lint
         run: npm run lint
@@ -638,7 +638,7 @@ jobs:
         run: docker build -t myapp:${{ github.sha }} .
         
       - name: Scan Image
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: myapp:${{ github.sha }}
           
@@ -746,7 +746,7 @@ data:
 
 ## Getting Started Roadmap
 
-If you're starting fresh, here's the recommended order of implementation:
+If you're starting fresh, don't try to do everything at once. Here's a proven order of implementation that keeps you moving forward with quick wins at every phase:
 
 ### Phase 1: Foundation (Week 1-2)
 
@@ -801,6 +801,8 @@ If you're starting fresh, here's the recommended order of implementation:
 
 ## Common Pitfalls to Avoid
 
+We've seen teams stumble on the same mistakes again and again. Knowing these upfront will save you time, stress, and potentially a production incident.
+
 ### 1. Starting with Production
 
 **Problem**: Implementing GitOps directly in production without experience.
@@ -847,12 +849,14 @@ If you're starting fresh, here's the recommended order of implementation:
 
 ## Final Recommendations
 
+Whether you're learning on your own, leading a team, or driving organizational change, here's how to make the most of what you've learned.
+
 ### For Individual Learners
 
 1. **Practice in a Safe Environment**
    - Use minikube or kind for local learning
    - Create personal projects to experiment
-   - Break things intentionally to learn recovery
+   - Break things intentionally to learn recovery — this builds real confidence
 
 2. **Build Incrementally**
    - Start with manual sync
@@ -876,7 +880,7 @@ If you're starting fresh, here's the recommended order of implementation:
    - Learn lessons before broader adoption
    - Document everything for organizational learning
 
-3. **Measure Success**
+3. **Measure Success** (DORA metrics are your friend here)
    - Track deployment frequency
    - Measure lead time for changes
    - Monitor change failure rate
@@ -903,15 +907,17 @@ If you're starting fresh, here's the recommended order of implementation:
 
 ## Your Next Steps
 
+The knowledge you've gained puts you ahead of most engineers when it comes to modern deployment practices. Now it's time to put it to work.
+
 ### Immediate Actions
 
 1. **Review the Prerequisites Checklist**
    - Identify gaps in your current setup
-   - Prioritize what to implement first
+   - Prioritize what to implement first — even one improvement makes a difference
 
 2. **Set Up Your First GitOps Environment**
-   - Follow the [Prerequisites Installation Guide](../../4-Practice/PrerequisitesInstallation.md)
-   - Complete the [Practice Lab](../../4-Practice/EN/PracticeLab.md)
+   - Follow the [Prerequisites Installation Guide](../../4-Practice/EN/PrerequisitesInstallation.md)
+   - Complete the [Practice Lab](../../4-Practice/EN/PracticeLab.md) if you haven't already
 
 3. **Join the Community**
    - [ArgoCD Slack](https://argoproj.github.io/community/join-slack)
@@ -925,19 +931,20 @@ If you're starting fresh, here's the recommended order of implementation:
 | [ArgoCD Documentation](https://argo-cd.readthedocs.io/) | Official ArgoCD docs |
 | [OpenGitOps](https://opengitops.dev/) | GitOps standards and best practices |
 | [CNCF GitOps Working Group](https://github.com/cncf/tag-app-delivery/tree/main/gitops-wg) | Industry standards |
-| [GitOps Toolkit](https://fluxcd.io/) | Alternative GitOps tool (Flux) |
 | [Progressive Delivery](https://argo-rollouts.readthedocs.io/) | Argo Rollouts for canary/blue-green |
 
 ---
 
 ## Closing Thoughts
 
-GitOps is more than just a deployment methodology—it's a **paradigm shift** in how we think about infrastructure management. By treating infrastructure as code, storing it in Git, and using automated reconciliation, we gain:
+GitOps is more than just a deployment methodology — it's a **paradigm shift** in how we think about infrastructure management. By treating infrastructure as code, storing it in Git, and using automated reconciliation, you gain:
 
 - **Reliability**: Consistent, repeatable deployments
 - **Security**: Auditable changes, reduced attack surface
 - **Velocity**: Faster, more frequent releases
 - **Resilience**: Easy rollbacks, quick recovery
+
+These aren't abstract benefits. They directly translate to fewer late-night incidents, faster onboarding for new team members, and the kind of confidence that lets you deploy on a Friday afternoon without breaking a sweat.
 
 But remember: **tools alone don't make GitOps successful**. Success requires:
 
@@ -946,18 +953,19 @@ But remember: **tools alone don't make GitOps successful**. Success requires:
 - Comprehensive monitoring
 - Continuous learning and improvement
 
-The journey to GitOps maturity is iterative. Start where you are, implement improvements incrementally, and celebrate progress along the way.
+The journey to GitOps maturity is iterative. Start where you are, implement improvements incrementally, and celebrate progress along the way. Every step forward makes your team more resilient and your delivery faster.
 
 ---
 
 ## Thank You
 
-Thank you for completing this course! We hope it has provided you with a solid foundation in GitOps principles and practical skills with ArgoCD.
+Thank you for investing your time in this course. You now have a solid foundation in GitOps principles and practical experience with ArgoCD — skills that are highly valued across the industry.
 
-Remember:
+If this course helped you, consider sharing it with a colleague who's still doing manual deployments. They'll thank you later.
+
 > **"The goal is not perfect GitOps from day one. The goal is continuous improvement towards better, safer, faster software delivery."**
 
-**Happy GitOps-ing!** 🚀
+Now go ship something great.
 
 ---
 
@@ -970,4 +978,4 @@ Remember:
 | 2 | Introduction to ArgoCD | [View](../../2-Introduction-to-ArgoCD/EN/IntroductionToArgoCD.md) |
 | 3 | ArgoCD Application CRD | [View](../../3-CRD-ArgoCD/EN/IntroductionToArgoApplications.md) |
 | 4 | Practice Lab | [View](../../4-Practice/EN/PracticeLab.md) |
-| - | Prerequisites Installation | [View](../../4-Practice/PrerequisitesInstallation.md) |
+| - | Prerequisites Installation | [View](../../4-Practice/EN/PrerequisitesInstallation.md) |
