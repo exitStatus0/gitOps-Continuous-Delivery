@@ -1,6 +1,6 @@
 # Prerequisites Installation Guide
 
-This guide provides detailed installation instructions for all prerequisites needed for the ArgoCD Practice Lab. Instructions are provided for **macOS**, **Linux**, and **Windows**.
+This guide helps you prepare a working environment for the ArgoCD Practice Lab. By the end, you should have everything you need on **macOS**, **Linux**, or **Windows** so the lab feels like hands-on learning, not a setup battle.
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ This guide provides detailed installation instructions for all prerequisites nee
 
 ## Overview
 
-Before starting the ArgoCD Practice Lab, you need the following tools installed:
+Before you start the lab, make sure the following tools are installed and working:
 
 | Tool | Required | Description |
 |------|----------|-------------|

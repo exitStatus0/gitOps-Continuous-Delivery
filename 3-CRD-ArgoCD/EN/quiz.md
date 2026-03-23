@@ -1,11 +1,11 @@
 # ArgoCD Application CRD Knowledge Assessment
 
-Test your understanding of ArgoCD Application CRD, its structure, sync policies, and best practices!
+Use this quiz to check how well you understand the ArgoCD Application CRD, its structure, sync policies, and best practices.
 
-**Instructions:**
+**How to use this quiz:**
 - Answer all questions to the best of your ability
 - Record your answers (A, B, C, D, or True/False)
-- Click "Click to see answer" below each question to reveal the correct answer and explanation
+- Reveal the answer only after you commit to a choice, then compare it with the explanation
 - Calculate your score using the grading scale at the end
 
 ---
@@ -20,7 +20,7 @@ B) A Kubernetes Custom Resource that represents a deployed application
 C) A command-line tool for managing ArgoCD  
 D) A monitoring service for Kubernetes clusters
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - A Kubernetes Custom Resource that represents a deployed application
 
@@ -37,7 +37,7 @@ B) `spec.syncPolicy`
 C) `spec.source`  
 D) `spec.project`
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - `spec.source`
 
@@ -49,7 +49,7 @@ D) `spec.project`
 ### Question 3 (5 points)
 True or False: The Application CRD can only deploy plain YAML manifests.
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: False**
 
@@ -66,7 +66,7 @@ B) By adding labels or annotations to the resources
 C) By creating a ConfigMap with resource lists  
 D) By querying the Kubernetes API every time
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - By adding labels or annotations to the resources
 
@@ -83,7 +83,7 @@ B) Kustomize
 C) Terraform
 D) Jsonnet
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Terraform
 
@@ -104,7 +104,7 @@ B) The Git branch, tag, or commit to track
 C) The ArgoCD version requirement  
 D) The manifest file version
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - The Git branch, tag, or commit to track
 
@@ -116,7 +116,7 @@ D) The manifest file version
 ### Question 7 (5 points)
 True or False: ArgoCD can automatically detect which config management tool to use based on the files in the repository.
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: True**
 
@@ -133,7 +133,7 @@ B) Plain YAML
 C) Helm  
 D) Jsonnet
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Helm
 
@@ -150,7 +150,7 @@ B) To specify which values files to use for rendering the Helm chart
 C) To define the Helm version
 D) To configure Helm repository credentials
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - To specify which values files to use for rendering the Helm chart
 
@@ -171,7 +171,7 @@ B) Only by server URL
 C) Either by cluster name or server URL  
 D) By namespace only
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Either by cluster name or server URL
 
@@ -188,7 +188,7 @@ B) `https://kubernetes.default.svc`
 C) `http://argocd-server`  
 D) `https://127.0.0.1:6443`
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - `https://kubernetes.default.svc`
 
@@ -200,7 +200,7 @@ D) `https://127.0.0.1:6443`
 ### Question 12 (5 points)
 True or False: Cluster-scoped resources like ClusterRoles ignore the namespace specified in the destination field.
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: True**
 
@@ -221,7 +221,7 @@ B) Reconcile the live cluster state with the desired state from Git
 C) Update the ArgoCD version  
 D) Synchronize multiple clusters together
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - Reconcile the live cluster state with the desired state from Git
 
@@ -238,7 +238,7 @@ B) `syncPolicy: automated: {}`
 C) `syncPolicy: scheduled: {}`  
 D) `syncPolicy: continuous: {}`
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - `syncPolicy: automated: {}`
 
@@ -255,7 +255,7 @@ B) Automatically reverts manual changes made directly to the cluster
 C) Heals network connectivity issues  
 D) Repairs corrupted manifests in Git
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - Automatically reverts manual changes made directly to the cluster
 
@@ -267,7 +267,7 @@ D) Repairs corrupted manifests in Git
 ### Question 16 (5 points)
 True or False: The `prune: true` option will automatically delete resources from the cluster when they are removed from Git.
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: True**
 
@@ -284,7 +284,7 @@ B) Creates the destination namespace if it doesn't exist
 C) Creates a namespace for ArgoCD itself
 D) Creates backup namespaces for disaster recovery
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - Creates the destination namespace if it doesn't exist
 
@@ -305,7 +305,7 @@ B) The live state differs from the desired state in Git
 C) The sync operation failed  
 D) The Application is waiting for manual approval
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - The live state differs from the desired state in Git
 
@@ -322,7 +322,7 @@ B) Progressing
 C) Healthy  
 D) Active
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Healthy
 
@@ -334,7 +334,7 @@ D) Active
 ### Question 20 (5 points)
 True or False: An Application can be "Synced" but still be "Degraded" in health status.
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: True**
 

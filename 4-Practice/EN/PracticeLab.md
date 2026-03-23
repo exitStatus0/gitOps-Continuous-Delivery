@@ -4,7 +4,7 @@
 
 ## 🎯 Lab Overview
 
-In this lab scenario, you are an application developer at **Forge World Sigma-VII** working on a new **cogitator** service. Your task is to deploy this service to Kubernetes using ArgoCD and GitOps practices.
+In this lab, you step into the role of an application developer at **Forge World Sigma-VII**. Your mission is to take a new service called **cogitator** and deploy it to Kubernetes using ArgoCD and GitOps practices.
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
@@ -19,16 +19,16 @@ In this lab scenario, you are an application developer at **Forge World Sigma-VI
 
 ### Background Story
 
-The Platform team at Forge World Sigma-VII has recently started constructing a Kubernetes environment for hosting the organization's services. Since the cogitator service is new, your team has the exciting opportunity to trial the Kubernetes environment.
+The interesting part of this exercise is not just the deployment itself. The platform team at Forge World Sigma-VII has built a new Kubernetes environment, and because the cogitator service is only just beginning, your team gets to be among the first to use it.
 
-The challenge is that you must abandon your old service deployment methods because, in the transition to Kubernetes, the organization is adopting **GitOps practices using ArgoCD**.
+That also means the old release ritual is going away. Instead of tickets, waiting windows, and release meetings, the organization is moving to **GitOps practices with ArgoCD**.
 
-**Before ArgoCD**, you would:
+**Before ArgoCD**, the process looked like this:
 1. Send a ticket to the Platform team with the version tag when a new release was ready
 2. Wait for them to acknowledge the ticket and schedule it in the next release window
 3. Join the release meeting and see your change deployed into production
 
-**With ArgoCD**, you will:
+**With ArgoCD**, the workflow becomes:
 1. Have the power to do production releases yourself
 2. Simply change a file in a Git repository
 3. Initiate a sync (or let auto-sync handle it)
@@ -57,7 +57,7 @@ gitops-config-repo/
 │   ├── cogitator-qa.yaml        # QA environment Application
 │   └── cogitator-prod.yaml      # Production environment Application
 ├── charts/                         # Helm charts
-│   └── cogitator/               # Notification service chart
+│   └── cogitator/               # Cogitator service chart
 │       ├── Chart.yaml              # Chart metadata
 │       ├── templates/              # Kubernetes manifests templates
 │       │   ├── deployment.yaml
@@ -602,7 +602,7 @@ graph LR
 
 ## 🎓 Knowledge Check
 
-Test your understanding with these questions:
+Use these questions as a quick check of your understanding:
 
 ### Question 1
 What is the primary benefit of using the App of Apps pattern?

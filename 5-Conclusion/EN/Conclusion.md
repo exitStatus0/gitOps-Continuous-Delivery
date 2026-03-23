@@ -17,7 +17,7 @@
 
 ## Course Summary
 
-Congratulations — you've made it through the entire GitOps course! You now have a skillset that is in serious demand across the industry. Let's recap what you've built up, chapter by chapter.
+You have reached the end of the course, and more importantly, you now have a connected mental model of how GitOps works in practice. What began with release fundamentals ended with ArgoCD, Application CRDs, and a real deployment workflow. Let's look back at that path as one coherent system of ideas.
 
 ```mermaid
 graph LR

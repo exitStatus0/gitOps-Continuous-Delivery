@@ -1,11 +1,11 @@
 # GitOps Knowledge Assessment
 
-Test your understanding of GitOps principles, practices, and implementation strategies!
+Use this assessment to check how confidently you understand GitOps principles, practices, and implementation strategies.
 
-**Instructions:**
+**How to use this quiz:**
 - Answer all questions honestly without referring to the materials
 - Write down your answers (A, B, C, D or True/False)
-- Click "Click to see answer" to check your response
+- Reveal the answer only after you commit to a choice
 - Calculate your final score using the rating system provided
 
 ---
@@ -20,7 +20,7 @@ B) Declarative
 C) Continuously Reconciled  
 D) Versioned and Immutable
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - Declarative
 
@@ -37,7 +37,7 @@ B) Automatic scaling of applications
 C) Complete version history with immutable records of all changes  
 D) Reduced infrastructure costs
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Complete version history with immutable records of all changes
 
@@ -54,7 +54,7 @@ B) They automatically pull from the source repository
 C) System administrators manually configure them  
 D) They generate the desired state dynamically
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - They automatically pull from the source repository
 
@@ -71,7 +71,7 @@ B) Periodic manual checks of system configuration
 C) Software agents observe actual state and continuously apply desired state  
 D) Automated billing reconciliation for cloud resources
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Software agents observe actual state and continuously apply desired state
 
@@ -84,7 +84,7 @@ D) Automated billing reconciliation for cloud resources
 True or False: In GitOps, Git serves as the single source of truth for both infrastructure and application definitions.
 
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: True**
 
@@ -105,7 +105,7 @@ B) CI/CD pipeline directly applies manifests to the Kubernetes API
 C) No credentials are required for deployments  
 D) The system self-heals automatically
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - CI/CD pipeline directly applies manifests to the Kubernetes API
 
@@ -122,7 +122,7 @@ B) Developers manually deploy changes
 C) A GitOps operator monitors Git and pulls changes to apply them  
 D) Changes are deployed through kubectl commands
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - A GitOps operator monitors Git and pulls changes to apply them
 
@@ -139,7 +139,7 @@ B) No write credentials or direct cluster access needed in CI/CD pipeline
 C) Automatic security scanning of containers  
 D) Built-in encryption of all data
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - No write credentials or direct cluster access needed in CI/CD pipeline
 
@@ -152,7 +152,7 @@ D) Built-in encryption of all data
 True or False: The push model is considered "declarative" because it defines the exact steps to achieve deployment.
 
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: False**
 
@@ -173,7 +173,7 @@ B) GitOps manages environment state while CD automates the flow of changes
 C) GitOps has replaced the need for Continuous Delivery  
 D) They are identical practices with different names
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - GitOps manages environment state while CD automates the flow of changes
 
@@ -185,7 +185,7 @@ D) They are identical practices with different names
 ### Question 11 (5 points)
 True or False: GitOps and Continuous Delivery are unrelated methodologies that serve different purposes.
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: False**
 
@@ -202,7 +202,7 @@ B) Changes detected in the GitOps configuration repository
 C) Direct commands from CI/CD pipeline  
 D) Scheduled cron jobs
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - Changes detected in the GitOps configuration repository
 
@@ -220,7 +220,7 @@ C) Automating the software release pipeline
 D) Configuring network policies
 
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Automating the software release pipeline
 
@@ -241,7 +241,7 @@ B) Environments can be easily recreated from Git repository
 C) Reduced hardware costs  
 D) Faster network speeds
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - Environments can be easily recreated from Git repository
 
@@ -258,7 +258,7 @@ B) Through automated meeting scheduling
 C) Via Pull Requests that enable review similar to code changes  
 D) By assigning tasks automatically
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Via Pull Requests that enable review similar to code changes
 
@@ -270,7 +270,7 @@ D) By assigning tasks automatically
 ### Question 16 (5 points)
 True or False: GitOps is only suitable for large enterprises with complex infrastructure needs.
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: False**
 
@@ -288,7 +288,7 @@ C) Deployments become repeatable and environments easily recreated
 D) Automatic scaling decisions
 
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - Deployments become repeatable and environments easily recreated
 
@@ -309,7 +309,7 @@ B) Monitors Git repo and applies Kubernetes manifests to the cluster
 C) Writes application code  
 D) Manages developer access permissions
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: B** - Monitors Git repo and applies Kubernetes manifests to the cluster
 
@@ -326,7 +326,7 @@ B) The system shuts down for safety
 C) The operator automatically reconciles to match the desired state in Git  
 D) Manual intervention is always required
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: C** - The operator automatically reconciles to match the desired state in Git
 
@@ -339,7 +339,7 @@ D) Manual intervention is always required
 True or False: The system's desired state with immutable versions must be stored declaratively, and a software agent reconciles the actual state with this desired state.
 
 <details>
-<summary>Click to see answer</summary>
+<summary>Reveal answer</summary>
 
 **Correct Answer: True**
 

@@ -1,6 +1,6 @@
 # Introduction to ArgoCD
 
-You've learned what GitOps is and why it matters. Now meet the tool that brings it to life. Imagine a tireless operator that watches your Git repository 24/7, instantly spots every change you commit, and rolls it out to your Kubernetes clusters — no manual `kubectl apply`, no deploy scripts, no late-night pager alerts from a botched deployment. That operator is **ArgoCD**, and once you see it in action, you'll wonder how you ever deployed without it.
+You already know the idea behind GitOps. ArgoCD is the operator that turns that idea into a working system. Think of it as a tireless controller that watches your Git repository, notices meaningful changes, and brings your Kubernetes clusters back to the state you declared — without midnight `kubectl apply` sessions or brittle deploy scripts. Once you see ArgoCD in action, GitOps stops feeling abstract and starts feeling real.
 
 > **VS Code Users:** Install [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) to render the diagrams below.
 
@@ -23,9 +23,9 @@ You've learned what GitOps is and why it matters. Now meet the tool that brings 
 
 ## What is ArgoCD?
 
-**ArgoCD** is a declarative, GitOps continuous delivery tool for Kubernetes. It is a tool that automates deploying, updating, and managing applications in Kubernetes clusters.
+**ArgoCD** is a declarative, GitOps continuous delivery tool for Kubernetes. In practical terms, it automates the deployment, update, and day-to-day management of applications running in Kubernetes clusters.
 
-ArgoCD follows the GitOps pattern of using Git repositories as the source of truth for defining the desired application state. It continuously monitors the running applications and compares their live state to the desired state specified in Git. When it detects a difference (drift), ArgoCD can automatically synchronize the live state with the desired state.
+ArgoCD follows the GitOps model by treating Git as the source of truth for desired application state. It continuously compares what is live in the cluster with what is declared in the repository, and when drift appears, it can synchronize the two automatically.
 
 ### Core Capabilities
 

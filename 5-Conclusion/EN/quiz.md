@@ -1,6 +1,6 @@
 # Final Assessment: GitOps and ArgoCD Mastery
 
-This comprehensive quiz tests your understanding of all concepts covered in this course. Take your time and think through each question carefully.
+Use this final assessment as a course-wide self-check. Take your time, commit to an answer first, and then compare your reasoning with the explanation.
 
 ---
 
@@ -15,7 +15,7 @@ What is the primary goal of Continuous Delivery?
 - D) To reduce the number of developers needed
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -31,7 +31,7 @@ What is the relationship between Continuous Integration (CI) and Continuous Deli
 - D) CD must be implemented before CI
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -51,7 +51,7 @@ Which of the following is NOT one of the four GitOps principles?
 - D) Continuously Reconciled
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -67,7 +67,7 @@ What is the main security advantage of the GitOps pull model over the traditiona
 - D) It supports more identity providers
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -83,7 +83,7 @@ What happens when drift is detected in a GitOps setup with self-healing enabled?
 - D) The deployment is rolled back to the previous version
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -103,7 +103,7 @@ What deployment model does ArgoCD use for managing multiple clusters?
 - D) Federation model
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -119,7 +119,7 @@ Which of the following is ArgoCD responsible for in a CI/CD pipeline?
 - D) Code linting and static analysis
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -135,7 +135,7 @@ What does the `selfHeal: true` setting in an ArgoCD Application's sync policy do
 - D) Repairs corrupted Git repositories
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -155,7 +155,7 @@ In an ArgoCD Application manifest, what does the `spec.source` field define?
 - D) The ArgoCD project the application belongs to
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -171,7 +171,7 @@ What config management tool will ArgoCD detect if it finds a `Chart.yaml` file i
 - D) Helm
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: D**
 
@@ -187,7 +187,7 @@ Which sync option should you use to automatically create the target namespace if
 - D) `InitNamespace=true`
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -207,7 +207,7 @@ Why is automated testing CRITICAL for GitOps success?
 - D) It's required by ArgoCD
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -223,7 +223,7 @@ What should you NEVER store in a Git repository, even in a private one?
 - D) Docker image tags
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -239,7 +239,7 @@ What is the purpose of branch protection rules in a GitOps workflow?
 - D) To reduce Git repository size
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -255,7 +255,7 @@ Which environment should typically have auto-sync enabled?
 - D) No environments should have auto-sync
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -275,7 +275,7 @@ What is the main benefit of the App of Apps pattern?
 - D) It eliminates the need for Helm charts
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -291,7 +291,7 @@ Where does the App of Apps Application typically point to?
 - D) The container registry
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -311,7 +311,7 @@ An Application shows "Synced" but "Degraded" health status. What does this mean?
 - D) The Git repository is unavailable
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -327,7 +327,7 @@ What is the simplest way to rollback a deployment in GitOps?
 - D) Scale the deployment to zero replicas
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 
@@ -343,7 +343,7 @@ What is the primary purpose of monitoring in a GitOps environment?
 - D) To track developer productivity
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -363,7 +363,7 @@ Your team is implementing GitOps for the first time. What should be your first s
 - D) Delete all existing CI/CD pipelines
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -379,7 +379,7 @@ A developer manually changed a ConfigMap in production to fix an urgent issue. W
 - D) An alert is sent but no automatic action is taken
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: B**
 
@@ -395,7 +395,7 @@ Your organization wants to implement GitOps but currently has no automated testi
 - D) Use ArgoCD's built-in testing features
 
 <details>
-<summary>Click to reveal answer</summary>
+<summary>Reveal answer</summary>
 
 **Answer: C**
 

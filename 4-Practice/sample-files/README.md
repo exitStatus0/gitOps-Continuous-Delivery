@@ -1,6 +1,6 @@
 # Sample Files for ArgoCD Practice Lab
 
-This directory contains sample files that you can use to complete the practice lab.
+This directory contains the sample configuration used in the practice lab. If you want to follow the lab with working manifests instead of building everything from scratch, start here.
 
 ## Directory Structure
 
@@ -11,7 +11,7 @@ sample-files/
 │   ├── cogitator-qa.yaml        # QA environment Application
 │   └── cogitator-prod.yaml      # Production environment Application
 ├── charts/                         # Helm charts
-│   └── cogitator/               # Notification service chart
+│   └── cogitator/               # Cogitator service chart
 │       ├── Chart.yaml              # Chart metadata
 │       ├── templates/              # Kubernetes manifest templates
 │       │   ├── deployment.yaml
@@ -60,6 +60,6 @@ Feel free to customize:
 - All Applications are configured with `CreateNamespace=true` to automatically create namespaces
 - Production Application has `selfHeal: true` enabled for automatic drift correction
 
-Happy GitOps-ing! 🚀
+Happy experimenting with GitOps.
 
 

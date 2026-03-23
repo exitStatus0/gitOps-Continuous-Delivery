@@ -1,8 +1,8 @@
 # Introduction to GitOps
 
-*Imagine this: it's 2 AM, your production cluster is down, and the person who last configured it left the company months ago. Nobody knows what changed, nobody can reproduce the setup, and every minute of downtime costs money. What if your entire infrastructure could be rebuilt from a single Git repository in minutes — with a full audit trail of every change ever made?*
+*It is 2 AM. Production is down. The person who last touched the cluster left months ago. No one knows what changed, no one can recreate the setup, and every minute of downtime burns money. Now imagine the opposite: the entire environment can be rebuilt from a single Git repository, with a clear history of every change. That contrast is the reason GitOps matters.*
 
-*That's the promise of GitOps.*
+*That is the promise of GitOps.*
 
 > **Note:** This document contains Mermaid diagrams. For best viewing use GitHub or a Mermaid-compatible editor.
 
@@ -10,7 +10,7 @@
 
 ## What is GitOps?
 
-GitOps represents a modern approach to infrastructure and application management that leverages Git as the single source of truth for declarative infrastructure and applications. The OpenGitOps project has established four foundational principles that define the GitOps methodology:
+GitOps is a modern operating model for infrastructure and application delivery. It treats Git as the single source of truth for declarative systems, and it uses software agents to make running environments match what the repository describes. The OpenGitOps project captures this approach in four foundational principles:
 
 ### The Four Principles of GitOps
 

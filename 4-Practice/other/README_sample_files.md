@@ -1,27 +1,27 @@
 # Примеры файлов для практической работы ArgoCD
 
-Этот каталог содержит примеры файлов, которые вы можете использовать для выполнения практической работы.
+Этот каталог содержит пример конфигурации для практической работы. Если вы хотите проходить лабораторную с уже готовыми манифестами, а не собирать всё с нуля, начните отсюда.
 
 ## Структура каталога
 
 ```
 sample-files/
 ├── apps/                           # Манифесты ArgoCD Application
-    ├── cogitator-dev.yaml       # Application для среды Dev
-    ├── cogitator-qa.yaml        # Application для среды QA
-    └── cogitator-prod.yaml      # Application для среды Production
+│   ├── cogitator-dev.yaml          # Application для среды Dev
+│   ├── cogitator-qa.yaml           # Application для среды QA
+│   └── cogitator-prod.yaml         # Application для среды Production
 ├── charts/                         # Helm-чарты
-    └── cogitator/               # Чарт сервиса уведомлений
-        ├── Chart.yaml              # Метаданные чарта
-        ├── templates/              # Шаблоны манифестов Kubernetes
-        │   ├── deployment.yaml
-        │   ├── service.yaml
-        │   ├── _helpers.tpl
-        │   └── NOTES.txt
-        ├── values.yaml             # Значения по умолчанию
-        ├── values-dev.yaml         # Переопределения для среды Dev
-        ├── values-qa.yaml          # Переопределения для среды QA
-        └── values-prod.yaml        # Переопределения для среды Production
+│   └── cogitator/                  # Чарт сервиса cogitator
+│       ├── Chart.yaml              # Метаданные чарта
+│       ├── templates/              # Шаблоны манифестов Kubernetes
+│       │   ├── deployment.yaml
+│       │   ├── service.yaml
+│       │   ├── _helpers.tpl
+│       │   └── NOTES.txt
+│       ├── values.yaml             # Значения по умолчанию
+│       ├── values-dev.yaml         # Переопределения для среды Dev
+│       ├── values-qa.yaml          # Переопределения для среды QA
+│       └── values-prod.yaml        # Переопределения для среды Production
 ├── app-of-apps.yaml                # Манифест App of Apps
 └── README.md                       # Этот файл
 ```
@@ -60,4 +60,4 @@ sample-files/
 - Все Applications настроены с параметром `CreateNamespace=true` для автоматического создания пространств имен.
 - Для Application в среде Production включен параметр `selfHeal: true` для автоматического исправления отклонений (drift correction).
 
-Удачного погружения в GitOps! 🚀
+Удачной практики с GitOps.

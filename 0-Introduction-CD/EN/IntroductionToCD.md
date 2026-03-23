@@ -1,8 +1,8 @@
 # Introduction to Continuous Delivery
 
-Imagine this: your team just fixed a critical bug. The patch is ready, tested, and approved. But it won't reach users for another two weeks — because that's when the next release window opens. Meanwhile, customers are frustrated, support tickets pile up, and your competitors ship faster. Sound familiar?
+Picture a familiar release-day scene: your team has fixed a critical bug. The patch is ready, tested, and approved, but users will not see it for another two weeks because the next release window has not opened yet. In the meantime, frustration grows, support queues expand, and competitors move faster.
 
-This is the problem Continuous Delivery was built to solve.
+Continuous Delivery exists to remove exactly this kind of friction.
 
 <p align="center">
   <img src="../ContinuousDelivery.png" alt="Continuous Delivery Overview" width="700"/>
@@ -10,11 +10,11 @@ This is the problem Continuous Delivery was built to solve.
 
 ## What is Continuous Delivery?
 
-Continuous Delivery (CD) represents a fundamental shift in how modern software organizations deliver value to their users. As articulated by Jez Humble on [continuousdelivery.com](https://continuousdelivery.com):
+Continuous Delivery (CD) changes the way modern software teams move value into the hands of users. As Jez Humble writes on [continuousdelivery.com](https://continuousdelivery.com):
 
 > "Continuous Delivery is the ability to get changes of all types—including new features, configuration changes, bug fixes and experiments—into production, or into the hands of users, safely and quickly in a sustainable way."
 
-Much like DevOps, Continuous Delivery is not merely a set of tools or practices—it represents both a **technological** and **cultural** transformation for an organization. It requires a fundamental shift in mindset, processes, and team collaboration patterns to achieve truly sustainable delivery practices.
+Like DevOps, Continuous Delivery is not just a toolbox. It is both a **technological** and **cultural** shift: a change in mindset, process, and collaboration that makes safe, frequent delivery sustainable.
 
 ## What Problems Does Continuous Delivery Solve?
 
